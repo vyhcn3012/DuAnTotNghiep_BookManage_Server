@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('./config/database')
 // Initialize DB Connection
 
 // attention, reload cache each restart, every midnight
