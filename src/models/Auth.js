@@ -1,5 +1,4 @@
-const async = require('hbs/lib/async');
-const moogoose = require('mongoose');
+const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const jwt = require('jsonwebtoken'),
     config = require('../../config/config').getConfig(),
@@ -8,7 +7,7 @@ const jwt = require('jsonwebtoken'),
 
 class Auth {
     static instance = null;
-    initAuth() {
+    initSchema() {
         const schema = new Schema({
             'token': {
                 'type': String,
@@ -45,13 +44,17 @@ class Auth {
             }
         };
 
-        schema.statics.decodeToken = async function(token){
-            try{
-                return await jwt.verify( token, jwtKey);
-            }catch( e ){
+        schema.statics.decodeToken = async function( token ) {
+            try {
+                return await jwt.verify( token, jwtKey );
+            } catch ( e ) {
                 throw e;
             }
         };
+        try {
+            mongoose.model( 'auth', schema );
+        } catch ( e ) {
+        }
     }
 
     getInstance() {

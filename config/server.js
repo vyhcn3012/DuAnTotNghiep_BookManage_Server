@@ -18,12 +18,16 @@ const cors = require('cors'),
         'origin': '*'
 }                                                                                                                                                            
 server.use(cors(corsOptions))
+server.set('views', path.join(__dirname, '../src/views'));
+server.set('view engine', 'hbs');
 
-setRoutes(server)
+setRoutes(server);
 
 process.on('uncaughtException', function (exception) {
     // handle or ignore error
     console.log(exception)
 })
+
+
 
 module.exports = { server } 
