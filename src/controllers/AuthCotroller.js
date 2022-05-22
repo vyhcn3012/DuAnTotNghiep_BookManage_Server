@@ -1,10 +1,10 @@
 const { AuthService } = require('./../services/AuthService');
-const authService = new AuthService(new Auth().getInstance(), new User().getInstance());
+const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
 const { User } = require('./../models/User');
+const authService = new AuthService(new Auth().getInstance(), new User().getInstance());
 const autoBind = require('auto-bind');
-const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID)
-const config = require('../../config/config').getConfig();
+const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
     constructor(service) {
         this.service = service;
@@ -37,6 +37,16 @@ class AuthCotroller {
             next(e);
         }
     }
+
+    test(req, res, next) {
+        try {
+            // const response = await this.service.login( req.body.email, req.body.password );
+
+            res.render('auth/login');
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
-module.exports = new AuthController(authService);
+module.exports = new AuthCotroller(authService);
