@@ -27,7 +27,7 @@ class Book {
                 'required': true,
             },
             'permission': {
-                'type': String,
+                'type': Boolean,
                 'required': true,
             },
             'image': {

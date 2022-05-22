@@ -1,11 +1,13 @@
-'use strict';
+const bookController = require('../../controllers/BookController');
 
 const express = require('express'),
     router = express.Router();
-const AuthController = require('../../controllers/AuthController');
-const BookController = require('../../controllers/BookController');
+router.get('/', (req, res) => {
+    res.send('Welcome to the books')
+});
 
+router.get('/getAllBook', (req, res) => {
+    bookController.getBooks();
+});
 
-
-router.get('/get-for-home-page', AuthController.checkLogin, ProductController.getForHomePage);
 module.exports = router;
