@@ -11,4 +11,4 @@ module.exports.setRoutes = (app) => {
     })
 
     app.use( '/api', apiRoutes );
-}
+};
