@@ -9,18 +9,18 @@ class Book {
             'categoryId': {
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref':'category',
+                'ref':'category'
 
             },
             'evaluateId': {
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref':'evaluate',
+                'ref':'evaluate'
             },
             'authorId': {
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref':'author',
+                'ref':'author'
             },
             'name': {
                 'type': String,
@@ -77,7 +77,7 @@ class Book {
         try {
             mongoose.model( 'book', schema );
         } catch ( e ) {
-            throw e;
+           
         }
     }
 
