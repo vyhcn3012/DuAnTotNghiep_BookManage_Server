@@ -21,6 +21,11 @@ class CategoryController extends Controller {
             // next(e);
         }
     }
+    async cpanel_getAllCategories(req, res, next){
+        const allCategories = await this.service.cpanel_GetAll({ limit: 1000 });
+        res.render('book/insertbook', {allCategories: allCategories});
+        
+    }
 }
 
 module.exports = new CategoryController(categoryService);

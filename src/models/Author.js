@@ -9,19 +9,42 @@ class Author {
             'name': {
                 'type': String,
                 'required': true,
-
+            },
+            'phone': {
+                'type': Number,
+                'required': true,
+            },
+            'email': {
+                'type': String,
+                'required': true,
+            },
+            'token': {
+                'type': String,
+                'required': true,
+            },
+            'password': {
+                'type': String,
+                'required': true,
+            },
+            'address': {
+                'type': String,
+                'required': true,
             },
             'birthday': {
                 'type': Date,
-                'required': true,          
+                'required': true,
             },
             'image': {
                 'type': String,
-                'required': true,          
+                'required': true,
+            },
+            'overview': {
+                'type': Number,
+                'required': true,
             },
             'aboutAuthor': {
                 'type': String,
-                'required': true,          
+                'required': true,
             },
         }, { 'timestamps': true } );
 

@@ -8,7 +8,7 @@ class CPanelController {
 
     async index(req, res, next){
         try{
-            res.render('auth/login')
+            res.render('index')
         }catch(e){
             console.log(e)
         }

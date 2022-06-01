@@ -264,18 +264,23 @@
                   <div class="card-body">
                     <h4 class="card-title">Thêm</h4>
                     <p class="card-description"> Form thêm mới </p>
-                    <form class="forms-sample">
+                    <form enctype="multipart/form-data" role="form" method="post" action="/cpanel/books/allBook" class="forms-sample">
                       <div class="form-group">
                         <label for="exampleInputUsername1">Tên sản phẩm</label>
-                        <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Tên sản phẩm">
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Tên sản phẩm">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Danh mục</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Danh mục">
+                            <label>Danh mục</label>
+                            <select name="categoryId" class="form-control">
+                              {{#each allCategories}}
+                              <option value="{{this._id}}">{{this.name}}</option>
+                              {{/each}}
+
+                            </select>
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Giá</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Giá">
+                        <label for="exampleInputPassword1">permission</label>
+                        <input name="permission" type="text" class="form-control" id="exampleInputPassword1" placeholder="permission">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputConfirmPassword1">Số lượng</label>
@@ -285,58 +290,13 @@
                         <label class="form-check-label">
                           <input type="checkbox" class="form-check-input"> Remember me </label>
                       </div> -->
-                      <button type="submit" class="btn btn-gradient-primary me-2">Xong</button>
+                      <button id="submit" type="submit" class="btn btn-gradient-primary me-2">Xong</button>
                       <button class="btn btn-light">Bỏ</button>
                     </form>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Cập nhật</h4>
-                    <p class="card-description"> Form Cập Nhật </p>
-                    <form class="forms-sample">
-                      <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Tên sản phẩm</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Tên sản phẩm">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Danh mục</label>
-                        <div class="col-sm-9">
-                          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Danh mục">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Giá</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputMobile" placeholder="Giá">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Số lượng</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Số lượng">
-                        </div>
-                      </div>
-                      <!-- <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
-                        </div>
-                      </div>
-                      <div class="form-check form-check-flat form-check-primary">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"> Remember me </label>
-                      </div> -->
-                      <button type="submit" class="btn btn-gradient-primary me-2">Xong</button>
-                      <button class="btn btn-light">Bỏ</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
+             
               <!-- <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
