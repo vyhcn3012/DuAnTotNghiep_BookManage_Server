@@ -9,7 +9,6 @@ class Category {
             'name': {
                 'type': String,
                 'required': true,
-
             },
             'image': {
                 'type': String,

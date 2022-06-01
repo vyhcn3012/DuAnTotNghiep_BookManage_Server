@@ -8,76 +8,146 @@ class Book {
         const schema = new Schema({
             'categoryId': {
                 'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref':'category',
-
+                'required': false,
+                'ref':'category'
             },
             'evaluateId': {
-                'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref':'evaluate',
+                'type': [{
+                    '_id': {
+                        'type': Schema.Types.ObjectId,
+                        'required': true,
+                    },
+                    'bookId': {
+                        'type': Schema.Types.ObjectId,
+                        'required': true,
+                    },
+                    'numEval': {
+                        'type': Number,
+                        'required': true,
+                    },
+                    'sumEval': {
+                        'type': Number,
+                        'required': true,
+                    },
+                }],
+                'required': false,
             },
-            'authorId': {
-                'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref':'author',
+            'author': {
+                'type':  [{
+                    '_id': {
+                        'type': Schema.Types.ObjectId,
+                        'required': true,
+                    },
+                    'permission': {
+                        'type': Number,
+                        'required': true,
+                    },
+                }],
+                'required': false,
+                'ref':'author'
+            },
+            'releasedDate': {
+                'type': Date,
+                'required': false,
             },
             'name': {
                 'type': String,
                 'required': true,
             },
-            'permission': {
-                'type': Boolean,
-                'required': true,
-            },
             'image': {
                 'type': String,
-                'required': false,
+                'required': true,
             },
-            'description': {
+            'introduction': {
                 'type': String,
+                'required': true,
+            },
+            'overview': {
+                'type': Number,
+                'required': true,
+            },
+            'numSumRead': {
+                'type': Number,
                 'required': true,          
             },
-            'comment': {
+            'chapter': {
                 'type': [{
-                    'userId': {
+                    '_id': {
                         'type': Schema.Types.ObjectId,
                         'required': true,
                     },
-                    'content': {
+                    'title': {
                         'type': String,
                         'required': true,
                     },
-                    'numLike': {
+                    'image': {
+                        'type': String,
+                        'required': true,
+                    },
+                    'releasedDate': {
+                        'type': Date,
+                        'required': true,
+                    },
+                    'htmlChapter': {
+                        'type': String,
+                        'required': true,
+                    },
+                    'linkSound': {
+                        'type': String,
+                        'required': true,
+                    },
+                    'comment': {
+                        'type': [{
+                            '_id': {
+                                'type': Schema.Types.ObjectId,
+                                'required': true,
+                            },
+                            'userName': {
+                                'type': String,
+                                'required': true,
+                            },
+                            'image': {
+                                'type': String,
+                                'required': true,
+                            },
+                            'content': {
+                                'type': String,
+                                'required': true,
+                            },
+                            'evaluate': {
+                                'type': Number,
+                                'required': true,
+                            },
+                            'time': {
+                                'type': String,
+                                'required': true,
+                            },
+                        }],
+                        'required': false,          
+                    },
+                    'permission': {
                         'type': Number,
                         'required': true,
-                    }
+                    },
+                    'price': {
+                        'type': Number,
+                        'required': true,
+                    },
                 }],
-                'required': true,          
-            },
-            'page': {
-                'type': String,
                 'required': false,          
             },
-            'sound': {
-                'type': String,
-                'required': false,          
-            },
-            'numPage': {
+            'isPrice': {
                 'type': Number,
-                'required': false,          
+                'required': true,
             },
-            'numView': {
-                'type': Number,
-                'required': false,          
-            },
+           
         }, { 'timestamps': true } );
 
         schema.plugin( uniqueValidator );
         try {
             mongoose.model( 'book', schema );
         } catch ( e ) {
-            throw e;
+           
         }
     }
 
