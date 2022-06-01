@@ -63,7 +63,7 @@ class Book {
                 'required': true,
             },
             'overview': {
-                'type': String,
+                'type': Number,
                 'required': true,
             },
             'numSumRead': {
