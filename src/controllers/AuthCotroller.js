@@ -13,7 +13,7 @@ class AuthCotroller {
 
     async login(req, res, next) {
         try{
-            const { token, unit, token_fcm, } = req.body;
+            const { token, token_fcm, } = req.body;
             const ticket = await client.verifyIdToken({
                 idToken: token,
                 audience: config.GOOGLE_CLIENT_ID
@@ -23,7 +23,6 @@ class AuthCotroller {
             if(check_email == email){
                 const body = {
                     email: email,
-                    role: config.USER_ROLE,
                     name: name,
                     image: picture,
                     phone: '0919560820',
@@ -36,6 +35,30 @@ class AuthCotroller {
             console.log('>>>>>>132 login error: ' + e);
             next(e);
         }
+    }
+
+    async checkLogin(req, res, next) {
+        try {
+            const token = this.extractToken(req);
+
+            req.user = await this.service.checkLogin(token);
+            req.authorized = true;
+            req.token = token;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    extractToken(req) {
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            return req.headers.authorization.split(' ')[1];
+        } else if (req.query && req.query.token) {
+            return req.query.token;
+        } else if (req.cookies && req.cookies.token) {
+            return req.cookies.token;
+        }
+        return null;
     }
 
     test(req, res, next) {

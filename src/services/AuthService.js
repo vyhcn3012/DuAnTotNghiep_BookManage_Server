@@ -32,7 +32,7 @@ class AuthService {
             }
             if(token_fcm) {
                 let checkFCM = user.fcmtokens.filter(i => i == token_fcm)[0];
-                console.log("===> checkFCM", checkFCM);
+                //console.log("===> checkFCM", checkFCM);
                 if (!checkFCM && token_fcm){
                     user.fcmtokens = [...user.fcmtokens, token_fcm];
                     user.fcmtokens = user.fcmtokens.slice(Math.max(user.fcmtokens.lenght - 3, 0));
@@ -41,7 +41,7 @@ class AuthService {
             }
             let cacheUser = await this.userService.findInfoByEmail(email);
             cacheUser = cacheUser.data;
-            console.log("===> cacheUser", cacheUser);
+            //console.log("===> cacheUser", cacheUser);
 
             const token = await this.model.generateToken(cacheUser);
             await this.model.create({ token, 'user': new mongoose.mongo.ObjectId(cacheUser._id) });
@@ -63,6 +63,44 @@ class AuthService {
         try {
             return await this.userService.insert(data);
         } catch (error) {
+            throw error;
+        }
+    }
+
+    async checkLogin(token) {
+        try {
+            // Check if the token is in the Database
+            const tokenInDB = await this.model.countDocuments({ token });
+            if (!tokenInDB) {
+                const error = new Error('Token không đúng');
+
+                error.statusCode = 401;
+                throw error;
+            }
+            // Check the token is a valid JWT
+            const user = await this.model.decodeToken(token);
+            if (!user) {
+                const error = new Error('Token không đúng');
+
+                error.statusCode = 401;
+                throw error;
+            }
+            
+            // Check the Extracted user is active in DB
+            let userFromDb = await this.userService.findInfoByEmail(user.email);
+            
+            if (userFromDb.data) {
+                return userFromDb.data;
+            }
+            const error = new Error('Token không đúng');
+
+            error.statusCode = 401;
+            throw error;
+
+        } catch (e) {
+            const error = new Error('Token không đúng');
+
+            error.statusCode = 401;
             throw error;
         }
     }

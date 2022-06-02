@@ -8,6 +8,7 @@ module.exports.getConfig = () => {
         'MONGO_RESTORE_URL': 'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
         'JWT_SECRET': 'R4ND0M5TR1NG',
         'JWT_TOKEN_LIFETIME': 30 * 24 * 60 * 60, // 60 MINUTES IN SECOND
+        'COOKIE_TOKEN_LIFETIME': 30 * 24 * 60 * 60 * 1000, // 60 MINUTES IN NANO SECOND
         'GOOGLE_CLIENT_ID': '982214568392-a1nagio8k97gsclh9j3ad9nhvjogfu5g.apps.googleusercontent.com',
         'GOOGLE_CLIENT_SECRET': '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',
         'GOOGLE_REDIRECT_URL': `/cpanel/home/auth_callback`,
@@ -22,7 +23,6 @@ module.exports.getConfig = () => {
             'EMPLOYEE': 2,
             'STUDENT': 1
         },
-        'COOKIE_TOKEN_LIFETIME': 30 * 24 * 60 * 60 * 1000, // 60 MINUTES IN NANO SECOND
 
     }
 
