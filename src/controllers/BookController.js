@@ -8,8 +8,7 @@ const CategoryController = require('./CategoryController');
 const bookService = new BookService(new Book().getInstance());
 
 
-class BookController extends Controller {
-
+class BookController extends Controller{
     constructor(service) {
         super(service);
         autoBind(this);

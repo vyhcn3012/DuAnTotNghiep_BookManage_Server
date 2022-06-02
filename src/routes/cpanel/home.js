@@ -1,7 +1,9 @@
-const CPanelController = require('../../controllers/CPanelCotroller')
-const express = require('express')
-router = express.Router()
+const CPanelController = require('../../controllers/CPanelController')
+const express = require( 'express' ), router = express.Router();
 
-router.get('/', CPanelController.index)
 
-module.exports = router
+router.get('/', CPanelController.index )
+router.post( '/auth', CPanelController.auth );
+router.get( '/auth_callback', CPanelController.auth_callback );
+
+module.exports = router;
