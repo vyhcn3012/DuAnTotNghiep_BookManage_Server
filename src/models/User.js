@@ -16,11 +16,7 @@ class User {
             },
             'phone': {
                 'type': String,
-                'required': true,
-            },
-            'password': {
-                'type': String,
-                'required': true,
+                'required': false,
             },
             'permission': {
                 'type': String,
