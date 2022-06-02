@@ -14,7 +14,7 @@ class UserService extends Service{
     }
 
     async insert(data) {
-        console.log("===> model", data);
+        //console.log("===> model", data);
         try {
             const item = await this.model.create(data);
             const user = await this.model
@@ -55,7 +55,7 @@ class UserService extends Service{
                 bookmark, payservices, favoritebooks 
             }
         if (user) {
-            console.log("===> user", user);
+            //console.log("===> user", user);
             return new HttpResponse(user);
         }
         throw new Error('Có lỗi, bạn có thể thử lại sau');

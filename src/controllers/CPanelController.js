@@ -59,7 +59,7 @@ class CPanelController {
         oauth2Client.getToken(req.query.code, async function (err, token) {
           if (err) res.redirect("/");
           else {
-            console.log("token id", token.id_token);
+            //console.log("token id", token.id_token);
             const ticket = await client.verifyIdToken({
               idToken: token.id_token,
               audience: config.GOOGLE_CLIENT_ID,
