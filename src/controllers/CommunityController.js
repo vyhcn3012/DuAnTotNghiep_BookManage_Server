@@ -1,0 +1,28 @@
+const autoBind = require('auto-bind');
+const { Controller } = require('../../system/controllers/Controller');
+const { Community } = require('../models/Community');
+const { CommunityService } = require('../services/CommunityService');
+
+const communityService = new CommunityService(new Community().getInstance());
+
+class CommunityController extends Controller {
+
+    constructor(service) {
+        super(service);
+        autoBind(this);
+    }
+
+
+    async getAllCommunity(req, res, next) {
+        try {
+            const response = await this.service.getAll({ limit: 1000 });
+
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+   
+}
+
+module.exports = new CommunityController(communityService);

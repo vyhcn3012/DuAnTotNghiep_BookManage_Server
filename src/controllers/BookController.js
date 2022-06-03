@@ -17,7 +17,7 @@ class BookController extends Controller {
     async getBooks(req, res, next) {
         try {
             
-            const response = await this.service.getAll({ limit: 1000 });
+            const response = await this.service.getAll({limit:1000});
 
             await res.status(response.statusCode).json(response);
         } catch (e) {

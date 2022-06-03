@@ -39,6 +39,26 @@ class BookService extends Service{
 
     }
 
+    async getBookById() {
+            try {
+                const book = await this.model.find({})
+               
+                .distinct("author._id")
+                
+                 
+                if (!book) {
+                    const error = new Error('Không tìm thấy cuốn sách này');
+                    error.statusCode = 404;
+                    throw error;
+                }
+             
+                console.log(book);
+                return new HttpResponse( book);
+            } catch (errors) {
+                throw errors;
+            }
+    }
+
     async cpanel_GetbyId(id) {
         try {
             const book = await this.model.findById(id);
