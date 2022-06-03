@@ -20,19 +20,19 @@ class Auth {
             }
         }, { 'timestamps': true } );
 
-        schema.static.generateToken = async function( user ){
+        schema.statics.generateToken = async function( user ){
             try{
                 const token = await jwt.sign({
-                    '_id': user._id.toString(),
+                    '_id': user._id?.toString() || '',
                     'email': user.email,
                     'phone': user.phone,
                     'name': user.name,
-                    'password': user.password,
                     'permission': user.permission,
-                    'avatar': user.avatar,
+                    'image': user.image,
                     'bookmark': user.bookmark,
                     'payervice': user.payervice,
-                    'favoritebooks': user.favoritebooks
+                    'favoritebooks': user.favoritebooks,
+                    'fcmtokens': user.fcmtokens,
                 }, jwtKey, {
                     'algorithm': 'HS256',
                     'expiresIn': jwtExpirySeconds,
