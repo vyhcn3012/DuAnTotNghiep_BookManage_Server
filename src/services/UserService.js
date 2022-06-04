@@ -17,7 +17,7 @@ class UserService extends Service{
         //console.log("===> model", data);
         try {
             const item = await this.model.create(data);
-            const user = await this.model
+            const account = await this.model
                 .findById(item._id)
                 .populate({
                     path: 'department',
@@ -27,8 +27,8 @@ class UserService extends Service{
                     }
                 });
 
-            if (user) {
-                return (user);
+            if (account) {
+                return (account);
             }
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
@@ -42,21 +42,21 @@ class UserService extends Service{
 
     async findInfoByEmail(_email){
         try{
-            let user = await this.findByEmail(_email);
-            if(!user){
+            let account = await this.findByEmail(_email);
+            if(!account){
                 throw new Error('Tài khoản không tìm thấy');
             }
 
-            const { name, email, phone, permission, fcmtokens, image, 
-                bookmark, payservices, favoritebooks} = user;
+            const { _id ,name, email, phone, permission, fcmtokens, image, 
+                bookmark, wallet, favoritebooks} = account;
 
-            user = {
-                name, email, phone, permission, fcmtokens, image, 
-                bookmark, payservices, favoritebooks 
+            account = {
+                _id ,name, email, phone, permission, fcmtokens, image, 
+                bookmark, wallet, favoritebooks 
             }
-        if (user) {
+        if (account) {
             //console.log("===> user", user);
-            return new HttpResponse(user);
+            return new HttpResponse(account);
         }
         throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (e) {

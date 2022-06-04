@@ -13,44 +13,44 @@ class AuthService {
     }
 
     async login(body){
-        const { name, email, phone, permission, image, bookmark, payservices,
+        const { name, email, phone, permission, image, bookmark, wallet,
             favoritebooks, token_fcm } = body;
 
         try {
-            let user = await this.userService.findByEmail(email);
-            if(!user){
+            let account = await this.userService.findByEmail(email);
+            if(!account){
                 const data = {
                     fcmtokens: token_fcm ? [token_fcm] : [],
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     createdBy: null,
                     updatedBy: null,
-                    name, email, phone, permission, image, bookmark, payservices,
+                    name, email, phone, permission, image, bookmark, wallet,
                     favoritebooks
                 }
-                user = await this.register(data);
+                account = await this.register(data);
             }
             if(token_fcm) {
-                let checkFCM = user.fcmtokens.filter(i => i == token_fcm)[0];
+                let checkFCM = account.fcmtokens.filter(i => i == token_fcm)[0];
                 //console.log("===> checkFCM", checkFCM);
                 if (!checkFCM && token_fcm){
-                    user.fcmtokens = [...user.fcmtokens, token_fcm];
-                    user.fcmtokens = user.fcmtokens.slice(Math.max(user.fcmtokens.lenght - 3, 0));
-                    await this.userService.update(user._id, {fcmtokens: user.fcmtokens});
+                    account.fcmtokens = [...account.fcmtokens, token_fcm];
+                    account.fcmtokens = account.fcmtokens.slice(Math.max(account.fcmtokens.lenght - 3, 0));
+                    await this.account.update(account._id, {fcmtokens: account.fcmtokens});
                 }
             }
             let cacheUser = await this.userService.findInfoByEmail(email);
             cacheUser = cacheUser.data;
-            //console.log("===> cacheUser", cacheUser);
+            console.log("===> cacheUser", cacheUser);
 
             const token = await this.model.generateToken(cacheUser);
-            await this.model.create({ token, 'user': new mongoose.mongo.ObjectId(cacheUser._id) });
+            await this.model.create({ token, 'account': new mongoose.mongo.ObjectId(cacheUser._id) });
             const tokenData = await this.model.findOne({ 'token': token });
 
             const _tokenData = {
                 _id: tokenData._id,
                 token: tokenData.token,
-                user: cacheUser,
+                account: cacheUser,
             }
             return new HttpResponse(_tokenData);
         } catch (e) {
@@ -78,8 +78,8 @@ class AuthService {
                 throw error;
             }
             // Check the token is a valid JWT
-            const user = await this.model.decodeToken(token);
-            if (!user) {
+            const account = await this.model.decodeToken(token);
+            if (!account) {
                 const error = new Error('Token không đúng');
 
                 error.statusCode = 401;
@@ -87,7 +87,7 @@ class AuthService {
             }
             
             // Check the Extracted user is active in DB
-            let userFromDb = await this.userService.findInfoByEmail(user.email);
+            let userFromDb = await this.userService.findInfoByEmail(account.email);
             
             if (userFromDb.data) {
                 return userFromDb.data;

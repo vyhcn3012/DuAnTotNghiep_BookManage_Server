@@ -3,7 +3,7 @@ const { Controller } = require('../../system/controllers/Controller');
 const { Book } = require('../models/Book');
 const { BookService } = require('../services/BookService');
 const CategoryController = require('./CategoryController');
-
+const {AuthService} = require('../services/AuthService');
 
 const bookService = new BookService(new Book().getInstance());
 
@@ -17,7 +17,6 @@ class BookController extends Controller{
         try {
             
             const response = await this.service.getAll({limit:1000});
-
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
