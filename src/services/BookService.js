@@ -3,8 +3,7 @@ const autoBind = require('auto-bind');
 const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const mongoose = require('mongoose');
 const { Service } = require('../../system/services/Service');
-const config = require('../../config/config').getConfig();
-
+const { UserService } = require('./UserService');
 class BookService extends Service{
     constructor(model) {
         super(model);
@@ -39,13 +38,9 @@ class BookService extends Service{
 
     }
 
-    async getBookById() {
+    async getBookById(id) {
             try {
-                const book = await this.model.find({})
-               
-                .distinct("author._id")
-                
-                 
+                const book = await this.model.find({'account._id':id})  
                 if (!book) {
                     const error = new Error('Không tìm thấy cuốn sách này');
                     error.statusCode = 404;

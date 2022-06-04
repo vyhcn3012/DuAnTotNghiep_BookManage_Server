@@ -11,29 +11,8 @@ class Book {
                 'required': false,
                 'ref':'category'
             },
-            'evaluateId': {
+            'account': {
                 'type': [{
-                    '_id': {
-                        'type': Schema.Types.ObjectId,
-                        'required': true,
-                    },
-                    'bookId': {
-                        'type': Schema.Types.ObjectId,
-                        'required': true,
-                    },
-                    'numEval': {
-                        'type': Number,
-                        'required': true,
-                    },
-                    'sumEval': {
-                        'type': Number,
-                        'required': true,
-                    },
-                }],
-                'required': false,
-            },
-            'author': {
-                'type':  [{
                     '_id': {
                         'type': Schema.Types.ObjectId,
                         'required': true,
@@ -43,8 +22,8 @@ class Book {
                         'required': true,
                     },
                 }],
-                'required': false,
-                'ref':'author'
+                'required': true,
+                'ref':'account'
             },
             'releasedDate': {
                 'type': Date,
@@ -119,7 +98,7 @@ class Book {
                                 'required': true,
                             },
                             'time': {
-                                'type': String,
+                                'type': Date,
                                 'required': true,
                             },
                         }],
