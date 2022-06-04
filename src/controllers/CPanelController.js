@@ -1,6 +1,6 @@
 const { AuthService } = require("../services/AuthService");
 const { Auth } = require("../models/Auth");
-const { User } = require("../models/User");
+const { Account } = require("../models/Account");
 const config = require("../../config/config").getConfig();
 const autoBind = require("auto-bind");
 const google = require("googleapis").google,
@@ -9,7 +9,7 @@ const { OAuth2Client } = require("google-auth-library"),
   client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 const authService = new AuthService(
   new Auth().getInstance(),
-  new User().getInstance()
+  new Account().getInstance()
 );
 const request = require("request");
 
@@ -74,12 +74,12 @@ class CPanelController {
               phone: " ",
               permission: "author",
               bookmark: "",
-              payservices: "",
+              wallet: 0,
               favoritebooks: "",
             };
-            const user = await authService.login(body);
+            const account = await authService.login(body);
             // console.log(user)
-            res.cookie("token", user.data.token, {
+            res.cookie("token", account.data.token, {
               expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),
               httpOnly: true,
             });

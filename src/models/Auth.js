@@ -13,26 +13,27 @@ class Auth {
                 'type': String,
                 'required': true,
             },
-            'user': {
+            'account': {
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref': 'user'
+                'ref': 'account'
             }
         }, { 'timestamps': true } );
 
-        schema.statics.generateToken = async function( user ){
+        schema.statics.generateToken = async function( account ){
             try{
                 const token = await jwt.sign({
-                    '_id': user._id?.toString() || '',
-                    'email': user.email,
-                    'phone': user.phone,
-                    'name': user.name,
-                    'permission': user.permission,
-                    'image': user.image,
-                    'bookmark': user.bookmark,
-                    'payervice': user.payervice,
-                    'favoritebooks': user.favoritebooks,
-                    'fcmtokens': user.fcmtokens,
+                    '_id': account._id?.toString() || '',
+                    'email': account.email,
+                    'phone': account.phone,
+                    'name': account.name,
+                    'permission': account.permission,
+                    'image': account.image,
+                    'bookmark': account.bookmark,
+                    'wallet': account.wallet,
+                    'favoritebooks': account.favoritebooks,
+                    'fcmtokens': account.fcmtokens,
+                    'historyBookRead': account.historyBookRead || [],
                 }, jwtKey, {
                     'algorithm': 'HS256',
                     'expiresIn': jwtExpirySeconds,

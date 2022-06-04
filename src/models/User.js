@@ -37,8 +37,8 @@ class User {
                 'type': String,
                 'required': false,          
             },
-            'payservices': {
-                'type': String,
+            'wallet': {
+                'type': Number,
                 'required': false,          
             },
             'favoritebooks': {

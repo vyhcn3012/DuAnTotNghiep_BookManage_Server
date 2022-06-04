@@ -10,4 +10,5 @@ router.get('/', (req, res) => {
 });
 
 router.get('/getAllBook', AuthController.checkLogin, bookController.getBooks);
+
 module.exports = router;
