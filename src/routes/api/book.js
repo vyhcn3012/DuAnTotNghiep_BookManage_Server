@@ -9,6 +9,6 @@ router.get('/', (req, res) => {
     res.send('Welcome to the books')
 });
 
-router.get('/getAllBook', AuthController.checkLogin, bookController.getBooks);
-
+router.get('/getAllBook', bookController.getBooks);
+router.get('/:id/getAllBookAuthor', bookController.getBookByIdAuthor);
 module.exports = router;

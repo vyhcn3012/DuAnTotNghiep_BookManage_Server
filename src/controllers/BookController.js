@@ -15,15 +15,24 @@ class BookController extends Controller{
     }
     async getBooks(req, res, next) {
         try {
-            const id = AuthService.getUserId(req);
-            console.log("====>" + id);
-            const response = await this.service.getAll({ limit: 1000 });
+            
+            const response = await this.service.getAll({limit:1000});
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+    async getBookByIdAuthor(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await this.service.getBookById(id);
 
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
         }
     }
+
     async cpanel_getAllBook(req, res, next){
         const allBook = await this.service.cpanel_GetAll({ limit: 1000 });
       
@@ -37,8 +46,6 @@ class BookController extends Controller{
         const categories=await CategoryController.getCategories();
       
         res.render('book/updatebook', {datas:byIdBook,categories:categories});
-      
-        
     }
     async cpanel_insertBook(req, res, next) {
         try {
