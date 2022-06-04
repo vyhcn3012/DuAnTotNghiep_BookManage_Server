@@ -1,8 +1,8 @@
 const { AuthService } = require('./../services/AuthService');
 const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
-const { User } = require('./../models/User');
-const authService = new AuthService(new Auth().getInstance(), new User().getInstance());
+const { Account } = require('./../models/Account');
+const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const autoBind = require('auto-bind');
 const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
