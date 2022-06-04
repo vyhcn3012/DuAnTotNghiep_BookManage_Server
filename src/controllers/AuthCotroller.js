@@ -1,8 +1,10 @@
 const { AuthService } = require('./../services/AuthService');
+const { UserService } = require('./../services/UserService');
 const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
 const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
+const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
 const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -41,7 +43,7 @@ class AuthCotroller {
         try {
             const token = this.extractToken(req);
 
-            req.user = await this.service.checkLogin(token);
+            req.account = await this.service.checkLogin(token);
             req.authorized = true;
             req.token = token;
             next();
@@ -59,6 +61,17 @@ class AuthCotroller {
             return req.cookies.token;
         }
         return null;
+    }
+
+    async getAuthor(req, res, next) {
+        try {
+            //console.log("getAuthor" + userService.getAll);
+            const response = await userService.getAll({limit:1000});
+            const data = response.data.filter(x => x.permission === 'author');
+            res.status(response.statusCode).json(data);
+        } catch (e) {
+            // next(e);
+        }
     }
 
     test(req, res, next) {
