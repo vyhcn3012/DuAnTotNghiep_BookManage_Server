@@ -9,6 +9,5 @@ router.get('/', (req, res) => {
 
 router.post( '/login', AuthController.login );
 router.get( '/test', AuthController.test );
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 module.exports = router;
