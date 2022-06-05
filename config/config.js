@@ -29,12 +29,10 @@ module.exports.getConfig = () => {
     // Modify for Production
     if (process.env.NODE_ENV === 'production') {
         config.MODE = 'Production';
-        config.HOST = `https://emotion-passport.herokuapp.com`;
+        config.HOST = `https://bookofword.herokuapp.com`;
     } else {
         // local
         config.HOST = `http://localhost:${process.env.PORT || 5555}`;
-        // my ap
-        //config.HOST = `https://myap.poly.edu.vn`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 
