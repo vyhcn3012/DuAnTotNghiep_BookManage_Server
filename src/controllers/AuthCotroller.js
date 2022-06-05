@@ -22,17 +22,19 @@ class AuthCotroller {
             });
             const { name, email, picture } = ticket.getPayload();
             const check_email = config.EMAIL_GOOGLE_TESTING;
-            if(check_email == email){
-                const body = {
-                    email: email,
-                    name: name,
-                    image: picture,
-                    phone: '0919560820',
-                    token_fcm: token_fcm,
-                }
-                const response = await authService.login(body);
-                await res.status(response.statusCode).json(response);
+            const body = {
+                email: email,
+                //role: config.USER_ROLE.EMPLOYEE,
+                name: name,
+                image: picture,
+                phone: " ",
+                permission: "author",
+                bookmark: "",
+                wallet: 0,
+                favoritebooks: "",
             }
+            const response = await authService.login(body);
+            await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
             next(e);
