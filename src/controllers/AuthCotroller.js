@@ -23,7 +23,6 @@ class AuthCotroller {
             });
             const { name, email, picture } = ticket.getPayload();
             const check_email = config.EMAIL_GOOGLE_TESTING;
-            
             const body = {
                 email: email,
                 //role: config.USER_ROLE.EMPLOYEE,
@@ -36,7 +35,6 @@ class AuthCotroller {
                 favoritebooks: "",
                 fcmtokens: token_fcm,
             }
-
             const response = await authService.login(body);
             await res.status(response.statusCode).json(response);
         }catch(e) {
