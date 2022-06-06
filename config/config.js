@@ -9,8 +9,8 @@ module.exports.getConfig = () => {
         'JWT_SECRET': 'R4ND0M5TR1NG',
         'JWT_TOKEN_LIFETIME': 30 * 24 * 60 * 60, // 60 MINUTES IN SECOND
         'COOKIE_TOKEN_LIFETIME': 30 * 24 * 60 * 60 * 1000, // 60 MINUTES IN NANO SECOND
-        'GOOGLE_CLIENT_ID': '982214568392-a1nagio8k97gsclh9j3ad9nhvjogfu5g.apps.googleusercontent.com',
-        'GOOGLE_CLIENT_SECRET': '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',
+        'GOOGLE_CLIENT_ID': '1078600024718-r4kttklrp4av6li4mqs9b5ctnhbm6aob.apps.googleusercontent.com',
+        'GOOGLE_CLIENT_SECRET': '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',
         'GOOGLE_REDIRECT_URL': `/cpanel/home/auth_callback`,
         'GOOGLE_SCOPE': ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email',],
         'EMAIL_GOOGLE_TESTING': 'book.world.duan1@gmail.com',

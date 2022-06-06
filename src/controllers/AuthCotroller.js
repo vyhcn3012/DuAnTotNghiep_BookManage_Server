@@ -6,7 +6,8 @@ const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
-const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
+const { OAuth2Client } = require("google-auth-library"),
+  client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
     constructor(service) {
         this.service = service;
@@ -32,6 +33,7 @@ class AuthCotroller {
                 bookmark: "",
                 wallet: 0,
                 favoritebooks: "",
+                fcmtokens: token_fcm,
             }
             const response = await authService.login(body);
             await res.status(response.statusCode).json(response);
