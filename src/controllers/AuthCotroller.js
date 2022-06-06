@@ -6,7 +6,8 @@ const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
-const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
+const { OAuth2Client } = require("google-auth-library"),
+  client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
     constructor(service) {
         this.service = service;
@@ -22,17 +23,22 @@ class AuthCotroller {
             });
             const { name, email, picture } = ticket.getPayload();
             const check_email = config.EMAIL_GOOGLE_TESTING;
-            if(check_email == email){
-                const body = {
-                    email: email,
-                    name: name,
-                    image: picture,
-                    phone: '0919560820',
-                    token_fcm: token_fcm,
-                }
-                const response = await authService.login(body);
-                await res.status(response.statusCode).json(response);
+            
+            const body = {
+                email: email,
+                //role: config.USER_ROLE.EMPLOYEE,
+                name: name,
+                image: picture,
+                phone: " ",
+                permission: "author",
+                bookmark: "",
+                wallet: 0,
+                favoritebooks: "",
+                fcmtokens: token_fcm,
             }
+
+            const response = await authService.login(body);
+            await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
             next(e);
