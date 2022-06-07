@@ -15,6 +15,7 @@ class AuthService {
     async login(body){
         const { name, email, phone, permission, image, bookmark, wallet,
             favoritebooks, token_fcm } = body;
+        //console.log("===> login", token_fcm);
 
         try {
             let account = await this.userService.findByEmail(email);
@@ -30,6 +31,7 @@ class AuthService {
                 }
                 account = await this.register(data);
             }
+            
             if(token_fcm) {
                 let checkFCM = account.fcmtokens.filter(i => i == token_fcm)[0];
                 //console.log("===> checkFCM", checkFCM);
@@ -64,6 +66,19 @@ class AuthService {
             return await this.userService.insert(data);
         } catch (error) {
             throw error;
+        }
+    }
+
+    async logout(token, fcmtoken, account) {
+        console.log("===> logout", token, fcmtoken, account);
+        console.log("====> account", account.fcmtokens);
+        try {
+            await this.model.deleteOne({ token });
+            account.fcmtokens = account.fcmtokens?.filter(item => item != fcmtoken);
+            await this.userService.update(account._id, { fcmtokens: account.fcmtokens });
+            return new HttpResponse({ 'logout': true });
+        } catch (error) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau');;
         }
     }
 

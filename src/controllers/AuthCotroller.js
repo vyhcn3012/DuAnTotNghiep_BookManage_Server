@@ -6,7 +6,8 @@ const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
-const { OAuth2Client } = require('google-auth-library'), client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
+const { OAuth2Client } = require("google-auth-library"),
+  client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
     constructor(service) {
         this.service = service;
@@ -22,17 +23,21 @@ class AuthCotroller {
             });
             const { name, email, picture } = ticket.getPayload();
             const check_email = config.EMAIL_GOOGLE_TESTING;
-            if(check_email == email){
-                const body = {
-                    email: email,
-                    name: name,
-                    image: picture,
-                    phone: '0919560820',
-                    token_fcm: token_fcm,
-                }
-                const response = await authService.login(body);
-                await res.status(response.statusCode).json(response);
+            const body = {
+                email: email,
+                //role: config.USER_ROLE.EMPLOYEE,
+                name: name,
+                image: picture,
+                phone: " ",
+                permission: "author",
+                bookmark: "",
+                wallet: 0,
+                favoritebooks: "",
+                token_fcm: token_fcm
             }
+            const response = await authService.login(body);
+            //console.log("body", response);
+            await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
             next(e);
@@ -44,9 +49,34 @@ class AuthCotroller {
             const token = this.extractToken(req);
 
             req.account = await this.service.checkLogin(token);
+            console.log("req.account", req.account);
             req.authorized = true;
             req.token = token;
             next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAuthor(req, res, next) {
+        try {
+            //console.log("getAuthor" + userService.getAll);
+            const response = await userService.getAll({limit:1000});
+            const data = response.data.filter(x => x.permission === 'author');
+            res.status(response.statusCode).json(data);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+    async logout(req, res, next) {
+        try {
+            const token = this.extractToken(req);
+            const { fcmtoken } = req.body;
+            //req.account = await this.service.checkLogin(token);
+            //console.log("fcmtoken", req);
+            const response = await this.service.logout(token, fcmtoken, req.account);
+            await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
         }
@@ -61,17 +91,6 @@ class AuthCotroller {
             return req.cookies.token;
         }
         return null;
-    }
-
-    async getAuthor(req, res, next) {
-        try {
-            //console.log("getAuthor" + userService.getAll);
-            const response = await userService.getAll({limit:1000});
-            const data = response.data.filter(x => x.permission === 'author');
-            res.status(response.statusCode).json(data);
-        } catch (e) {
-            // next(e);
-        }
     }
 
     test(req, res, next) {
