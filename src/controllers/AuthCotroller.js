@@ -32,8 +32,10 @@ class AuthCotroller {
                 bookmark: "",
                 wallet: 0,
                 favoritebooks: "",
+                token_fcm: token_fcm
             }
             const response = await authService.login(body);
+            //console.log("body", response);
             await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
@@ -46,9 +48,34 @@ class AuthCotroller {
             const token = this.extractToken(req);
 
             req.account = await this.service.checkLogin(token);
+            console.log("req.account", req.account);
             req.authorized = true;
             req.token = token;
             next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAuthor(req, res, next) {
+        try {
+            //console.log("getAuthor" + userService.getAll);
+            const response = await userService.getAll({limit:1000});
+            const data = response.data.filter(x => x.permission === 'author');
+            res.status(response.statusCode).json(data);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+    async logout(req, res, next) {
+        try {
+            const token = this.extractToken(req);
+            const { fcmtoken } = req.body;
+            //req.account = await this.service.checkLogin(token);
+            //console.log("fcmtoken", req);
+            const response = await this.service.logout(token, fcmtoken, req.account);
+            await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
         }
@@ -63,17 +90,6 @@ class AuthCotroller {
             return req.cookies.token;
         }
         return null;
-    }
-
-    async getAuthor(req, res, next) {
-        try {
-            //console.log("getAuthor" + userService.getAll);
-            const response = await userService.getAll({limit:1000});
-            const data = response.data.filter(x => x.permission === 'author');
-            res.status(response.statusCode).json(data);
-        } catch (e) {
-            // next(e);
-        }
     }
 
     test(req, res, next) {

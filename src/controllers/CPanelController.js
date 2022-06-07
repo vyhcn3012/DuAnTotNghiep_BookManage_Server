@@ -65,7 +65,7 @@ class CPanelController {
               audience: config.GOOGLE_CLIENT_ID,
             });
             const { name, email, picture } = ticket.getPayload();
-
+            console.log("idToken ", token.id_token);
             const body = {
               email: email,
               //role: config.USER_ROLE.EMPLOYEE,

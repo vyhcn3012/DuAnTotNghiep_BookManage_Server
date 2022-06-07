@@ -38,7 +38,6 @@ class Auth {
                     'algorithm': 'HS256',
                     'expiresIn': jwtExpirySeconds,
                 });
-
                 return token;
             }catch(e){
                 throw e;
