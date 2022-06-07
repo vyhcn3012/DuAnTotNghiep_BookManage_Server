@@ -11,4 +11,5 @@ router.get('/', (req, res) => {
 
 router.get('/getAllBook', bookController.getBooks);
 router.get('/:id/getAllBookAuthor', bookController.getBookByIdAuthor);
+router.get('/:name/getBookByName', bookController.searchBook);
 module.exports = router;
