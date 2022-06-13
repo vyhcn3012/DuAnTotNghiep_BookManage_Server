@@ -31,6 +31,8 @@ class AuthService {
                 }
                 account = await this.register(data);
             }
+
+            console.log("=====>", account.fcmtokens);
             
             if(token_fcm) {
                 let checkFCM = account.fcmtokens.filter(i => i == token_fcm)[0];
@@ -38,7 +40,7 @@ class AuthService {
                 if (!checkFCM && token_fcm){
                     account.fcmtokens = [...account.fcmtokens, token_fcm];
                     account.fcmtokens = account.fcmtokens.slice(Math.max(account.fcmtokens.lenght - 3, 0));
-                    await this.account.update(account._id, {fcmtokens: account.fcmtokens});
+                    await this.userService.update(account._id, {fcmtokens: account.fcmtokens});
                 }
             }
             let cacheUser = await this.userService.findInfoByEmail(email);
