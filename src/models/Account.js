@@ -81,13 +81,6 @@ class Account {
                 'type': String,
                 'required': false,
             },
-            'fcmtokens': {
-                'type': [{
-                    'type': String,
-                    'required': false,
-                }],
-                'required': false,
-            },
             'historyBookRead':[
                 {
                     'idBook': {

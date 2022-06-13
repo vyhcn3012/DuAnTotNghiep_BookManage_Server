@@ -73,8 +73,7 @@ class AuthCotroller {
         try {
             const token = this.extractToken(req);
             const { fcmtoken } = req.body;
-            //req.account = await this.service.checkLogin(token);
-            //console.log("fcmtoken", req);
+            req.account = await this.service.checkLogin(token);
             const response = await this.service.logout(token, fcmtoken, req.account);
             await res.status(response.statusCode).json(response);
         } catch (e) {
