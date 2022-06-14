@@ -364,13 +364,13 @@
                     <h4 class="card-title">Bordered table</h4>
                     <p class="card-description"> Add class <code>.table-bordered</code>
                     </p>
-                    <table class="table datatable">
+                    <table  class="table datatable">
                         <thead>
                           <tr>
                             
                             <th scope="col">categoryId</th>
                             <th scope="col">account</th>
-                            <th scope="col">releasedDate</th>
+                            <th scope="col">releasedDate</th>//
                             <th scope="col">name</th>
                             <th scope="col">image</th>
                             <th scope="col">introduction</th>
@@ -387,15 +387,16 @@
                             <tr>
                                 <td>{{this.categoryId}}</td>
                             
-                                <td>{{this.evaluateId}}</td>
-                                <td>{{this.authorId}}</td>
+                                <td>{{this.account}}</td>
+                                <td>{{this.releasedDate}}</td>
                                 <td>{{this.name}}</td>
-                                <td>{{this.permission}}</td>
                                 <td>
                                    <img src="{{this.image}}" width="100" height="100">
                                 </td>
-                                <td>{{this.description}}</td>
-                                <td>{{this.releasedDate}}</td>
+                                <td>{{this.introduction}}</td>
+                                <td>{{this.overview}}</td>
+                                <td>{{this.numSumRead}}</td>
+                                <td>{{this.isPrice}}</td>
                                 <td>
                                     <button id="buttonEdit" class="btn btn-link" onclick="edit('{{this._id}}')">Edit</button>
                                     <button 
