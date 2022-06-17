@@ -68,6 +68,15 @@ class AuthCotroller {
             // next(e);
         }
     }
+    async getTimeRead(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getTimeRead(id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
 
     async logout(req, res, next) {
         try {

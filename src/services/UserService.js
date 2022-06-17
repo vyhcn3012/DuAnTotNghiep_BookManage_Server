@@ -40,6 +40,22 @@ class UserService extends Service{
         return this.model.findByEmail(email);
     }
 
+    async getTimeRead(id) {
+        try {
+            const book = await this.model.find({'_id':id},{timeReadBook: 1})  
+            if (!book) {
+                const error = new Error('Không tìm thấy cuốn sách này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+            console.log(book);
+            return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+}
+
     async findInfoByEmail(_email){
         try{
             let account = await this.findByEmail(_email);

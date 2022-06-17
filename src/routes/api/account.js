@@ -8,5 +8,5 @@ router.get('/', (req, res) => {
 });
 
 router.get('/allAuthor', AuthController.getAuthor);
-
+router.get('/:id/getTimeRead', AuthController.getTimeRead);
 module.exports = router;
