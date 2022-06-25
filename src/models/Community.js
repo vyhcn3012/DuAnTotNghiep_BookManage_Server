@@ -6,6 +6,11 @@ class Community {
     static instance = null;
     initSchema() {
         const schema = new Schema({
+            'account': {
+                'type': Schema.Types.ObjectId,
+                'required': true,
+                'ref':'account'
+            },
             'name': {
                 'type': String,
                 'required': true,
