@@ -81,18 +81,18 @@ class Account {
                 'type': String,
                 'required': false,
             },
-            'historyBookRead':[
-                {
+            'historyBookRead':{
+                'type': [{
                     'idBook': {
-                        'type': String,
+                        'type': Schema.Types.ObjectId,
                         'required': true,
                     },
                     'time': {
                         'type': String,
                         'required': true,
                     },
-                }
-            ],
+                }],
+            },
             'payBook': {
                 'type': String,
                 'required': false,

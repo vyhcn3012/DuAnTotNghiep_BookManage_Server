@@ -78,6 +78,17 @@ class AuthCotroller {
         }
     }
 
+    async getreadBooks(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getreadBook(id);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async logout(req, res, next) {
         try {
             const token = this.extractToken(req);

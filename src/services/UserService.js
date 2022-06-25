@@ -36,6 +36,22 @@ class UserService extends Service{
         }
     }
 
+    async getreadBook(id) {
+        try {
+            //$project: { count: { $size:"$historyBookRead" }}
+            const readbook = await this.model.findById( id, { count: { $size:"$historyBookRead" } });
+            if (!readbook) {
+                const error = new Error('Không tìm thấy ');
+                error.statusCode = 404;
+                throw error;
+            }
+            console.log(id);
+            return new HttpResponse( readbook);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async findByEmail(email) {  
         return this.model.findByEmail(email);
     }
