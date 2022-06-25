@@ -15,14 +15,14 @@ class Book {
                 'type': [{
                     '_id': {
                         'type': Schema.Types.ObjectId,
-                        'required': true,
+                        'required': false,
                     },
                     'permission': {
                         'type': Number,
-                        'required': true,
+                        'required': false,
                     },
                 }],
-                'required': true,
+                'required': false,
                 'ref':'account'
             },
             'releasedDate': {
@@ -31,93 +31,32 @@ class Book {
             },
             'name': {
                 'type': String,
-                'required': true,
+                'required': false,
             },
             'image': {
                 'type': String,
-                'required': true,
+                'required': false,
             },
             'introduction': {
                 'type': String,
-                'required': true,
+                'required': false,
             },
             'overview': {
                 'type': Number,
-                'required': true,
+                'required': false,
             },
             'numSumRead': {
                 'type': Number,
-                'required': true,          
+                'required': false,          
             },
             'chapter': {
-                'type': [{
-                    '_id': {
-                        'type': Schema.Types.ObjectId,
-                        'required': true,
-                    },
-                    'title': {
-                        'type': String,
-                        'required': true,
-                    },
-                    'image': {
-                        'type': String,
-                        'required': true,
-                    },
-                    'releasedDate': {
-                        'type': Date,
-                        'required': true,
-                    },
-                    'htmlChapter': {
-                        'type': String,
-                        'required': true,
-                    },
-                    'linkSound': {
-                        'type': String,
-                        'required': true,
-                    },
-                    'comment': {
-                        'type': [{
-                            '_id': {
-                                'type': Schema.Types.ObjectId,
-                                'required': true,
-                            },
-                            'userName': {
-                                'type': String,
-                                'required': true,
-                            },
-                            'image': {
-                                'type': String,
-                                'required': true,
-                            },
-                            'content': {
-                                'type': String,
-                                'required': true,
-                            },
-                            'evaluate': {
-                                'type': Number,
-                                'required': true,
-                            },
-                            'time': {
-                                'type': Date,
-                                'required': true,
-                            },
-                        }],
-                        'required': false,          
-                    },
-                    'permission': {
-                        'type': Number,
-                        'required': true,
-                    },
-                    'price': {
-                        'type': Number,
-                        'required': true,
-                    },
-                }],
-                'required': false,          
+                'type': Schema.Types.ObjectId,
+                'required': true,
+                'ref': 'chapter'
             },
             'isPrice': {
                 'type': Number,
-                'required': true,
+                'required': false,
             },
            
         }, { 'timestamps': true } );

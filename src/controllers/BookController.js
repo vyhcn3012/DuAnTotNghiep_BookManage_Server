@@ -22,11 +22,45 @@ class BookController extends Controller{
             // next(e);
         }
     }
+
+    async getComments(req, res, next) {
+        try {
+            const _id = req.body;
+            const response = await this.service.getComment(_id);
+            await res.status(response.statusCode).json(response);
+        }
+        catch (e) {
+            // next(e);
+        }
+    }
+
     async getBookByIdAuthor(req, res, next) {
         try {
             const { id } = req.params;
             const response = await this.service.getBookById(id);
 
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+    async insertComment(req, res, next) {
+        try {
+            const { post, userName, image, id, idChapter} = req.body;
+            //console.log("=====> 39 ", req.body);
+
+            const data = {
+                id: id,
+                idChapter: idChapter,
+                userName: userName,
+                image: image,
+                content: post,
+                time: new Date(),
+            }
+
+            const response = await bookService.insertComment(data);
+            console.log("=====> 49 ", response);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
@@ -63,7 +97,7 @@ class BookController extends Controller{
                     linkSound:"sound",
                 }
                 const response = await this.service.insert( data );
-                console.log(response);
+                // console.log(response);
                 await res.status( 200 ).json( response );    
         } catch (e) {
             console.log(e);
