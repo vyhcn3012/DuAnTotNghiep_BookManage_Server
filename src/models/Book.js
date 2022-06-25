@@ -42,8 +42,8 @@ class Book {
                 'required': false,
             },
             'overview': {
-                'type': Number,
-                'required': false,
+                'type': String,
+                'required': true,
             },
             'numSumRead': {
                 'type': Number,

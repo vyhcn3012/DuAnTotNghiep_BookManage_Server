@@ -30,14 +30,43 @@ class BookController extends Controller{
             await res.status(response.statusCode).json(response);
         }
         catch (e) {
+        }
+    }
+
+    async getBooksByNumberRead(req, res, next) {
+        try {
+            const sortBy= {"numSumRead":-1};
+            const response = await this.service.getAll({limit:1000,sortBy:sortBy });
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
             // next(e);
         }
     }
 
+    async searchBook(req, res, next) {
+        try {
+            const { name } = req.params;
+            const response = await this.service.getAll({limit:1000,name:name});
+            console.log(name);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
     async getBookByIdAuthor(req, res, next) {
         try {
             const { id } = req.params;
             const response = await this.service.getBookById(id);
+
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+    async getBookByIdCategory(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await this.service.getBookByIdCategory(id);
 
             await res.status(response.statusCode).json(response);
         } catch (e) {

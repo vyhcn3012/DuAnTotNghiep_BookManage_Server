@@ -13,4 +13,7 @@ router.get('/:id/getAllBookAuthor', bookController.getBookByIdAuthor);
 router.post('/insertCommnet', bookController.insertComment);
 router.get('/getComment', bookController.getComments);
 
+router.get('/:id/getBookByIdCategory', bookController.getBookByIdCategory);
+router.get('/getBooksByNumberRead', bookController.getBooksByNumberRead);
+router.get('/:name/getBookByName', bookController.searchBook);
 module.exports = router;

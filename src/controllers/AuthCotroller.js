@@ -68,6 +68,26 @@ class AuthCotroller {
             // next(e);
         }
     }
+    async getTimeRead(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getTimeRead(id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+    async getreadBooks(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getreadBook(id);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
 
     async logout(req, res, next) {
         try {

@@ -15,8 +15,20 @@ class CommunityController extends Controller {
 
     async getAllCommunity(req, res, next) {
         try {
-            const response = await this.service.getAll({ limit: 1000 });
+            const sortBy= {"numMember":-1};
+            const response = await this.service.getAll({ limit: 1000,sortBy:sortBy });
 
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+    async getAllCommunityOfUser(req, res, next) {
+        try {
+            const { account } = req.params;
+            console.log(account);
+            const response = await this.service.getAll({limit:1000,account:account});
+          
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
