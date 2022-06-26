@@ -44,21 +44,7 @@ class BookService extends Service {
     }
   }
 
-  async getBookById(id) {
-    try {
-      const book = await this.model.find({ "account._id": id });
-      if (!book) {
-        const error = new Error("Không tìm thấy cuốn sách này");
-        error.statusCode = 404;
-        throw error;
-      }
 
-      console.log(book);
-      return new HttpResponse(book);
-    } catch (errors) {
-      throw errors;
-    }
-  }
 
     async getBookById(id) {
             try {
