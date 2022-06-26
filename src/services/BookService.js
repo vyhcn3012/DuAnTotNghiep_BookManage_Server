@@ -13,7 +13,6 @@ class BookService extends Service {
 
   async insertComment(body) {
     const { content, userName, image, id, idChapter } = body;
-    console.log("=====> 16 ", body);
     try {
       let comment = {
         userName: userName,
@@ -122,6 +121,7 @@ class BookService extends Service {
       throw error;
     }
   }
+
 
   async cpanel_GetAll(query) {
     let { skip, limit, sortBy } = query;

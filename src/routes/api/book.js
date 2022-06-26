@@ -16,4 +16,7 @@ router.get('/getComment', bookController.getComments);
 router.get('/:id/getBookByIdCategory', bookController.getBookByIdCategory);
 router.get('/getBooksByNumberRead', bookController.getBooksByNumberRead);
 router.get('/:name/getBookByName', bookController.searchBook);
+
+router.get('/:id/getChapterBook', bookController.getChapterBook);
+router.get('/:id/getCommentChapter', bookController.getCommentChapters);
 module.exports = router;
