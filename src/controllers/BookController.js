@@ -1,10 +1,16 @@
 const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { Book } = require('../models/Book');
+const { Chapter } = require('../models/Chapter');
+const { Comment } = require('../models/Comment');
 const { BookService } = require('../services/BookService');
 const CategoryController = require('./CategoryController');
 const {AuthService} = require('../services/AuthService');
+const {ChapterService} = require('../services/ChapterService');
+const {CommentService} = require('../services/CommentService');
 
+const chapterService = new ChapterService(new Chapter().getInstance());
+const commentService = new CommentService(new Comment().getInstance());
 const bookService = new BookService(new Book().getInstance());
 
 
@@ -22,6 +28,28 @@ class BookController extends Controller{
             // next(e);
         }
     }
+
+    async getChapterBook(req, res, next) {
+        try {
+            const {id} = req.params;
+            console.log(">>>>> 32" + id);
+            const response = await chapterService.getChapterBook(id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getComments(req, res, next) {
+        try {
+            const _id = req.body;
+            const response = await this.service.getComment(_id);
+            await res.status(response.statusCode).json(response);
+        }
+        catch (e) {
+        }
+    }
+
     async getBooksByNumberRead(req, res, next) {
         try {
             const sortBy= {"numSumRead":-1};
@@ -63,6 +91,39 @@ class BookController extends Controller{
         }
     }
 
+    async getCommentChapters(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await commentService.getCommentChapters(id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+
+    async insertComment(req, res, next) {
+        try {
+            const { post, userName, image, id, idChapter} = req.body;
+            //console.log("=====> 39 ", req.body);
+
+            const data = {
+                id: id,
+                idChapter: idChapter,
+                userName: userName,
+                image: image,
+                content: post,
+                time: new Date(),
+            }
+
+            const response = await bookService.insertComment(data);
+            console.log("=====> 49 ", response);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
     async cpanel_getAllBook(req, res, next){
         const allBook = await this.service.cpanel_GetAll({ limit: 1000 });
       
@@ -93,7 +154,7 @@ class BookController extends Controller{
                     linkSound:"sound",
                 }
                 const response = await this.service.insert( data );
-                console.log(response);
+                // console.log(response);
                 await res.status( 200 ).json( response );    
         } catch (e) {
             console.log(e);
