@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-class Chapter {
+class Comment {
     static instance = null;
     initSchema() {
         const schema = new Schema({
-            'idBook': {
+            'idChapter': {
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref': 'book'
+                'ref': 'chapter'
             },
-            'title': {
+            'userName': {
                 'type': String,
                 'required': false,
             },
@@ -19,48 +19,34 @@ class Chapter {
                 'type': String,
                 'required': false,
             },
-            'releasedDate': {
+            'content': {
+                'type': String,
+                'required': false,
+            },
+            'evaluate': {
+                'type': Number,
+                'required': false,
+            },
+            'time': {
                 'type': Date,
-                'required': false,
-            },
-            'htmlChapter': {
-                'type': String,
-                'required': false,
-            },
-            'linkSound': {
-                'type': String,
-                'required': false,
-            },
-            'idComment': {
-                'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref': 'comment'
-            },
-            'permission': {
-                'type': Number,
-                'required': false,
-            },
-            'price': {
-                'type': Number,
                 'required': false,
             },
         }, { 'timestamps': false } );
         schema.plugin(uniqueValidator);
 
         try {
-            mongoose.model( 'chapter', schema );
+            mongoose.model( 'comment', schema );
         } catch ( e ) {
            
         }
-    }
-
+    } 
     getInstance() {
-        if (!Chapter.instance) {
+        if (!Comment.instance) {
             this.initSchema();
-            Chapter.instance = mongoose.model( 'chapter' );
+            Comment.instance = mongoose.model( 'comment' );
         }        
-        return Chapter.instance;
+        return Comment.instance;
     }
 }
 
-module.exports = { Chapter };
+module.exports = { Comment };
