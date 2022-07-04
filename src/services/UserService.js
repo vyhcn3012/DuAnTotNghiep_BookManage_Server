@@ -36,7 +36,7 @@ class UserService extends Service{
         }
     }
 
-    async getreadBook(id) {
+    async getCountreadBook(id) {
         try {
             //$project: { count: { $size:"$historyBookRead" }}
             const readbook = await this.model.findById( id, { count: { $size:"$historyBookRead" } });
@@ -58,7 +58,7 @@ class UserService extends Service{
 
     async getTimeRead(id) {
         try {
-            const book = await this.model.find({'_id':id},{timeReadBook: 1})  
+            const book = await this.model.find({'_id':id},{_id:0,timeReadBook: 1})  
             if (!book) {
                 const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
@@ -70,7 +70,65 @@ class UserService extends Service{
         } catch (errors) {
             throw errors;
         }
-}
+    }
+    async getFavoriteBooks(id) {
+        try {
+            const book = await this.model.find({'_id':id},{_id:0,favoritebooks:1})
+            .populate({
+                path: 'favoriteBooks',
+                populate: {
+                    path: '_id',
+                }   
+            })
+            if (!book) {
+                const error = new Error('Không tìm thấy cuốn sách này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+            console.log(book);
+            return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async getReadingBooks(id) {
+        try {
+            const book = await this.model.find({'_id':id},{_id:0,historyBookRead:1})
+            .populate({
+                path: 'historyBookRead',
+                populate: {
+                    path: 'idBook',
+                }   
+            })
+            if (!book) {
+                const error = new Error('Không tìm thấy cuốn sách này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+            console.log(book);
+            return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async postIdReadingBooks(id,idBook) {
+        try {
+            const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
+         
+            if (!book) {
+                const error = new Error('Không tìm thấy cuốn sách này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+            console.log(book);
+            return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
 
     async findInfoByEmail(_email){
         try{

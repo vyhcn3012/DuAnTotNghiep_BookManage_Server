@@ -41,9 +41,15 @@ class Account {
                 'type': Number,
                 'required': true,          
             },
-            'favoritebooks': {
-                'type': String,
-                'required': false,          
+            'favoriteBooks': {
+                'type': [{
+                    '_id': {
+                        'type': Schema.Types.ObjectId,
+                        'required': true,
+                        'ref':'book'
+                    }
+                }],
+                'required': true
             },
             'password': {
                 'type': String,
@@ -86,12 +92,14 @@ class Account {
                     'idBook': {
                         'type': Schema.Types.ObjectId,
                         'required': true,
+                        'ref':'book'
                     },
                     'time': {
                         'type': String,
-                        'required': true,
+                        'required': false,
                     },
                 }],
+                'required': false,
             },
             'payBook': {
                 'type': String,

@@ -81,13 +81,45 @@ class AuthCotroller {
     async getreadBooks(req, res, next) {
         try {
             const { id } = req.params;
-            const response = await userService.getreadBook(id);
+            const response = await userService.getCountreadBook(id);
             await res.status(response.statusCode).json(response);
         
         } catch (errors) {
             throw errors;
         }
     }
+    async getFavoriteBooks(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getFavoriteBooks(id);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async getReadingBooks(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getReadingBooks(id);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async postIdReadingBooks(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { idBook } = req.body;
+            const response = await userService.postIdReadingBooks(id,idBook);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    
 
     async logout(req, res, next) {
         try {
