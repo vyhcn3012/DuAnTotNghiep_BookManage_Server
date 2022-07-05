@@ -115,16 +115,16 @@ class UserService extends Service{
     }
     async postIdReadingBooks(id,idBook) {
         try {
-            const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
+            const check=await this.model.find({'historyBookRead.idBook':idBook});
          
-            if (!book) {
-                const error = new Error('Không tìm thấy cuốn sách này');
-                error.statusCode = 404;
-                throw error;
+         
+            if (!check) {
+                const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
+                console.log(book);
+                return new HttpResponse( book);
             }
          
-            console.log(book);
-            return new HttpResponse( book);
+            return new HttpResponse("FF");
         } catch (errors) {
             throw errors;
         }
