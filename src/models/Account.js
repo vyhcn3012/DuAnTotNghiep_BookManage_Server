@@ -43,13 +43,13 @@ class Account {
             },
             'favoriteBooks': {
                 'type': [{
-                    '_id': {
+                    'idBook': {
                         'type': Schema.Types.ObjectId,
                         'required': true,
                         'ref':'book'
-                    }
+                    },
                 }],
-                'required': true
+                'required': false,
             },
             'password': {
                 'type': String,

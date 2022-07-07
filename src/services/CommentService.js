@@ -13,7 +13,8 @@ class CommentService extends Service{
 
     async getCommentChapters(_id) {
         try{
-            const comment = await this.model.find({"chapter.idChapter": _id});
+            const comment = await this.model.find({"idChapter": _id});
+            // const comment = await this.model.find({"chapter.idChapter": _id});
             if(!comment){
                 const error = new Error("Không tìm thấy bình luận");
                 error.statusCode = 404;

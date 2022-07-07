@@ -92,6 +92,20 @@ class UserService extends Service{
             throw errors;
         }
     }
+    async postFavoriteBooks(id,idBook) {
+        try {   
+            const check=await this.model.find({'favoriteBooks.idBook':idBook});
+            console.log(check);
+            if (check.length === 0) {
+                const book = await this.model.findByIdAndUpdate(id, {$push: {favoriteBooks: {idBook}}});
+                console.log(book);
+                return new HttpResponse( book);
+            }
+            return new HttpResponse("FF");
+        } catch (errors) {
+            throw errors;
+        }
+    }
     async getReadingBooks(id) {
         try {
             const book = await this.model.find({'_id':id},{_id:0,historyBookRead:1})
@@ -116,8 +130,6 @@ class UserService extends Service{
     async postIdReadingBooks(id,idBook) {
         try {
             const check=await this.model.find({'historyBookRead.idBook':idBook});
-         
-         
             if (!check) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
                 console.log(book);

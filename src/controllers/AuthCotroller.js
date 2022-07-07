@@ -119,6 +119,19 @@ class AuthCotroller {
             throw errors;
         }
     }
+
+    async  postFavoriteBooks(req, res, next) {
+        try {
+            const { id } = req.body;
+            const { idBook } = req.body;
+            const response = await userService.postFavoriteBooks(id,idBook);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+   
     
 
     async logout(req, res, next) {
