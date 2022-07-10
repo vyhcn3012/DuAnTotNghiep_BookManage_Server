@@ -44,6 +44,11 @@ class Chapter {
                 'type': Number,
                 'required': false,
             },
+            'available': {
+                'type': Boolean,
+                'required': true,
+                'default': false,
+            },
         }, { 'timestamps': false } );
         schema.plugin(uniqueValidator);
 

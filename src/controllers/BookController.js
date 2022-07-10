@@ -32,21 +32,10 @@ class BookController extends Controller{
     async getChapterBook(req, res, next) {
         try {
             const {id} = req.params;
-            console.log(">>>>> 32" + id);
             const response = await chapterService.getChapterBook(id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
-        }
-    }
-
-    async getComments(req, res, next) {
-        try {
-            const _id = req.body;
-            const response = await this.service.getComment(_id);
-            await res.status(response.statusCode).json(response);
-        }
-        catch (e) {
         }
     }
 

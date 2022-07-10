@@ -102,7 +102,15 @@ class Account {
                 'required': false,
             },
             'payBook': {
-                'type': String,
+                'type': [
+                    {
+                        'idChapter': {
+                            'type': Schema.Types.ObjectId,
+                            'required': true,
+                            'ref':'chapter'
+                        },
+                    }
+                ],
                 'required': false,
             },
             'timeReadBook':{

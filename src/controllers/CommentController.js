@@ -17,8 +17,7 @@ class CommentController extends Controller {
            const data={
                 idChapter: req.body.idChapter,
                 content: req.body.content,
-                userName: "Phuc",
-
+                userName: req.body.idUser,
             }
             const response = await this.service.insert(data);
 
