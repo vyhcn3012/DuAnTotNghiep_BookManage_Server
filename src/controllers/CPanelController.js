@@ -26,7 +26,7 @@ class CPanelController {
     }
   }
 
-  auth(req, res, next) {
+auth(req, res, next) {
     if (req.cookies && req.cookies.token) {
       console.log(req.cookies.token);
       return;

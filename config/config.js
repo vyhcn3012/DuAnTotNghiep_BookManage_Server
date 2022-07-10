@@ -23,6 +23,9 @@ module.exports.getConfig = () => {
             'EMPLOYEE': 2,
             'STUDENT': 1
         },
+        'USER_BOOK_STATUS': {
+            'REGISTER': 1,
+        },
 
     }
 

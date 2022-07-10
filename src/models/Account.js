@@ -104,8 +104,11 @@ class Account {
             'payBook': {
                 'type': [
                     {
-                        'type': Object,
-                        'required': false
+                        'idChapter': {
+                            'type': Schema.Types.ObjectId,
+                            'required': true,
+                            'ref':'chapter'
+                        },
                     }
                 ],
                 'required': false,

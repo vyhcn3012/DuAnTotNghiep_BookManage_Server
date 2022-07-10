@@ -36,7 +36,7 @@ class AuthCotroller {
                 token_fcm: token_fcm
             }
             const response = await authService.login(body);
-            //console.log("body", response);
+            console.log("body", response);
             await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
@@ -49,7 +49,7 @@ class AuthCotroller {
             const token = this.extractToken(req);
 
             req.account = await this.service.checkLogin(token);
-            console.log("req.account", req.account);
+
             req.authorized = true;
             req.token = token;
             next();
@@ -108,10 +108,20 @@ class AuthCotroller {
             throw errors;
         }
     }
+
+    async getPayBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getPayBook(id);
+            await res.status(response.statusCode).json(response);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    
     async postIdReadingBooks(req, res, next) {
         try {
-            const { id } = req.body;
-            const { idBook } = req.body;
+            const { id, idBook } = req.body;
             const response = await userService.postIdReadingBooks(id,idBook);
             await res.status(response.statusCode).json(response);
         
@@ -123,16 +133,8 @@ class AuthCotroller {
     async postChapterBought(req, res, next) {
         try {
             const { idUser, idChapter } = req.body;
-            const users = await userService.findInfoById(idUser);
-            const payBook = users.data.payBook;
-            for(var [key, value] in Object.entries(payBook)) {
-                console.log(value);
-                if(payBook[key] === idChapter) {
-                    console.log("da co roi");
-                }
-                // const response = await userService.postChapterBought(idUser, idChapter);
-                // await res.status(response.statusCode).json(response);
-            }
+            const response = await userService.postChapterBought(idUser, idChapter);
+            await res.status(response.statusCode).json(response);
         }catch(e) {
             next(e);
         }
@@ -140,8 +142,7 @@ class AuthCotroller {
 
     async  postFavoriteBooks(req, res, next) {
         try {
-            const { id } = req.body;
-            const { idBook } = req.body;
+            const { id, idBook } = req.body;
             const response = await userService.postFavoriteBooks(id,idBook);
             await res.status(response.statusCode).json(response);
         
