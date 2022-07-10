@@ -80,9 +80,11 @@ class UserService extends Service{
             .populate({
                 path: 'favoriteBooks',
                 populate: {
-                    path: '_id',
+                    path: 'idBook',
                 }   
             })
+
+            console.log(">>>> 120 ", book);
             if (!book) {
                 const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
@@ -116,6 +118,7 @@ class UserService extends Service{
                     path: 'idBook',
                 }   
             })
+            
             if (!book) {
                 const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
