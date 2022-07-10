@@ -119,7 +119,25 @@ class AuthCotroller {
             throw errors;
         }
     }
-    
+
+    async postChapterBought(req, res, next) {
+        try {
+            const { idUser, idChapter } = req.body;
+            const users = await userService.findInfoById(idUser);
+            const payBook = users.data.payBook;
+            for(var [key, value] in Object.entries(payBook)) {
+                console.log(value);
+                if(payBook[key] === idChapter) {
+                    console.log("da co roi");
+                }
+                // const response = await userService.postChapterBought(idUser, idChapter);
+                // await res.status(response.statusCode).json(response);
+            }
+        }catch(e) {
+            next(e);
+        }
+    }
+
 
     async logout(req, res, next) {
         try {

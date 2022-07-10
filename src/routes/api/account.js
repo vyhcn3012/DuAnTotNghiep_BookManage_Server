@@ -12,5 +12,8 @@ router.get('/:id/getTimeRead', AuthController.getTimeRead);
 router.get('/:id/allReadBooks', AuthController.getreadBooks);
 router.get('/:id/getFavoriteBooks', AuthController.getFavoriteBooks);
 router.get('/:id/getReadingBooks', AuthController.getReadingBooks);
+
 router.post('/:id/postIdReadingBooks', AuthController.postIdReadingBooks);
+router.post('/postChapterBought', AuthController.postChapterBought);
+
 module.exports = router;

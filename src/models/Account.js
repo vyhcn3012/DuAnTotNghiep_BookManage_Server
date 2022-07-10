@@ -102,7 +102,12 @@ class Account {
                 'required': false,
             },
             'payBook': {
-                'type': String,
+                'type': [
+                    {
+                        'type': Object,
+                        'required': false
+                    }
+                ],
                 'required': false,
             },
             'timeReadBook':{

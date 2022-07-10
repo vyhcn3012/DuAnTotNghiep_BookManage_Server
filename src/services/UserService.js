@@ -113,6 +113,22 @@ class UserService extends Service{
             throw errors;
         }
     }
+
+    async postChapterBought(idUser, idChapter){
+        try{
+            let account = await this.model.findByIdAndUpdate(idUser, {$push: {payBook: {idChapter}}});
+            if(!account){
+                throw new Error('Tài khoản không tìm thấy');
+            }
+            if (account) {
+                return new HttpResponse(account);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        }catch(e){
+            throw e;
+        }
+    }
+
     async postIdReadingBooks(id,idBook) {
         try {
             const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
@@ -122,9 +138,21 @@ class UserService extends Service{
                 error.statusCode = 404;
                 throw error;
             }
-         
-            console.log(book);
             return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
+    async findInfoById(_id){
+        try {
+            const account = await this.model.findById(_id);
+            if (!account) {
+                const error = new Error('Không tìm thấy tài khoản này');
+                error.statusCode = 404;
+                throw error;
+            }
+            return new HttpResponse( account);
         } catch (errors) {
             throw errors;
         }
@@ -145,7 +173,6 @@ class UserService extends Service{
                 bookmark, wallet, favoritebooks 
             }
         if (account) {
-            //console.log("===> user", user);
             return new HttpResponse(account);
         }
         throw new Error('Có lỗi, bạn có thể thử lại sau');

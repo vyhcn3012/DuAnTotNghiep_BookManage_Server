@@ -2,7 +2,7 @@ const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { Community } = require('../models/Community');
 const { CommunityService } = require('../services/CommunityService');
-
+const { Server } = require('socket.io');
 const communityService = new CommunityService(new Community().getInstance());
 
 class CommunityController extends Controller {
@@ -13,7 +13,7 @@ class CommunityController extends Controller {
     }
 
 
-    async getAllCommunity(req, res, next) {
+    async getAllCommunity(req, res, next) {a
         try {
             const sortBy= {"numMember":-1};
             const response = await this.service.getAll({ limit: 1000,sortBy:sortBy });
