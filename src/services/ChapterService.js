@@ -13,7 +13,8 @@ class ChapterService extends Service{
 
     async getChapterBook(_id) {
         try{
-            const chapter = await this.model.find({"book.idBook": _id});
+            const chapter = await this.model.find({"idBook": _id});
+            // const chapter = await this.model.find({"book.idBook": _id});
             if(!chapter){
                 const error = new Error("Không tìm thấy chương này");
                 error.statusCode = 404;

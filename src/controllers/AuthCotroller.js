@@ -110,7 +110,7 @@ class AuthCotroller {
     }
     async postIdReadingBooks(req, res, next) {
         try {
-            const { id } = req.params;
+            const { id } = req.body;
             const { idBook } = req.body;
             const response = await userService.postIdReadingBooks(id,idBook);
             await res.status(response.statusCode).json(response);
@@ -138,6 +138,19 @@ class AuthCotroller {
         }
     }
 
+    async  postFavoriteBooks(req, res, next) {
+        try {
+            const { id } = req.body;
+            const { idBook } = req.body;
+            const response = await userService.postFavoriteBooks(id,idBook);
+            await res.status(response.statusCode).json(response);
+        
+        } catch (errors) {
+            throw errors;
+        }
+    }
+   
+    
 
     async logout(req, res, next) {
         try {
