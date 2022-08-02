@@ -15,14 +15,6 @@ module.exports.getConfig = () => {
         'GOOGLE_SCOPE': ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email',],
         'EMAIL_GOOGLE_TESTING': 'book.world.duan1@gmail.com',
         'GMAIL_MAIL_DOMAIN': '@gmail.com',
-        'USER_ROLE': {
-            'ADMIN': 32,
-            'GENERAL_DIRECTOR': 16,
-            'UNIT_DIRECTOR': 8,
-            'MANAGER': 4,
-            'EMPLOYEE': 2,
-            'STUDENT': 1
-        },
         'USER_BOOK_STATUS': {
             'REGISTER': 1,
         },

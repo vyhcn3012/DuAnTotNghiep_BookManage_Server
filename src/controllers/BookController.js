@@ -94,7 +94,6 @@ class BookController extends Controller{
     async insertComment(req, res, next) {
         try {
             const { post, userName, image, id, idChapter} = req.body;
-            //console.log("=====> 39 ", req.body);
 
             const data = {
                 id: id,

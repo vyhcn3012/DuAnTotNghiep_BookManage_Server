@@ -103,7 +103,6 @@ class AuthCotroller {
             const { id } = req.params;
             const response = await userService.getReadingBooks(id);
             await res.status(response.statusCode).json(response);
-        
         } catch (errors) {
             throw errors;
         }
