@@ -150,7 +150,7 @@ class UserService extends Service{
     async postIdReadingBooks(id,idBook) {
         try {
             const check=await this.model.find({'historyBookRead.idBook':idBook});
-            if (!check) {
+            if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
                 console.log(book);
                 return new HttpResponse( book);

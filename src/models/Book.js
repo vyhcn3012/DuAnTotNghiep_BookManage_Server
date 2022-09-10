@@ -16,6 +16,7 @@ class Book {
                     '_id': {
                         'type': Schema.Types.ObjectId,
                         'required': false,
+                        'ref':'account'
                     },
                     'permission': {
                         'type': Number,
@@ -23,7 +24,7 @@ class Book {
                     },
                 }],
                 'required': false,
-                'ref':'account'
+                
             },
             'releasedDate': {
                 'type': Date,
@@ -34,6 +35,10 @@ class Book {
                 'required': false,
             },
             'image': {
+                'type': String,
+                'required': false,
+            },
+            'imageAuthor': {
                 'type': String,
                 'required': false,
             },

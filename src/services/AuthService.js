@@ -32,7 +32,7 @@ class AuthService {
                 account = await this.register(data);
             }
 
-            console.log("=====>", account.fcmtokens);
+            // console.log("=====>", account.fcmtokens);
             
             if(token_fcm) {
                 let checkFCM = account.fcmtokens.filter(i => i == token_fcm)[0];

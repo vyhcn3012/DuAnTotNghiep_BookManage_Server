@@ -268,13 +268,14 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Bordered table</h4>
-                    <p class="card-description"> Add class <code>.table-bordered</code>
-                    </p>
+                   <div class="row">
+                        <div class="col-md-12">
+                          <a class="btnThem" href="/dich-vu-sinh-vien/chuyen-nganh-hoc/them-moi">Thêm mới</a>
+                        </div>
+                      </div>
                     <table  class="table datatable">
                         <thead>
                           <tr>
-                            
-                            <th scope="col">categoryId</th>
                             {{!-- <th scope="col">account</th> --}}
                             {{!-- <th scope="col">releasedDate</th> --}}
                             <th scope="col">name</th>
@@ -291,8 +292,6 @@
                           
                             {{#each datas }}
                             <tr>
-                                <td>{{this.categoryId}}</td>
-                            
                                 {{!-- <td>{{this.account}}</td> --}}
                                 {{!-- <td>{{this.releasedDate}}</td> --}}
                                 <td>{{this.name}}</td>
@@ -327,11 +326,9 @@
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
           <div class="container-fluid d-flex justify-content-between">
-            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com
-              2021</span>
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block"></span>
             <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
-                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
-                template</a> from Bootstrapdash.com</span>
+                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank"></span>
           </div>
         </footer>
         <!-- partial -->

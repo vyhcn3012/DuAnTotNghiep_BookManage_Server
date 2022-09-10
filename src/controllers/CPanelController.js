@@ -83,7 +83,7 @@ auth(req, res, next) {
               expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),
               httpOnly: true,
             });
-            res.redirect('/cpanel/home');
+            res.redirect('/cpanel/books/allBook');
           }
         });
       }
