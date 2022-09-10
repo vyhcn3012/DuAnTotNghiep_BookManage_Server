@@ -38,6 +38,10 @@ class Book {
                 'type': String,
                 'required': false,
             },
+            'imageAuthor': {
+                'type': String,
+                'required': false,
+            },
             'introduction': {
                 'type': String,
                 'required': false,
