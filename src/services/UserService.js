@@ -80,7 +80,7 @@ class UserService extends Service{
             .populate({
                 path: 'favoriteBooks',
                 populate: {
-                    path: '_id',
+                    path: 'idBook',
                 }   
             })
             if (!book) {
