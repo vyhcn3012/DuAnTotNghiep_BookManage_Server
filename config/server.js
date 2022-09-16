@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const hbs = require('hbs');
 const helmet = require('helmet'),
     server = express();
@@ -21,7 +22,7 @@ server.use(cors(corsOptions));
 server.set('views', path.join(__dirname, '../src/views'));
 server.set('view engine', 'hbs');
 server.use(express.static(path.join(__dirname, '../public')));
-
+server.use(cookieParser());
 setRoutes(server);
 
 process.on('uncaughtException', function (exception) {

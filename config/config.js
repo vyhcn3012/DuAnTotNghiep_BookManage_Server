@@ -18,6 +18,13 @@ module.exports.getConfig = () => {
         'USER_BOOK_STATUS': {
             'REGISTER': 1,
         },
+        'ROLE_USER': {
+            'USER': 1,
+            'AUTHOR': 2,
+            'MANAGER': 10,
+            'ADMIN': 99,
+            'SUPER_ADMIN': 100,
+        },
 
     }
 
