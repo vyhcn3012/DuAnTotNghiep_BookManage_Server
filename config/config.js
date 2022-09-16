@@ -25,7 +25,11 @@ module.exports.getConfig = () => {
             'ADMIN': 99,
             'SUPER_ADMIN': 100,
         },
-
+        'AUTHOR_ACCOUNT_STATUS': {
+            'CLOSE': 1, // Tài khoản user
+            'PENDING': 2, // Tài khoản đang chờ duyệt
+            'ACTIVE': 3, // Tài khoản đã được duyệt
+        },
     }
 
     // Modify for Production

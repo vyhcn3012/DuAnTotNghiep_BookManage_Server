@@ -70,7 +70,7 @@ class Account {
             'role':{
                 'type': Number,
                 'required': true,
-                default: 1
+                'default': 1
             },
             'aboutAuthor':{
                 'type': String,
@@ -105,6 +105,11 @@ class Account {
                     },
                 }],
                 'required': false,
+            },
+            'authorAcess':{
+                'type': Number,
+                'required': false,
+                default: 1
             },
             'payBook': {
                 'type': [
