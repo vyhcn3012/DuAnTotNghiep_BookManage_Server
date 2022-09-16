@@ -25,7 +25,7 @@ class AuthCotroller {
             const check_email = config.EMAIL_GOOGLE_TESTING;
             const body = {
                 email: email,
-                //role: config.USER_ROLE.EMPLOYEE,
+                role: config.USER_ROLE.USER,
                 name: name,
                 image: picture,
                 phone: " ",
@@ -40,20 +40,6 @@ class AuthCotroller {
             await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
-            next(e);
-        }
-    }
-
-    async checkLogin(req, res, next) {
-        try {
-            const token = this.extractToken(req);
-
-            req.account = await this.service.checkLogin(token);
-
-            req.authorized = true;
-            req.token = token;
-            next();
-        } catch (e) {
             next(e);
         }
     }
@@ -103,7 +89,6 @@ class AuthCotroller {
             const { id } = req.params;
             const response = await userService.getReadingBooks(id);
             await res.status(response.statusCode).json(response);
-        
         } catch (errors) {
             throw errors;
         }
@@ -165,6 +150,21 @@ class AuthCotroller {
         }
     }
 
+    async checkLogin( req, res, next ) {
+        try {
+            const token = this.extractToken( req );
+            console.log("token", token);
+            const response = await this.service.checkLogin( token );
+            console.log("response", response);
+            req.account = response;
+            req.authorized = true;
+            req.token = token;
+            next();
+        } catch ( e ) {
+            next( e );
+        }
+    }
+
     extractToken(req) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             return req.headers.authorization.split(' ')[1];
@@ -174,16 +174,6 @@ class AuthCotroller {
             return req.cookies.token;
         }
         return null;
-    }
-
-    test(req, res, next) {
-        try {
-            // const response = await this.service.login( req.body.email, req.body.password );
-
-            res.render('auth/login');
-        } catch (e) {
-            console.log(e);
-        }
     }
 }
 

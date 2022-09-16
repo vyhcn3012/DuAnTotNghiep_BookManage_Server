@@ -7,4 +7,5 @@ router.get('/', (req, res) => {
     res.send('Welcome to the categories')
 });
 router.post('/postComment',CommentController.postComment);
+
 module.exports = router;

@@ -72,8 +72,6 @@ class AuthService {
     }
 
     async logout(token, fcmtoken, account) {
-        console.log("===> logout", token, fcmtoken, account);
-        console.log("====> account", account.fcmtokens);
         try {
             await this.model.deleteOne({ token });
             account.fcmtokens = account.fcmtokens?.filter(item => item != fcmtoken);
@@ -84,38 +82,41 @@ class AuthService {
         }
     }
 
-    async checkLogin(token) {
+    async checkLogin( token ) {
         try {
             // Check if the token is in the Database
-            const tokenInDB = await this.model.countDocuments({ token });
-            if (!tokenInDB) {
-                const error = new Error('Token không đúng');
+            const tokenInDB = await this.model.countDocuments( { token } );
+            console.log('tokendb',token)
+            if ( !tokenInDB ) {
+                const error = new Error( 'Invalid Token' );
 
                 error.statusCode = 401;
                 throw error;
             }
             // Check the token is a valid JWT
-            const account = await this.model.decodeToken(token);
-            if (!account) {
-                const error = new Error('Token không đúng');
+            const user = await this.model.decodeToken( token );
+            console.log('user',user)
+
+            if ( !user ) {
+                const error = new Error( 'Invalid Token' );
 
                 error.statusCode = 401;
                 throw error;
             }
-            
             // Check the Extracted user is active in DB
-            let userFromDb = await this.userService.findInfoByEmail(account.email);
-            
-            if (userFromDb.data) {
+            const userFromDb = await this.userService.get( user._id );
+            // console.log('userFromDb',userFromDb)
+
+            if ( userFromDb.data ) {
                 return userFromDb.data;
             }
-            const error = new Error('Token không đúng');
+            const error = new Error( 'Invalid Token' );
 
             error.statusCode = 401;
             throw error;
-
-        } catch (e) {
-            const error = new Error('Token không đúng');
+            
+        } catch ( e ) {
+            const error = new Error( 'Invalid Token' );
 
             error.statusCode = 401;
             throw error;

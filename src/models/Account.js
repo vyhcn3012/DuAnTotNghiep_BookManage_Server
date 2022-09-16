@@ -67,6 +67,11 @@ class Account {
                 'type': String,
                 'required': false,
             },
+            'role':{
+                'type': Number,
+                'required': true,
+                'default': 1
+            },
             'aboutAuthor':{
                 'type': String,
                 'required': false,
@@ -100,6 +105,11 @@ class Account {
                     },
                 }],
                 'required': false,
+            },
+            'authorAcess':{
+                'type': Number,
+                'required': false,
+                default: 1
             },
             'payBook': {
                 'type': [

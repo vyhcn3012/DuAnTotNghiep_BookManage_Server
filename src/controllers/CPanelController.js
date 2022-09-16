@@ -31,7 +31,6 @@ auth(req, res, next) {
       console.log(req.cookies.token);
       return;
     }
-    const { campus_code } = req.body;
     const oauth2Client = new OAuth2(
       config.GOOGLE_CLIENT_ID,
       config.GOOGLE_CLIENT_SECRET,
@@ -42,7 +41,7 @@ auth(req, res, next) {
       scope: config.GOOGLE_SCOPE,
       prompt: "consent",
     });
-    res.cookie("campus_code", campus_code);
+
     res.redirect(authLink);
   }
 
@@ -68,17 +67,14 @@ auth(req, res, next) {
             console.log("idToken ", token.id_token);
             const body = {
               email: email,
-              //role: config.USER_ROLE.EMPLOYEE,
               name: name,
               image: picture,
               phone: " ",
-              permission: "author",
               bookmark: "",
               wallet: 0,
               favoritebooks: "",
             };
             const account = await authService.login(body);
-            // console.log(user)
             res.cookie("token", account.data.token, {
               expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),
               httpOnly: true,

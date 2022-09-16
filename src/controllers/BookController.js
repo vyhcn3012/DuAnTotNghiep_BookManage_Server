@@ -53,12 +53,12 @@ class BookController extends Controller{
         try {
             const { name } = req.params;
             const response = await this.service.getAll({limit:1000,name:name});
-            console.log(name);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
         }
     }
+
     async getBookByIdAuthor(req, res, next) {
         try {
             const { id } = req.params;
@@ -94,7 +94,6 @@ class BookController extends Controller{
     async insertComment(req, res, next) {
         try {
             const { post, userName, image, id, idChapter} = req.body;
-            //console.log("=====> 39 ", req.body);
 
             const data = {
                 id: id,
