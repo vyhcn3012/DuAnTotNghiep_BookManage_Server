@@ -1,5 +1,4 @@
  <body>
-
     <div class="az-header">
       <div class="container">
         <div class="az-header-left">
@@ -116,7 +115,6 @@
         </div><!-- az-header-right -->
       </div><!-- container -->
     </div><!-- az-header -->
-
     <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
       <div class="container">
         <div class="az-content-left az-content-left-components">
@@ -135,13 +133,11 @@
             <nav class="nav flex-column">
               <a href="chart-chartjs.html" class="nav-link">ChartJS</a>
             </nav>
-
             <label>Tables</label>
             <nav class="nav flex-column">
               <a href="table-basic.html" class="nav-link active">Basic Tables</a>
             </nav>
           </div><!-- component-item -->
-
         </div><!-- az-content-left -->
          <div class="az-content-body pd-lg-l-40 d-flex flex-column">
           <div class="az-content-breadcrumb">
@@ -150,8 +146,6 @@
             <span>Form Elements</span>
           </div>
           <h2 class="az-content-title">Form Elements</h2>
-
-        
           <div class="row row-sm">
             <div class="col-lg-4">
               <div class="input-group mb-3">
@@ -162,7 +156,6 @@
               </div><!-- input-group -->
             </div><!-- col -->
           </div><!-- row -->
-
           <div class="row row-sm">
             <div class="col-lg-4">
               <div class="input-group mb-3">
@@ -173,7 +166,6 @@
               </div><!-- input-group -->
             </div><!-- col -->  
           </div><!-- row -->
-
           <div class="row row-sm">
             <div class="col-lg-4">
               <div class="input-group mb-3">
@@ -187,16 +179,11 @@
                                 id="image-view" />
                 <label id="textWAIT" style="font-size: 13px;" class="control-label"></label>
             </div><!-- col -->
-          </div><!-- row -->
-        
+          </div><!-- row -->  
           <button style=" font-size: 16px; padding: 8px 20px;height:100px;width:100px;" onclick="onSave()" id="buttonSave"
                                 type="button" class="btn btn-primary">Lưu</button>
           <hr class="mg-y-30">
-
-
           <div class="ht-40"></div>
-
-
           <div class="az-footer mg-t-auto">
             <div class="container">
               <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
@@ -210,36 +197,26 @@
 
   <script>
      let linkHinh = ""; 
-       const tentheloai = document.getElementById('tentheloai'); 
-       const mota = document.getElementById('mota'); 
-   
+     let file="";
+     const tentheloai = document.getElementById('tentheloai'); 
+     const mota = document.getElementById('mota'); 
+     const textWAIT =document.getElementById('textWAIT'); 
     const fetchAPI = async (url, option) => {
       const res = await fetch(url, option);
       return res.json();
     }
     const onChangeFile = async () => {
                   const imagefile = document.getElementById('image-file'); 
-                  let file = imagefile.files[0]; 
+                  file = imagefile.files[0]; 
                   const reader = new FileReader(); 
                   reader.onload = e => {
                        document.getElementById('image-view').src = e.target.result;
                       document.getElementById('image-view').style.display = 'block';
                   }
-                  reader.readAsDataURL(file); 
-                  var fd = new FormData();
-                  fd.append("file", file); 
-                  const url = `/api/media/uploadImage`; 
-
-                  const option = { method: 'post', body: fd } 
-                          try {
-                              textWAIT.innerHTML="Đang tải hình lên...";
-                              const result = await fetchAPI(url, option);                           
-                              linkHinh =result.url; 
-                              textWAIT.innerHTML="Đã tải xong";
-                              return linkHinh;
-                            } catch (e) { console.log(e); }
+                  reader.readAsDataURL(file);               
             }
     const onSave = async () => {
+                  await upImageCloud();
                   const url = `/api/categories/insertCategory`; 
                   const body = {
                          tentheloai: tentheloai.value,
@@ -252,13 +229,26 @@
                          body: JSON.stringify(body)
                   } 
                    try {
-                       
+                        
                         const result = await fetchAPI(url, option);
-                        window.location.href = '/cpanel/home/trangchu';
+                        window.location.href = '/cpanel/categories/getAllCategories';
                        } catch (e) {
                           console.log(e);
                        }
              }  
+    const upImageCloud = async () =>{
+         var fd = new FormData();
+         fd.append("file", file); 
+         const url = `/api/media/uploadImage`; 
+         const option = { method: 'post', body: fd } 
+            try {
+                textWAIT.innerHTML="Đang tải hình lên...";
+                const result = await fetchAPI(url, option);                           
+                linkHinh =result.url; 
+                textWAIT.innerHTML="Đã tải xong";
+                return linkHinh;
+                } catch (e) { console.log(e); }
+    }
 
   </script>
   </body>

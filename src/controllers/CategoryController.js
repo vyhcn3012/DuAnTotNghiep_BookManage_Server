@@ -32,14 +32,11 @@ class CategoryController extends Controller {
         
     }
     async insertCategories_Cpanel(req, res, next){
-       
-        res.render('category/insert');
-        
+        res.render('category/insert');     
     }
     async insertCategory(req, res, next) {
         try {
             const {body} = req;
-           
             const response = await this.service.insertCategory(body);
             return res.status(response.statusCode).json(response);
         } catch (e) {

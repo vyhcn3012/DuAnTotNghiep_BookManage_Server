@@ -42,16 +42,14 @@ class CategoryService extends Service{
         try {
             const {tentheloai,hinhAnh,moTa} = body;
             const data = {
-                tentheloai, 
-                hinhAnh,
-                moTa ,
-            }
+                name:tentheloai, 
+                image:hinhAnh,
+                description:moTa,
+            }       
            
             const item = await this.model.create( data );
-            return new HttpResponse( item );
-            
-            
-            
+            console.log(item);
+            return new HttpResponse( item );          
         } catch ( error ) {
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
         }
