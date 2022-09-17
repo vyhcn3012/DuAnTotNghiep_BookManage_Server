@@ -1,0 +1,24 @@
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<body>
+     <div id="editor"></div>
+        <button id="buttonSave" onclick="onSave()" type="button"
+        class="btn btn-primary">Lưu</button>
+</body>
+<script>
+    let editorinstance;
+
+    $(document).ready(function () {
+    // CKEDITORs 
+        var myeditor = ClassicEditor.create(document.querySelector('#editor'))
+        .then
+        (editor => { editorinstance =editor;})
+        .catch(error => { 
+            console.error(error); 
+        }); 
+    }); 
+    const onSave = async => {
+        const htmlChapter = document.getElementById('editor').value;
+        const data = editorinstance.getData(); 
+        console.log(data);
+    }
+</script>
