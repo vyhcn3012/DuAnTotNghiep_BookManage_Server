@@ -74,6 +74,58 @@ class UserService extends Service{
             throw errors;
         }
     }
+    async findauthorAcess(authorAcess) {
+        try {
+            const author = await this.model.find({'authorAcess': authorAcess})  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async agreeAccess(id) {
+        try {
+            const data={
+                role: config.ROLE_USER.AUTHOR,
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.ACTIVE,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async refuseAccess(id) {
+        try {
+            const data={
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.CLOSE,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
     async getFavoriteBooks(id) {
         try {
             const book = await this.model.find({'_id':id},{_id:0,favoritebooks:1})

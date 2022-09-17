@@ -175,6 +175,48 @@ class AuthCotroller {
         }
         return null;
     }
+
+    async indexUser_Cpanel(req, res, next) {
+        try {
+            const {id}=req.params;
+          
+            if(id==1){
+                const response = await userService.getAll({limit:1000});
+            
+                res.render("user/index",{data:response.data,idData:JSON.stringify(id)});
+            }else if(id==2){
+                const response = await userService.findauthorAcess(id);
+                res.render("user/indexAccess",{data:response.data,idUser:JSON.stringify(response.data),idData:JSON.stringify(id)});
+            }
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async agreeAccess(req, res, next) {
+        try {
+               const {idUser}=req.body;       
+               const response = await userService.agreeAccess(idUser);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async refuseAccess(req, res, next) {
+        try {
+               const {idUser}=req.body;       
+               const response = await userService.refuseAccess(idUser);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      
 }
 
 module.exports = new AuthCotroller(authService);
