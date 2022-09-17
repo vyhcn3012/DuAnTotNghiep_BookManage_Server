@@ -36,7 +36,6 @@ class AuthCotroller {
                 token_fcm: token_fcm
             }
             const response = await authService.login(body);
-            console.log("body", response);
             await res.status(response.statusCode).json(response);
         }catch(e) {
             console.log('>>>>>>132 login error: ' + e);
