@@ -25,6 +25,4 @@ server.listen(PORT).on('error', (err) => {
     console.log('✔ Application Started');
 });
 
-// socket.io.attach(server);
-
 module.exports = { server };

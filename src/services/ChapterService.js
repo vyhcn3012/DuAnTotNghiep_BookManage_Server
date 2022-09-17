@@ -24,6 +24,19 @@ class ChapterService extends Service{
             throw errors;
         }
     }
+
+    async insertChapterBook(body){
+        try {
+            const item = await this.model.create(body);
+              if (item) {
+                  return new HttpResponse(item);
+              }
+              throw new Error('Có lỗi, bạn có thể thử lại sau');
+          
+        } catch (error) {
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
 }
 
 module.exports = { ChapterService };

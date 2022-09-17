@@ -57,6 +57,15 @@ class CategoryService extends Service{
         }
     }
 
+    async getAll() {
+        try {
+            const category = await this.model.find({});
+            return category;
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
  
 }
 

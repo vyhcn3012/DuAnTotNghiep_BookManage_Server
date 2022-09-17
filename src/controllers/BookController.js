@@ -2,9 +2,10 @@ const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { Book } = require('../models/Book');
 const { Chapter } = require('../models/Chapter');
+const { Category } = require('../models/Category');
 const { Comment } = require('../models/Comment');
 const { BookService } = require('../services/BookService');
-const CategoryController = require('./CategoryController');
+const {CategoryService} = require('../services/CategoryService');
 const {AuthService} = require('../services/AuthService');
 const {ChapterService} = require('../services/ChapterService');
 const {CommentService} = require('../services/CommentService');
@@ -12,7 +13,7 @@ const {CommentService} = require('../services/CommentService');
 const chapterService = new ChapterService(new Chapter().getInstance());
 const commentService = new CommentService(new Comment().getInstance());
 const bookService = new BookService(new Book().getInstance());
-
+const categoryService = new CategoryService(new Category().getInstance());
 
 class BookController extends Controller{
     constructor(service) {
@@ -59,6 +60,27 @@ class BookController extends Controller{
         }
     }
 
+    async insertBook(req, res, next) {
+        try {
+            const { body } = req;
+            const { _id } = req.account;
+            let { image, name, categoryId, introduction, isPrice} = body;
+            const data = {
+                image: image,
+                name: name,
+                categoryId: categoryId,
+                introduction: introduction,
+                isPrice: isPrice,
+                account: _id,
+                releasedDate: new Date(),
+            }
+            const response = await this.service.createBook(data);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+    
     async getBookByIdAuthor(req, res, next) {
         try {
             const { id } = req.params;
@@ -126,24 +148,11 @@ class BookController extends Controller{
       
         res.render('book/updatebook', {datas:byIdBook,categories:categories});
     }
+
     async cpanel_insertBook(req, res, next) {
         try {
-            // if (req.cookies && req.cookies.token) {
-            //     console.log(req.cookies.token)
-            //     res.redirect('/cpanel/events');
-            //     return;
-            // }
-                let data = {
-                    name: "name",
-                    permission: false,
-                    image:"sdada",
-                    description:"sdasda",
-                    linkPage:"hihi",
-                    linkSound:"sound",
-                }
-                const response = await this.service.insert( data );
-                // console.log(response);
-                await res.status( 200 ).json( response );    
+            const categories= await categoryService.getAll();
+            return res.render('author/insertBook', {categories:categories});  
         } catch (e) {
             console.log(e);
         }

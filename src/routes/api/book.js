@@ -19,4 +19,6 @@ router.get('/:name/getBookByName', bookController.searchBook);
 router.get('/:id/getChapterBook', bookController.getChapterBook);
 router.get('/:id/getCommentChapter', bookController.getCommentChapters);
 
+router.post('/insertBook', AuthController.checkLogin, bookController.insertBook);
+
 module.exports = router;

@@ -33,7 +33,7 @@ class Chapter {
             },
             'idComment': {
                 'type': Schema.Types.ObjectId,
-                'required': true,
+                'required': false,
                 'ref': 'comment'
             },
             'permission': {
