@@ -62,6 +62,6 @@ router.use((err, req, res, next) => {
     // next();
     res.clearCookie('token');
     console.log('>>>>>>>> server error: ', err.message);
-    res.redirect('');
+    res.redirect('/auth');
 });
 module.exports = router;
