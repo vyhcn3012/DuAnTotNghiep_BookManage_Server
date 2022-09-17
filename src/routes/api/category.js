@@ -6,4 +6,5 @@ router.get('/', (req, res) => {
     res.send('Welcome to the categories')
 });
 router.get('/getAllCategories',categoryController.getCategories);
+router.post('/insertCategory',categoryController.insertCategory);
 module.exports = router;

@@ -38,6 +38,24 @@ class CategoryService extends Service{
         }
 
     }
+    async insertCategory(body) {
+        try {
+            const {tentheloai,hinhAnh,moTa} = body;
+            const data = {
+                tentheloai, 
+                hinhAnh,
+                moTa ,
+            }
+           
+            const item = await this.model.create( data );
+            return new HttpResponse( item );
+            
+            
+            
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
+        }
+    }
 
  
 }
