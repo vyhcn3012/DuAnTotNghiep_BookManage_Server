@@ -224,6 +224,24 @@ class AuthCotroller {
           console.log(e);
         }
       }
+      async insertNumberphone(req, res, next) {
+        try {
+               const {body}=req;       
+               const response = await userService.insertNumberphone(body);           
+               return res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async loginNumberphone(req, res, next) {
+        try {
+               const {body}=req;       
+               const response = await userService.loginNumberphone(body);           
+               return res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
 
       
 }

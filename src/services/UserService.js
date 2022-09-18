@@ -6,7 +6,7 @@ const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const { UserBookService } = require('./UserBookService');
 const { UserBook } = require('../models/UserBook');
 const userBookService = new UserBookService(new UserBook().getInstance());
-
+const bcrypt=require('bcryptjs');
 const request = require('request');
 
 class UserService extends Service{
@@ -36,6 +36,41 @@ class UserService extends Service{
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             //throw new Error('Có lỗi, bạn có thể thử lại sau', errors);;
+        }
+    }
+    async insertNumberphone(body) {
+        //console.log("===> model", data);
+        try {
+            const {phone,password} = body;
+            const hash=await bcrypt.hash(password, await bcrypt.genSalt(10));
+            const data = {
+                name:"", 
+                email:"",
+                phone:phone,
+                password:hash,
+                permission:"user",
+                wallet:0,
+                role:1,
+                phone:phone,
+            }       
+           
+            const item = await this.model.create( data );
+            return new HttpResponse( item );          
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
+        }
+    }
+    async loginNumberphone(body) {
+        //console.log("===> model", data);
+        try {
+            const {phone,password} = body;
+            const data = await this.model.find({'phone':phone});
+            const checkPassword=await bcrypt.compare(password, data.password);
+            if(checkPassword){
+                return new HttpResponse( data ); 
+            }
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
         }
     }
 
