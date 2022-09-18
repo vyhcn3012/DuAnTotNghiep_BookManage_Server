@@ -18,4 +18,5 @@ router.post('/agreeAccess', AuthController.agreeAccess);
 router.post('/refuseAccess', AuthController.refuseAccess);
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks', AuthController.postFavoriteBooks);
+router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 module.exports = router;

@@ -108,6 +108,22 @@ class UserService extends Service{
             throw errors;
         }
     }
+    async AccessAuthor(id) {
+        try {
+            const data={
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.PENDING,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
     async refuseAccess(id) {
         try {
             const data={

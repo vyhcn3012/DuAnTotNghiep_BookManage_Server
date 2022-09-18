@@ -4,7 +4,7 @@ const AuthCotroller = require('../../controllers/AuthCotroller');
 
 
 router = express.Router()
-router.get('/:id/allUser', AuthCotroller.indexUser_Cpanel);
+router.get('/:id/allUser',AuthCotroller.checkLogin,AuthCotroller.indexUser_Cpanel);
 
 
 module.exports = router

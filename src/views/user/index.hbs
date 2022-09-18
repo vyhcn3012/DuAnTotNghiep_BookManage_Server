@@ -43,6 +43,9 @@
                 </div><!-- container -->
               </div>
             </li>
+            <li class="nav-item">
+              <a class="nav-link"><i class="typcn typcn-chart-bar-outline"></i><button onclick="onWaitAccessAuthor()">Xin quyền làm tác giả</button></a>
+            </li>
           </ul>
         </div><!-- az-header-menu -->
         <div class="az-header-right">
@@ -172,7 +175,7 @@
                 {{#each data}}
                 <tr>
                   <th scope="row">1</th>                  
-                  <td> <img src="{{this.image}}"></td>
+                  <td> <img style="height:100px ; width:100px;" src="{{this.image}}"></td>
                   <td>{{this.name}}</td>
                   <td>{{this.email}}</td>
                 </tr>
@@ -226,5 +229,21 @@
      const onGetUserAccess = async (id) => {
       window.location.href = `/cpanel/users/${id}/allUser`
     }
+     const onWaitAccessAuthor = async () => {
+                  const url = `/api/accounts/accessAuthor`; 
+                 
+                  const option = {
+                         method: 'post', 
+                         headers: {'Content-Type':'application/json'}, 
+                       
+                  } 
+                   try {
+                       
+                        const result = await fetchAPI(url, option);
+                        window.location.href = '/cpanel/users/1/allUser';
+                       } catch (e) {
+                          console.log(e);
+                       }
+      }
   </script>
   </body>

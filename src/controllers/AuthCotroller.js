@@ -152,9 +152,7 @@ class AuthCotroller {
     async checkLogin( req, res, next ) {
         try {
             const token = this.extractToken( req );
-            console.log("token", token);
             const response = await this.service.checkLogin( token );
-            console.log("response", response);
             req.account = response;
             req.authorized = true;
             req.token = token;
@@ -196,6 +194,18 @@ class AuthCotroller {
         try {
                const {idUser}=req.body;       
                const response = await userService.agreeAccess(idUser);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async AccessAuthor(req, res, next) {
+        try {
+               const {_id}=req.account;
+               console.log(req.account);       
+               const response = await userService.AccessAuthor(_id);           
                return res.status(response.statusCode).json(response);
            
        
