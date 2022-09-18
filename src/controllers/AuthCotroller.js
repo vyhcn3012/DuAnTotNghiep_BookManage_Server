@@ -83,6 +83,7 @@ class AuthCotroller {
             throw errors;
         }
     }
+
     async getReadingBooks(req, res, next) {
         try {
             const { id } = req.params;
@@ -124,18 +125,25 @@ class AuthCotroller {
         }
     }
 
-    async  postFavoriteBooks(req, res, next) {
+    async postFavoriteBooks(req, res, next) {
         try {
             const { id, idBook } = req.body;
             const response = await userService.postFavoriteBooks(id,idBook);
             await res.status(response.statusCode).json(response);
-        
-        } catch (errors) {
-            throw errors;
+        } catch (e) {
+            next(e);
         }
     }
    
-    
+    async postFollowBooks(req, res, next) {
+        try {
+            const { id, idBook } = req.body;
+            const response = await userService.postFollowBooks(id,idBook);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
 
     async logout(req, res, next) {
         try {

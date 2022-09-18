@@ -17,4 +17,5 @@ router.post('/postChapterBought', AuthController.postChapterBought);
 
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks', AuthController.postFavoriteBooks);
+router.post('/postFollowBooks', AuthController.postFollowBooks);
 module.exports = router;

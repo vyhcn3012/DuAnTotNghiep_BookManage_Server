@@ -109,6 +109,22 @@ class UserService extends Service{
             throw errors;
         }
     }
+
+    async postFollowBooks(id,idBook) {
+        try {
+            const check = await this.model.find({'followBooks.idBook':idBook});
+            
+            if (check.length === 0) {
+                const book = await this.model.findByIdAndUpdate(id, {$push: {followBooks: {idBook}}});
+                
+                return new HttpResponse( book);
+            }
+            throw new Error('Đã theo dõi');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async getReadingBooks(id) {
         try {
             const book = await this.model.find({'_id':id},{_id:0,historyBookRead:1})

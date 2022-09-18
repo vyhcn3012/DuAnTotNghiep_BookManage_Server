@@ -45,6 +45,16 @@ class Account {
                 'type': [{
                     'idBook': {
                         'type': Schema.Types.ObjectId,
+                        'required': false,
+                        'ref':'book'
+                    },
+                }],
+                'required': false,
+            },
+            'followBooks': {
+                'type': [{
+                    'idBook': {
+                        'type': Schema.Types.ObjectId,
                         'required': true,
                         'ref':'book'
                     },
