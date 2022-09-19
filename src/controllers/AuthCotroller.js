@@ -6,6 +6,7 @@ const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
+const bcrypt=require('bcryptjs');
 const { OAuth2Client } = require("google-auth-library"),
   client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -235,9 +236,14 @@ class AuthCotroller {
       }
       async loginNumberphone(req, res, next) {
         try {
-               const {body}=req;       
-               const response = await userService.loginNumberphone(body);           
-               return res.status(response.statusCode).json(response);
+               const {body}=req;  
+               const {passwordUser}=req.body;   
+               const response = await authService.loginNumberphone(body);  
+               const checkPassword=await bcrypt.compare(passwordUser, response.data.account.passwordUser);
+               if(checkPassword){
+                return res.status(response.statusCode).json(response);
+               }
+              
         } catch (e) {
           console.log(e);
         }

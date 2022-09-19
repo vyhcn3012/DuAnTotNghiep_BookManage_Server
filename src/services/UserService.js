@@ -39,36 +39,34 @@ class UserService extends Service{
         }
     }
     async insertNumberphone(body) {
-        //console.log("===> model", data);
         try {
-            const {phone,password} = body;
-            const hash=await bcrypt.hash(password, await bcrypt.genSalt(10));
+            const {phoneUser,passwordUser} = body;
+            const phone = await this.model.findOne({'phone':phoneUser});
+            if(phone){
+                const error = new Error('Số điện thoại này đã đăng ký rồi');
+                error.statusCode = 404;
+                throw error;
+            } 
+            const hash= await bcrypt.hash(passwordUser, await bcrypt.genSalt(10));
             const data = {
-                name:"", 
-                email:"",
-                phone:phone,
-                password:hash,
+                name:" ", 
+                email:" ",
+                phone:phoneUser,
+                passwordUser:hash,
                 permission:"user",
                 wallet:0,
-                role:1,
-                phone:phone,
             }       
-           
             const item = await this.model.create( data );
-            return new HttpResponse( item );          
+            return new HttpResponse( item );       
         } catch ( error ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
+            throw error;
         }
     }
     async loginNumberphone(body) {
-        //console.log("===> model", data);
         try {
-            const {phone,password} = body;
-            const data = await this.model.find({'phone':phone});
-            const checkPassword=await bcrypt.compare(password, data.password);
-            if(checkPassword){
-                return new HttpResponse( data ); 
-            }
+            const {phoneUser} = body;
+            const data = await this.model.findOne({'phone':phoneUser}); 
+            return new HttpResponse( data );   
         } catch ( error ) {
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
         }
