@@ -42,16 +42,21 @@ class ChapterController extends Controller{
             }
             const chapter = await chapterService.insertChapterBook(data);
 
-            const dataNotificastion = {
-                book: idBook,
-                chapter: chapter.data._id,
-                content: "Tác giả mà bạn theo dõi đã thêm chương mới",
-                createdBy: req.account._id,
-                createdAt: new Date(),
-            }
-            const notification = await notificationService.createNotification(dataNotificastion);
+            if(chapter){
+                const dataNotificastion = {
+                    book: idBook,
+                    chapter: chapter.data._id,
+                    content: "Tác giả mà bạn theo dõi đã thêm chương mới",
+                    createdBy: req.account._id,
+                    createdAt: new Date(),
+                }
+                const notification = await notificationService.createNotification(dataNotificastion);
+                
+                if(notification){
+                    const accounts = await userService.insertNotificationToUser(idBook, notification.data._id);
+                }
 
-            const accounts = await userService.insertNotificationToUser(idBook, notification.data._id);
+            }   
             res.status(200).json(chapter);
         } catch (error) {
             next(error);
