@@ -165,7 +165,7 @@ class UserService extends Service{
 
     async postIdReadingBooks(id,idBook) {
         try {
-            const check=await this.model.find({'historyBookRead.idBook':idBook});
+            const check = await this.model.find({'historyBookRead.idBook':idBook});
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
                 console.log(book);
@@ -187,6 +187,22 @@ class UserService extends Service{
             }
             return new HttpResponse( account);
         } catch (errors) {
+            throw errors;
+        }
+    }
+
+    async insertNotificationToUser(){
+        try{
+            //const { book, notification } = body;
+            const account = await this.model.find({});
+            console.log(account);
+            if (!account) {
+                const error = new Error('Không tìm thấy tài khoản này');
+                error.statusCode = 404;
+                throw error;
+            }
+            return new HttpResponse( account);
+        }catch{
             throw errors;
         }
     }
