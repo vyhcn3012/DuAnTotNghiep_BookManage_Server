@@ -51,6 +51,7 @@ class Account {
                 }],
                 'required': false,
             },
+
             'followBooks': {
                 'type': [{
                     'idBook': {
@@ -87,7 +88,11 @@ class Account {
                 'required': false,
             },
             'notification':{
-                'type': String,
+                'type': [{
+                    'type': Schema.Types.ObjectId,
+                    'required': false,
+                    'ref':'notification'
+                }],
                 'required': false,
             },
             'bookmark':{

@@ -99,7 +99,8 @@ class UserService extends Service{
     }
     async postFavoriteBooks(id,idBook) {
         try {   
-            const check=await this.model.find({'favoriteBooks.idBook':idBook});
+            const check = await this.model.find({'favoriteBooks.idBook':idBook});
+            
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {favoriteBooks: {idBook}}});
                 return new HttpResponse( book);
@@ -149,7 +150,7 @@ class UserService extends Service{
 
     async postChapterBought(idUser, idChapter) {
         try{
-            const check=await this.model.find({'payBook.idChapter':idChapter});
+            const check = await this.model.find({'payBook.idChapter':idChapter});
             if (check.length === 0) {
                 let account = await this.model.findByIdAndUpdate(idUser, {$push: {payBook: {idChapter}}});
                 return new HttpResponse(account);
@@ -191,17 +192,16 @@ class UserService extends Service{
         }
     }
 
-    async insertNotificationToUser(){
+    async insertNotificationToUser(book, notification){
         try{
-            //const { book, notification } = body;
-            const account = await this.model.find({});
-            console.log(account);
-            if (!account) {
-                const error = new Error('Không tìm thấy tài khoản này');
-                error.statusCode = 404;
-                throw error;
+            const bookFavorite = await this.model.find({'favoriteBooks.idBook': book});
+            const _id = bookFavorite.map(({ _id }) => _id)
+            const account = await this.model.updateMany({_id: {$in: _id}}, {$push: {notification: notification}});
+            if(!account){
+                throw new Error('Tài khoản không tìm thấy');
             }
-            return new HttpResponse( account);
+
+            return new HttpResponse(account);
         }catch{
             throw errors;
         }

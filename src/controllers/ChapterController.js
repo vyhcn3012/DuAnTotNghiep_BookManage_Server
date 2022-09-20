@@ -4,6 +4,7 @@ const { Book } = require('../models/Book');
 const { Chapter } = require('../models/Chapter');
 const { Category } = require('../models/Category');
 const { Comment } = require('../models/Comment');
+const { Account } = require('../models/Account');
 const { Notification } = require('../models/Notification');
 const { BookService } = require('../services/BookService');
 const {CategoryService} = require('../services/CategoryService');
@@ -11,9 +12,11 @@ const {AuthService} = require('../services/AuthService');
 const {ChapterService} = require('../services/ChapterService');
 const {CommentService} = require('../services/CommentService');
 const { NotificationService } = require('../services/NotificationService');
+const { UserService } = require('../services/UserService');
 
 const { JsonWebTokenError } = require('jsonwebtoken');
 
+const userService = new UserService(new Account().getInstance());
 const notificationService = new NotificationService(new Notification().getInstance());
 const chapterService = new ChapterService(new Chapter().getInstance());
 const commentService = new CommentService(new Comment().getInstance());
@@ -48,23 +51,13 @@ class ChapterController extends Controller{
             }
             const notification = await notificationService.createNotification(dataNotificastion);
 
-            
+            const accounts = await userService.insertNotificationToUser(idBook, notification.data._id);
             res.status(200).json(chapter);
         } catch (error) {
             next(error);
         }
     }
 
-    async createNotificationChapter(req, res, next) {
-        try {
-            const {idBook, idChapter} = req.chapter;
-
-           
-            
-        } catch (error) {
-            next(error);
-        }
-    }
     async cpanel_insertChapterBook(req, res, next) {
         try {
             const {id} = req.params;
