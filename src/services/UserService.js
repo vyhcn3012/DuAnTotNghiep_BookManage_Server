@@ -5,6 +5,10 @@ const config = require('../../config/config').getConfig();
 const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const { UserBookService } = require('./UserBookService');
 const { UserBook } = require('../models/UserBook');
+const { Notification } = require('../models/Notification');
+const { NotificationService } = require('./NotificationService');
+
+const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
 
 const request = require('request');
@@ -196,16 +200,17 @@ class UserService extends Service{
         try{
             const bookFavorite = await this.model.find({'favoriteBooks.idBook': book});
             const _id = bookFavorite.map(({ _id }) => _id)
-            const account = await this.model.updateMany({_id: {$in: _id}}, {$push: {notification: notification}});
-            if(!account){
+            const accounts = await this.model.updateMany({_id: {$in: _id}}, {$push: {notification: notification}});
+            if(!accounts){
                 throw new Error('Tài khoản không tìm thấy');
             }
-
-            return new HttpResponse(account);
+            return new HttpResponse(_id);
         }catch{
             throw errors;
         }
     }
+
+    
 
     async findInfoByEmail(_email){
         try{
@@ -227,6 +232,24 @@ class UserService extends Service{
         throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (e) {
             throw (e);
+        }
+    }
+
+    async findFCMTokenById(_id, notification_id, user_id){
+        try{
+            const id = _id.length;
+            for(let i = 0; i < _id.length; i++){
+                let account = await this.model.findById(_id[i]);
+                if(!account){
+                    throw new Error('Tài khoản không tìm thấy');
+                }
+                const fcm = account.fcmtokens[account.fcmtokens.length - 1];
+                const response = notification.sendFCM(fcm, user_id, notification_id);
+                console.log(response);
+                return new HttpResponse(response);
+            }
+        }catch(e){
+            throw e;
         }
     }
 

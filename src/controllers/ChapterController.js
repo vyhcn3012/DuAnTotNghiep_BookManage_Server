@@ -32,7 +32,8 @@ class ChapterController extends Controller{
     async insertChapterBook(req, res, next) {
         try {
             const {idBook, title, htmlChapter, permission} = req.body;
-            
+            const { _id } = req.account;
+
             const data = {
                 idBook: idBook,
                 title: title,
@@ -47,13 +48,16 @@ class ChapterController extends Controller{
                     book: idBook,
                     chapter: chapter.data._id,
                     content: "Tác giả mà bạn theo dõi đã thêm chương mới",
-                    createdBy: req.account._id,
+                    createdBy: _id,
                     createdAt: new Date(),
                 }
                 const notification = await notificationService.createNotification(dataNotificastion);
                 
                 if(notification){
                     const accounts = await userService.insertNotificationToUser(idBook, notification.data._id);
+                    if(accounts){
+                        const FCM = await userService.findFCMTokenById(accounts.data, notification.data._id, _id);
+                    }
                 }
 
             }   

@@ -71,6 +71,52 @@ class PushNotifier{
               }
             });
       }
+
+      sendNotificationToDevices(data, tokenDevices, body, title){
+        if (!tokenDevices || (tokenDevices && tokenDevices.length == 0)) {
+          return;
+        }
+          let message = {
+              data: data,
+              android:{
+                notification: {
+                  body: body,
+                  title: title
+                }
+              },
+              apns: {
+                headers: {
+                  "apns-priority": "10",
+                  "apns-expiration": "360000",
+                },
+                payload: {
+                  aps: {
+                    alert: {
+                      title: title,
+                      body: body,
+                    },
+                    sound: "default",
+                  },
+                  data: data,
+                },
+              },
+              tokens: [tokenDevices[tokenDevices.length - 1]] // token của thiết bị muốn push notification
+          }
+          console.log(message)
+          this.admin.messaging().sendMulticast(message)
+          .then((response) => {
+              console.log(response)
+              if (response.failureCount > 0) {
+                const failedTokens = [];
+                response.responses.forEach((resp, idx) => {
+                  if (!resp.success) {
+                    failedTokens.push(tokenDevices[idx]);
+                  }
+                });
+                console.log('List of tokens that caused failures: ' + failedTokens);
+              }
+            });
+      }
 }
 
 module.exports = new PushNotifier();
