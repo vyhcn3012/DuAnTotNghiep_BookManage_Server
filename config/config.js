@@ -38,7 +38,7 @@ module.exports.getConfig = () => {
     // Modify for Production
     if (process.env.NODE_ENV === 'production') {
         config.MODE = 'Production';
-        config.HOST = `https://bookofword.herokuapp.com`;
+        config.HOST = `https://bookworlddasboard.herokuapp.com`;
     } else {
         // local
         config.HOST = `http://localhost:${process.env.PORT || 5555}`;
