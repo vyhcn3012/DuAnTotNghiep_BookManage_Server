@@ -64,6 +64,17 @@ class AuthService {
     }
     async loginNumberphone(body){
         try {
+            let response = await this.userService.loginNumberphone(body);
+            let account=response.data;
+            const { token_fcm } = body;
+            if(token_fcm) {
+                let checkFCM = account.fcmtokens.filter(i => i == token_fcm)[0];
+                if (!checkFCM && token_fcm){
+                    account.fcmtokens = [...account.fcmtokens, token_fcm];
+                    account.fcmtokens = account.fcmtokens.slice(Math.max(account.fcmtokens.lenght - 3, 0));
+                    await this.userService.update(account._id, {fcmtokens: account.fcmtokens});
+                }
+            }
             let cacheUser = await this.userService.loginNumberphone(body);
             cacheUser = cacheUser.data;
             const token = await this.model.generateToken(cacheUser);
