@@ -73,7 +73,7 @@ class CPanelController {
                           expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),
                           httpOnly: true,
                         });
-                        res.redirect('/cpanel/books/allBook');
+                        res.redirect('/cpanel/users/1/allUser');
                   
                   }
               });

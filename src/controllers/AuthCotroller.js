@@ -54,6 +54,15 @@ class AuthCotroller {
             // next(e);
         }
     }
+    async getDetailAuthor(req, res, next) {
+        try {
+            const {id}=req.params;
+            const response = await userService.get(id);
+            res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
     async getTimeRead(req, res, next) {
         try {
             const { id } = req.params;
