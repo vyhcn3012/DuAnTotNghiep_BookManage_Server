@@ -244,8 +244,8 @@ class AuthCotroller {
       }
       async loginNumberphone(req, res, next) {
         try {
-               const {body}=req;  
-               const {passwordUser}=req.body;   
+               const {body} = req;  
+               const {passwordUser} = req.body;   
                const response = await authService.loginNumberphone(body);  
                const checkPassword=await bcrypt.compare(passwordUser, response.data.account.passwordUser);
                if(checkPassword){
