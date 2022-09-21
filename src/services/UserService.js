@@ -5,6 +5,10 @@ const config = require('../../config/config').getConfig();
 const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const { UserBookService } = require('./UserBookService');
 const { UserBook } = require('../models/UserBook');
+const { Notification } = require('../models/Notification');
+const { NotificationService } = require('./NotificationService');
+
+const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
 const bcrypt=require('bcryptjs');
 const request = require('request');
@@ -200,7 +204,8 @@ class UserService extends Service{
     }
     async postFavoriteBooks(id,idBook) {
         try {   
-            const check=await this.model.find({'favoriteBooks.idBook':idBook});
+            const check = await this.model.find({'favoriteBooks.idBook':idBook});
+            
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {favoriteBooks: {idBook}}});
                 return new HttpResponse( book);
@@ -210,6 +215,22 @@ class UserService extends Service{
             throw errors;
         }
     }
+
+    async postFollowBooks(id,idBook) {
+        try {
+            const check = await this.model.find({'followBooks.idBook':idBook});
+            
+            if (check.length === 0) {
+                const book = await this.model.findByIdAndUpdate(id, {$push: {followBooks: {idBook}}});
+                
+                return new HttpResponse( book);
+            }
+            throw new Error('Đã theo dõi');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async getReadingBooks(id) {
         try {
             const book = await this.model.find({'_id':id},{_id:0,historyBookRead:1})
@@ -234,7 +255,7 @@ class UserService extends Service{
 
     async postChapterBought(idUser, idChapter) {
         try{
-            const check=await this.model.find({'payBook.idChapter':idChapter});
+            const check = await this.model.find({'payBook.idChapter':idChapter});
             if (check.length === 0) {
                 let account = await this.model.findByIdAndUpdate(idUser, {$push: {payBook: {idChapter}}});
                 return new HttpResponse(account);
@@ -250,7 +271,7 @@ class UserService extends Service{
 
     async postIdReadingBooks(id,idBook) {
         try {
-            const check=await this.model.find({'historyBookRead.idBook':idBook});
+            const check = await this.model.find({'historyBookRead.idBook':idBook});
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {historyBookRead: {idBook}}});
                 console.log(book);
@@ -276,6 +297,22 @@ class UserService extends Service{
         }
     }
 
+    async insertNotificationToUser(book, notification){
+        try{
+            const bookFavorite = await this.model.find({'favoriteBooks.idBook': book});
+            const _id = bookFavorite.map(({ _id }) => _id)
+            const accounts = await this.model.updateMany({_id: {$in: _id}}, {$push: {notification: notification}});
+            if(!accounts){
+                throw new Error('Tài khoản không tìm thấy');
+            }
+            return new HttpResponse(_id);
+        }catch{
+            throw errors;
+        }
+    }
+
+    
+
     async findInfoByEmail(_email){
         try{
             let account = await this.findByEmail(_email);
@@ -296,6 +333,24 @@ class UserService extends Service{
         throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (e) {
             throw (e);
+        }
+    }
+
+    async findFCMTokenById(_id, notification_id, user_id){
+        try{
+            const id = _id.length;
+            for(let i = 0; i < _id.length; i++){
+                let account = await this.model.findById(_id[i]);
+                if(!account){
+                    throw new Error('Tài khoản không tìm thấy');
+                }
+                const fcm = account.fcmtokens[account.fcmtokens.length - 1];
+                const response = notification.sendFCM(fcm, user_id, notification_id);
+                console.log(response);
+                return new HttpResponse(response);
+            }
+        }catch(e){
+            throw e;
         }
     }
 

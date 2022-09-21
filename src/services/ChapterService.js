@@ -4,6 +4,9 @@ const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
 const {Account} = require("../models/Account");
+const { NotificationService } = require("./NotificationService");
+const { Notification } = require("../models/Notification");
+const notificationService = new NotificationService(new Notification().getInstance());
 class ChapterService extends Service{
     constructor(model) {
         super(model);
@@ -28,8 +31,8 @@ class ChapterService extends Service{
     async insertChapterBook(body){
         try {
             const item = await this.model.create(body);
-              if (item) {
-                  return new HttpResponse(item);
+                if (item) {
+                    return new HttpResponse(item);
               }
               throw new Error('Có lỗi, bạn có thể thử lại sau');
           

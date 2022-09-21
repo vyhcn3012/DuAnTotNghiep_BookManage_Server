@@ -58,8 +58,6 @@
                     htmlChapter: data
                 }
 
-                console.log(body);
-
                 const option = {
                     method: 'post',
                     headers: { 'Content-Type': 'application/json' },
@@ -68,7 +66,7 @@
                 try {
                     const result = await fetchAPI(url, option);
                     if(result.error == false) {
-                        window.location = '/';
+                        //window.location = '/';
                     }
 
                 } catch (e) { swal(`Lỗi: ${e.message}`); }

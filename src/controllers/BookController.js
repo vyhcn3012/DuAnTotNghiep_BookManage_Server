@@ -127,7 +127,6 @@ class BookController extends Controller{
             }
 
             const response = await bookService.insertComment(data);
-            console.log("=====> 49 ", response);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
@@ -144,8 +143,7 @@ class BookController extends Controller{
       
         const { id }= req.params;
         const byIdBook = await this.service.cpanel_GetbyId(id);
-        const categories=await CategoryController.getCategories();
-      
+        const categories = await CategoryController.getCategories();
         res.render('book/updatebook', {datas:byIdBook,categories:categories});
     }
 
