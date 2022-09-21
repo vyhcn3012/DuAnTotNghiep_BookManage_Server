@@ -6,6 +6,7 @@ const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
+const bcrypt=require('bcryptjs');
 const { OAuth2Client } = require("google-auth-library"),
   client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -160,9 +161,7 @@ class AuthCotroller {
     async checkLogin( req, res, next ) {
         try {
             const token = this.extractToken( req );
-            console.log("token", token);
             const response = await this.service.checkLogin( token );
-            console.log("response", response);
             req.account = response;
             req.authorized = true;
             req.token = token;
@@ -182,6 +181,83 @@ class AuthCotroller {
         }
         return null;
     }
+
+    async indexUser_Cpanel(req, res, next) {
+        try {
+            const {id}=req.params;
+          
+            if(id==1){
+                const response = await userService.getAll({limit:1000});
+            
+                res.render("user/index",{data:response.data,idData:JSON.stringify(id)});
+            }else if(id==2){
+                const response = await userService.findauthorAcess(id);
+                res.render("user/indexAccess",{data:response.data,idUser:JSON.stringify(response.data),idData:JSON.stringify(id)});
+            }
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async agreeAccess(req, res, next) {
+        try {
+               const {idUser}=req.body;       
+               const response = await userService.agreeAccess(idUser);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async AccessAuthor(req, res, next) {
+        try {
+               const {_id}=req.account;
+               console.log(req.account);       
+               const response = await userService.AccessAuthor(_id);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async refuseAccess(req, res, next) {
+        try {
+               const {idUser}=req.body;       
+               const response = await userService.refuseAccess(idUser);           
+               return res.status(response.statusCode).json(response);
+           
+       
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async insertNumberphone(req, res, next) {
+        try {
+               const {body}=req;       
+               const response = await userService.insertNumberphone(body);           
+               return res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async loginNumberphone(req, res, next) {
+        try {
+               const {body}=req;  
+               const {passwordUser}=req.body;   
+               const response = await authService.loginNumberphone(body);  
+               const checkPassword=await bcrypt.compare(passwordUser, response.data.account.passwordUser);
+               if(checkPassword){
+                return res.status(response.statusCode).json(response);
+               }
+              
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      
 }
 
 module.exports = new AuthCotroller(authService);

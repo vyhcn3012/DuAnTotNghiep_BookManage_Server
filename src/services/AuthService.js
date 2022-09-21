@@ -62,6 +62,24 @@ class AuthService {
             throw e;
         }
     }
+    async loginNumberphone(body){
+        try {
+            let cacheUser = await this.userService.loginNumberphone(body);
+            cacheUser = cacheUser.data;
+            const token = await this.model.generateToken(cacheUser);
+            await this.model.create({ token, 'account': new mongoose.mongo.ObjectId(cacheUser._id) });
+            const tokenData = await this.model.findOne({ 'token': token });
+            const _tokenData = {
+                _id: tokenData._id,
+                token: tokenData.token,
+                account: cacheUser,
+            }
+            return new HttpResponse(_tokenData);
+        } catch (e) {
+            console.log('>>>>>>>>79 Auth service error: ', e);
+            throw e;
+        }
+    }
 
     async register(data) {
         try {

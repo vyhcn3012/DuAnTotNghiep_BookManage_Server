@@ -14,8 +14,12 @@ router.get('/:id/getFavoriteBooks', AuthController.getFavoriteBooks);
 router.get('/:id/getReadingBooks', AuthController.getReadingBooks);
 
 router.post('/postChapterBought', AuthController.postChapterBought);
-
+router.post('/agreeAccess', AuthController.agreeAccess);
+router.post('/refuseAccess', AuthController.refuseAccess);
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks', AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.postFollowBooks);
+router.post('/insertNumberphone', AuthController.insertNumberphone);
+router.post('/loginNumberphone', AuthController.loginNumberphone);
+router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 module.exports = router;

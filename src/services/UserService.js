@@ -10,7 +10,7 @@ const { NotificationService } = require('./NotificationService');
 
 const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
-
+const bcrypt=require('bcryptjs');
 const request = require('request');
 
 class UserService extends Service{
@@ -40,6 +40,39 @@ class UserService extends Service{
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             //throw new Error('Có lỗi, bạn có thể thử lại sau', errors);;
+        }
+    }
+    async insertNumberphone(body) {
+        try {
+            const {phoneUser,passwordUser} = body;
+            const phone = await this.model.findOne({'phone':phoneUser});
+            if(phone){
+                const error = new Error('Số điện thoại này đã đăng ký rồi');
+                error.statusCode = 404;
+                throw error;
+            } 
+            const hash= await bcrypt.hash(passwordUser, await bcrypt.genSalt(10));
+            const data = {
+                name:" ", 
+                email:" ",
+                phone:phoneUser,
+                passwordUser:hash,
+                permission:"user",
+                wallet:0,
+            }       
+            const item = await this.model.create( data );
+            return new HttpResponse( item );       
+        } catch ( error ) {
+            throw error;
+        }
+    }
+    async loginNumberphone(body) {
+        try {
+            const {phoneUser} = body;
+            const data = await this.model.findOne({'phone':phoneUser}); 
+            return new HttpResponse( data );   
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
         }
     }
 
@@ -74,6 +107,74 @@ class UserService extends Service{
          
             console.log(book);
             return new HttpResponse( book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async findauthorAcess(authorAcess) {
+        try {
+            const author = await this.model.find({'authorAcess': authorAcess})  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async agreeAccess(id) {
+        try {
+            const data={
+                role: config.ROLE_USER.AUTHOR,
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.ACTIVE,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async AccessAuthor(id) {
+        try {
+            const data={
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.PENDING,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+            return new HttpResponse( author);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+    async refuseAccess(id) {
+        try {
+            const data={
+                authorAcess: config.AUTHOR_ACCOUNT_STATUS.CLOSE,
+            }
+            const author = await this.model.findByIdAndUpdate(id,data);  
+            if (!author) {
+                const error = new Error('Không tìm thấy này');
+                error.statusCode = 404;
+                throw error;
+            }
+         
+         
+            return new HttpResponse( author);
         } catch (errors) {
             throw errors;
         }

@@ -2,7 +2,7 @@
 const { Service } = require('../../system/services/Service');
 const autoBind = require('auto-bind');
 const config = require('../../config/config').getConfig();
-
+const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const request = require('request');
 
 class CategoryService extends Service{
@@ -38,6 +38,36 @@ class CategoryService extends Service{
         }
 
     }
+    async insertCategory(body) {
+        try {
+            const {tentheloai,hinhAnh,moTa} = body;
+            const data = {
+                name:tentheloai, 
+                image:hinhAnh,
+                description:moTa,
+            }       
+           
+            const item = await this.model.create( data );
+            return new HttpResponse( item );          
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
+        }
+    }
+    async updateCategory(body) {
+        try {
+            const {id,tentheloai,hinhAnh,moTa} = body;
+            const data = {
+                name:tentheloai, 
+                image:hinhAnh,
+                description:moTa,
+            }       
+           
+            const item = await this.model.findByIdAndUpdate( id,data );
+            return new HttpResponse( item );          
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
+        }
+    }
 
     async getAll() {
         try {
@@ -45,6 +75,36 @@ class CategoryService extends Service{
             return category;
         } catch (errors) {
             throw errors;
+        }
+    }
+    async getDetailCategory(id) {
+        try {
+            const item = await this.model.findById(id);
+           
+            if (!item) {
+                const error = new Error("Không tìm thấy thể loại này");
+                error.statusCode = 404;
+                throw error;
+              }
+           
+            return new HttpResponse( item );
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
+        }
+    }
+    async deletCategory(id) {
+        try {
+           
+            const item = await this.model.findByIdAndDelete(id);
+            if (!item) {
+                const error = new Error("Không tìm thấy nhà trọ này");
+                error.statusCode = 404;
+                throw error;
+              }
+           
+            return new HttpResponse( item );
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
         }
     }
 

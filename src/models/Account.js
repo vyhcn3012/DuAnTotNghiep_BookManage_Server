@@ -66,6 +66,10 @@ class Account {
                 'type': String,
                 'required': false,
             },
+            'passwordUser': {
+                'type': String,
+                'required': false,
+            },
             'status':{
                 'type': String,
                 'required': false,
