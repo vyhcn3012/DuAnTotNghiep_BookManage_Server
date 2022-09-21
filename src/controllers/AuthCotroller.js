@@ -193,13 +193,12 @@ class AuthCotroller {
 
     async indexUser_Cpanel(req, res, next) {
         try {
-            const {id}=req.params;
-          
-            if(id==1){
+            const { id }= req.params;
+            if( id==1 ){
                 const response = await userService.getAll({limit:1000});
             
                 res.render("user/index",{data:response.data,idData:JSON.stringify(id)});
-            }else if(id==2){
+            }else if( id==2 ){
                 const response = await userService.findauthorAcess(id);
                 res.render("user/indexAccess",{data:response.data,idUser:JSON.stringify(response.data),idData:JSON.stringify(id)});
             }
@@ -210,7 +209,7 @@ class AuthCotroller {
       }
       async agreeAccess(req, res, next) {
         try {
-               const {idUser}=req.body;       
+               const { idUser } = req.body;       
                const response = await userService.agreeAccess(idUser);           
                return res.status(response.statusCode).json(response);
            
@@ -221,7 +220,7 @@ class AuthCotroller {
       }
       async AccessAuthor(req, res, next) {
         try {
-               const {_id}=req.account;
+               const { _id } = req.account;
                console.log(req.account);       
                const response = await userService.AccessAuthor(_id);           
                return res.status(response.statusCode).json(response);
@@ -233,7 +232,7 @@ class AuthCotroller {
       }
       async refuseAccess(req, res, next) {
         try {
-               const {idUser}=req.body;       
+               const { idUser } = req.body;       
                const response = await userService.refuseAccess(idUser);           
                return res.status(response.statusCode).json(response);
            
@@ -244,7 +243,7 @@ class AuthCotroller {
       }
       async insertNumberphone(req, res, next) {
         try {
-               const {body}=req;       
+               const { body } = req;     
                const response = await userService.insertNumberphone(body);           
                return res.status(response.statusCode).json(response);
         } catch (e) {
@@ -253,8 +252,8 @@ class AuthCotroller {
       }
       async loginNumberphone(req, res, next) {
         try {
-               const {body} = req;  
-               const {passwordUser} = req.body;   
+               const { body } = req;  
+               const { passwordUser } = req.body;   
                const response = await authService.loginNumberphone(body);  
                const checkPassword=await bcrypt.compare(passwordUser, response.data.account.passwordUser);
                if(checkPassword){
