@@ -19,7 +19,9 @@ router.post('/refuseAccess', AuthController.refuseAccess);
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks', AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.postFollowBooks);
-router.post('/insertNumberphone', AuthController.insertNumberphone);
-router.post('/loginNumberphone', AuthController.loginNumberphone);
+
+router.post('/registerNumberPhone', AuthController.insertNumberphone);
+router.post('/loginNumberPhone', AuthController.loginNumberphone);
+
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 module.exports = router;
