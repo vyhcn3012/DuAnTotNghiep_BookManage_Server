@@ -133,6 +133,7 @@ class UserService extends Service{
                 role: config.ROLE_USER.AUTHOR,
                 authorAcess: config.AUTHOR_ACCOUNT_STATUS.ACTIVE,
             }
+           
             const author = await this.model.findByIdAndUpdate(id,data);  
             if (!author) {
                 const error = new Error('Không tìm thấy này');

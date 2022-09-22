@@ -200,7 +200,8 @@ class AuthCotroller {
                 res.render("user/index",{data:response.data,idData:JSON.stringify(id)});
             }else if( id==2 ){
                 const response = await userService.findauthorAcess(id);
-                res.render("user/indexAccess",{data:response.data,idUser:JSON.stringify(response.data),idData:JSON.stringify(id)});
+                
+                res.render("user/indexAccess",{data:response.data,idData:JSON.stringify(id)});
             }
        
         } catch (e) {
@@ -209,7 +210,7 @@ class AuthCotroller {
       }
       async agreeAccess(req, res, next) {
         try {
-               const { idUser } = req.body;       
+               const { idUser } = req.body; 
                const response = await userService.agreeAccess(idUser);           
                return res.status(response.statusCode).json(response);
            
@@ -220,8 +221,7 @@ class AuthCotroller {
       }
       async AccessAuthor(req, res, next) {
         try {
-               const { _id } = req.account;
-               console.log(req.account);       
+               const { _id } = req.account;     
                const response = await userService.AccessAuthor(_id);           
                return res.status(response.statusCode).json(response);
            

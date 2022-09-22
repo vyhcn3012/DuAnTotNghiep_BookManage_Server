@@ -166,8 +166,8 @@
                   <td> <img src="{{this.image}}"></td>
                   <td>{{this.name}}</td>
                   <td>{{this.email}}</td>
-                  <td><button onclick="onAgree()">Chấp nhận</button></td>
-                  <td><button onclick="onrefuse()">Từ chối</button></td>
+                  <td><button onclick="onAgree('{{this._id}}')">Chấp nhận</button></td>
+                  <td><button onclick="onrefuse('{{this._id}}')">Từ chối</button></td>
                 </tr>
                 {{/each}}
               </tbody>
@@ -190,7 +190,7 @@
 
   <script>
    let idData={{{idData}}};
-   let idUser={{{idUser}}};
+   
    const message = document.getElementById('selectChange');
    if(idData==2){     
        message.value="Danh sách đang xin làm tác giả";
@@ -220,7 +220,7 @@
      const onGetUserAccess = async (id) => {
       window.location.href = `/cpanel/users/${id}/allUser`
     }
-    const onAgree = async () => {
+    const onAgree = async (idUser) => {
                   const url = `/api/accounts/agreeAccess`; 
                   const body = {
                          idUser: idUser,
@@ -239,7 +239,7 @@
                        }
       }
 
-      const onrefuse = async () => {
+      const onrefuse = async (idUser) => {
                   const url = `/api/accounts/refuseAccess`; 
                   const body = {
                          idUser: idUser,
