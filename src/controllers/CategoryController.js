@@ -15,8 +15,8 @@ class CategoryController extends Controller {
     async getCategories(req, res, next) {
         try {
             const response = await this.service.getAll({ limit: 1000 });
-
-            await res.status(response.statusCode).json(response);
+            console.log(response);
+            return res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
         }
