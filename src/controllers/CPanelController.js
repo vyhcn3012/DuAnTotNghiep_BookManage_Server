@@ -53,6 +53,7 @@ class CPanelController {
                           idToken: token.id_token,
                           audience: config.GOOGLE_CLIENT_ID
                       });
+                      
                       const { name, email, picture } = ticket.getPayload();
 
                         const body = {
@@ -67,7 +68,6 @@ class CPanelController {
                           favoritebooks: "",
                         };
                         const account = await authService.login(body);
-                        console.log(account);
     
                         res.cookie("token", account.data.token, {
                           expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),

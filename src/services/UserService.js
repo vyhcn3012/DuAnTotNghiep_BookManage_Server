@@ -77,6 +77,13 @@ class UserService extends Service{
         }
     }
 
+    async timeReadBook(user) {
+        try {
+        } catch (error) {
+            throw error;
+        }  
+    }
+
     async getCountreadBook(id) {
         try {
             //$project: { count: { $size:"$historyBookRead" }}

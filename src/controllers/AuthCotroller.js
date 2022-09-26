@@ -23,10 +23,8 @@ class AuthCotroller {
                 audience: config.GOOGLE_CLIENT_ID
             });
             const { name, email, picture } = ticket.getPayload();
-            const check_email = config.EMAIL_GOOGLE_TESTING;
             const body = {
                 email: email,
-                role: config.USER_ROLE.USER,
                 name: name,
                 image: picture,
                 phone: " ",
@@ -36,6 +34,7 @@ class AuthCotroller {
                 favoritebooks: "",
                 token_fcm: token_fcm
             }
+            console.log(body);
             const response = await authService.login(body);
             await res.status(response.statusCode).json(response);
         }catch(e) {
@@ -155,6 +154,16 @@ class AuthCotroller {
         }
     }
 
+    async getTimeRead(req, res, next) {
+        try {
+            const { idUser } = req.body;
+            const response = await userService.getTimeRead(idUser);
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+    
     async logout(req, res, next) {
         try {
             const token = this.extractToken(req);

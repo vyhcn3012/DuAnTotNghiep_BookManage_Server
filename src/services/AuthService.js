@@ -15,7 +15,6 @@ class AuthService {
     async login(body){
         const { name, email, phone, permission, image, bookmark, wallet,
             favoritebooks, token_fcm } = body;
-        //console.log("===> login", token_fcm);
 
         try {
             let account = await this.userService.findByEmail(email);
