@@ -72,7 +72,7 @@ class CategoryService extends Service{
     async getAll() {
         try {
             const category = await this.model.find({});
-            return category;
+            return new HttpResponse( category );
         } catch (errors) {
             throw errors;
         }
