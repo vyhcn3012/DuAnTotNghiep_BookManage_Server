@@ -5,6 +5,7 @@ const { Auth } = require('./../models/Auth');
 const { Account } = require('./../models/Account');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
+const stripe = require("stripe")("sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7");
 const autoBind = require('auto-bind');
 const bcrypt=require('bcryptjs');
 const { OAuth2Client } = require("google-auth-library"),
@@ -198,6 +199,21 @@ class AuthCotroller {
             return req.cookies.token;
         }
         return null;
+    }
+
+    async creatPaymentIntent(req, res, next) {
+        try{
+            const { amount, currency } = req.body;
+            const payableAmount = parseInt(amount) * 100;
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: payableAmount,
+                currency: currency // put your currency
+            });
+            const clientSecret = await paymentIntent.client_secret;
+            await res.status(200).json({ clientSecret });
+        }catch(e) {
+            next(e);
+        }
     }
 
     async indexUser_Cpanel(req, res, next) {
