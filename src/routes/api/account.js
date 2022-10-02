@@ -23,6 +23,6 @@ router.post('/postFollowBooks', AuthController.postFollowBooks);
 
 router.post('/registerNumberPhone', AuthController.insertNumberphone);
 router.post('/loginNumberPhone', AuthController.loginNumberphone);
-
+router.post('/changeReadTimeBook', AuthController.changeReadTimeBook);
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 module.exports = router;

@@ -388,6 +388,33 @@ class UserService extends Service{
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
         }
     }
+
+    async changeReadTimeBook(id,body) {
+        try {
+            const { time } = body;
+            var d = new Date();
+            const options = { month: 'long'};
+            const month =new Intl.DateTimeFormat('en-US', options).format((d.getMonth()+1));
+            console.log(d.getFullYear());
+            const details = {
+                [month]: time,
+            }
+            let detailYear = [];
+            detailYear.push(details);
+            const timeReadBook = {
+                [d.getFullYear()]: detailYear,
+            }
+            const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:timeReadBook}});
+
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+
+        } catch (error) {
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
 }
 
 module.exports = { UserService };
