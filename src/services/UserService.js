@@ -47,9 +47,7 @@ class UserService extends Service{
             const { phoneUser,passwordUser,token_fcm } = body;
             const phone = await this.model.findOne({'phone':phoneUser});
             if(phone){
-                const error = new Error('Số điện thoại này đã đăng ký rồi');
-                error.statusCode = 404;
-                throw error;
+                return new HttpResponse( "Số điện thoại này đã đăng ký rồi" );
             } 
             const hash= await bcrypt.hash(passwordUser, await bcrypt.genSalt(10));
             const data = {
@@ -140,6 +138,7 @@ class UserService extends Service{
                 role: config.ROLE_USER.AUTHOR,
                 authorAcess: config.AUTHOR_ACCOUNT_STATUS.ACTIVE,
             }
+           
             const author = await this.model.findByIdAndUpdate(id,data);  
             if (!author) {
                 const error = new Error('Không tìm thấy này');
@@ -196,15 +195,12 @@ class UserService extends Service{
                     path: 'idBook',
                 }   
             })
-
-            console.log(">>>> 120 ", book);
+            // console.log(">>>> 120 ", book);
             if (!book) {
                 const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
                 throw error;
             }
-         
-            console.log(book);
             return new HttpResponse( book);
         } catch (errors) {
             throw errors;
@@ -212,13 +208,12 @@ class UserService extends Service{
     }
     async postFavoriteBooks(id,idBook) {
         try {   
-            const check = await this.model.find({'favoriteBooks.idBook':idBook});
-            
+            const check = await this.model.find({$and: [{'_id':id},{'favoriteBooks.idBook':idBook}]});
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {favoriteBooks: {idBook}}});
                 return new HttpResponse( book);
             }
-            return new HttpResponse("FF");
+            return new HttpResponse("Sách đã được thêm vào yêu thích rồi");
         } catch (errors) {
             throw errors;
         }
@@ -226,14 +221,13 @@ class UserService extends Service{
 
     async postFollowBooks(id,idBook) {
         try {
-            const check = await this.model.find({'followBooks.idBook':idBook});
-            
+            const check = await this.model.find({$and: [{'_id':id},{'followBooks.idBook':idBook}]});
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {$push: {followBooks: {idBook}}});
                 
                 return new HttpResponse( book);
             }
-            throw new Error('Đã theo dõi');
+            return new HttpResponse("Sách đã thêm vào theo dõi");
         } catch (errors) {
             throw errors;
         }
@@ -398,6 +392,33 @@ class UserService extends Service{
 
         } catch (error) {
             console.log('>>>>>>>>>>>>user register event error: ', error)
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
+
+    async changeReadTimeBook(id,body) {
+        try {
+            const { time } = body;
+            var d = new Date();
+            const options = { month: 'long'};
+            const month =new Intl.DateTimeFormat('en-US', options).format((d.getMonth()+1));
+            console.log(d.getFullYear());
+            const details = {
+                [month]: time,
+            }
+            let detailYear = [];
+            detailYear.push(details);
+            const timeReadBook = {
+                [d.getFullYear()]: detailYear,
+            }
+            const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:timeReadBook}});
+
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+
+        } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
         }
     }

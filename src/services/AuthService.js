@@ -123,7 +123,7 @@ class AuthService {
             }
             // Check the token is a valid JWT
             const user = await this.model.decodeToken( token );
-            console.log('user',user)
+            // console.log('user',user)
 
             if ( !user ) {
                 const error = new Error( 'Invalid Token' );

@@ -143,8 +143,14 @@ class Account {
                 'required': false,
             },
             'timeReadBook':{
-                'type': Number,
-                'required': false,
+                'type': [
+                    {
+                        'type': Object,
+                        'required': true
+                    }
+                ],
+                'required': true,
+                'default': [],
             }
         }, { 'timestamps': true } );
 
