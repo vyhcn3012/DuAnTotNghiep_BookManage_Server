@@ -23,20 +23,22 @@ class ChapterService extends Service{
             const data=userChaper.data.payBook;
             let statusChapter=[];
             for (const element of chapter) {
-                for (const element1 of data) { 
-                  if(element._id.toString()==element1.idChapter.toString()){
-                    const data = {
-                        isPay:true,
-                        element
+                for (const element2 of data) { 
+                    const idChapter=element._id.toString();
+                    const idChapterOfpayBook=element2.idChapter.toString();
+                    if(idChapter==idChapterOfpayBook){
+                        const data = {
+                            isPay:true,
+                            element
+                        }
+                        statusChapter.push(data);
+                    }else{
+                        const data = {
+                            isPay:false,
+                            element
+                        }
+                        statusChapter.push(data);
                     }
-                    statusChapter.push(data);
-                  }else{
-                    const data = {
-                        isPay:false,
-                        element
-                    }
-                    statusChapter.push(data);
-                  }
                 }
             }
             return new HttpResponse(statusChapter);
