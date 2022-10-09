@@ -313,6 +313,19 @@ class UserService extends Service{
         }
     }
 
+    async getNotification(id){
+        try{
+            const account = await this.model.findById(id)
+            .populate('notification');
+            if(!account){
+                throw new Error('Tài khoản không tìm thấy');
+            }
+            return new HttpResponse(account);
+        }catch{
+            throw errors;
+        }
+    }
+
     
 
     async findInfoByEmail(_email){

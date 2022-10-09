@@ -16,7 +16,14 @@ console.log(`✔ Port: ${PORT}`);
 
 const { server: app } = require('./config/server');
 const server = http.createServer(app);
-
+const io = require("socket.io")(server, {
+    cors: {
+      origin: "*",
+    },
+  });
+io.on("connection", (socket) => {
+    console.log(socket.id);
+});
 server.listen(PORT).on('error', (err) => {
     console.log('✘ Application failed to start');
     console.error('✘', err.message);

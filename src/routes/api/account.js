@@ -13,6 +13,7 @@ router.get('/:id/allReadBooks', AuthController.getreadBooks);
 router.get('/:id/getFavoriteBooks', AuthController.getFavoriteBooks);
 router.get('/:id/getReadingBooks', AuthController.getReadingBooks);
 router.get('/:id/getDetailAuthor', AuthController.getDetailAuthor);
+router.get('/get-notification', AuthController.checkLogin, AuthController.getNotification);
 
 router.post('/postChapterBought', AuthController.postChapterBought);
 router.post('/agreeAccess', AuthController.agreeAccess);

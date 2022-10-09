@@ -175,7 +175,17 @@ class AuthCotroller {
             next(e);
         }
     }
-    
+
+    async getNotification(req, res, next) {
+        try {
+            const { _id } = req.account;
+            const response = await userService.getNotification(_id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async logout(req, res, next) {
         try {
             const token = this.extractToken(req);
