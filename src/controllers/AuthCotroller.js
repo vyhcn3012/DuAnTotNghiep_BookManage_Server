@@ -75,9 +75,19 @@ class AuthCotroller {
 
     async changeReadTimeBook(req, res, next) {
         try {
-            const { id } = req.body;
+            const idUser=req.account._id;
             const { body } = req;
-            const response = await userService.changeReadTimeBook(id,body);
+            const response = await userService.changeReadTimeBook(idUser,body);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
+
+    async getReadTimeBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await userService.getReadTimeBook(id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);

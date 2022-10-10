@@ -145,8 +145,27 @@ class Account {
             'timeReadBook':{
                 'type': [
                     {
-                        'type': Object,
-                        'required': true
+                        'createYear': {
+                            'type': Number,
+                            'required': true,
+                            
+                        },
+                        'details': {
+                            'type': [
+                                {
+                                    'month': {
+                                        'type': String,
+                                        'required': true,
+                                        
+                                    },
+                                    'time': {
+                                        'type': Number,
+                                        'required': true,
+                                    },
+                                }
+                            ],
+                            'required': false,
+                        }
                     }
                 ],
                 'required': true,
