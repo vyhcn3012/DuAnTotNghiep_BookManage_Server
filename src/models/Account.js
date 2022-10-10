@@ -170,6 +170,18 @@ class Account {
                 ],
                 'required': true,
                 'default': [],
+            },
+            'purchaseHistory': {
+                'type': [
+                    {
+                        'idCart': {
+                            'type': Schema.Types.ObjectId,
+                            'required': true,
+                            'ref':'cart'
+                        },
+                    }
+                ],
+                'required': false,
             }
         }, { 'timestamps': true } );
 

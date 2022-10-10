@@ -286,6 +286,16 @@ class AuthCotroller {
         }
       }
 
+      async getpurchaseCart(req, res, next) {
+        try {  
+               const idUser=req.account._id;
+               const response = await userService.getpurchaseCart(idUser);  
+               await res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
       
 }
 

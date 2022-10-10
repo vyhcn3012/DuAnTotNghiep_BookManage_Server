@@ -483,6 +483,40 @@ class UserService extends Service{
             throw errors;
         }
     }
+
+    async purchaseCart(idUser,idCart){
+        try {
+            const data = {
+                idCart,
+            }
+            const item = await this.model.findByIdAndUpdate(idUser,{$push: {purchaseHistory:data}});
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
+    async getpurchaseCart(idUser){
+        try {
+          
+            const item = await this.model.find({'_id':idUser})
+            .populate({
+                path: 'purchaseHistory',
+                populate: {
+                    path: 'idCart',
+                }   
+            });
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
 }
 
 module.exports = { UserService };
