@@ -410,7 +410,6 @@ class UserService extends Service{
                     details: detailYear,
                 }
                 const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:data}});
-
                 if (item) {
                     return new HttpResponse(item);
                 }
@@ -424,14 +423,14 @@ class UserService extends Service{
                         }else{
                            const check=await this.model.find({'timeReadBook.details.month':month});
                            if(check.length===0){
-                            const data = {
-                                month:month,
-                                time:time,
-                            }
-                            const item = await this.model.updateOne({ "_id": id, "timeReadBook.createYear": element.createYear},{ $push: { "timeReadBook.$.details" : data }});
-                            if (item) {
-                                return new HttpResponse(item);
-                            }
+                                const data = {
+                                    month:month,
+                                    time:time,
+                                }
+                                const item = await this.model.updateOne({ "_id": id, "timeReadBook.createYear": element.createYear},{ $push: { "timeReadBook.$.details" : data }});
+                                if (item) {
+                                    return new HttpResponse(item);
+                                }
                            }
                         }
                      
@@ -452,7 +451,6 @@ class UserService extends Service{
                         details: detailYear,
                     }
                     const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:data}});
-    
                     if (item) {
                         return new HttpResponse(item);
                     }
@@ -460,8 +458,6 @@ class UserService extends Service{
                 }
                
             }
-       
-            
         } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
         }
