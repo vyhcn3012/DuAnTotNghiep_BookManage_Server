@@ -391,28 +391,100 @@ class UserService extends Service{
 
     async changeReadTimeBook(id,body) {
         try {
+            const userReadTime= await this.model.findById(id);
+            const timeReadBookUser=userReadTime.timeReadBook;
             const { time } = body;
             var d = new Date();
             const options = { month: 'long'};
             const month =new Intl.DateTimeFormat('en-US', options).format((d.getMonth()+1));
-            console.log(d.getFullYear());
-            const details = {
-                [month]: time,
-            }
-            let detailYear = [];
-            detailYear.push(details);
-            const timeReadBook = {
-                [d.getFullYear()]: detailYear,
-            }
-            const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:timeReadBook}});
+            const year=d.getFullYear();
+            if(timeReadBookUser.length==0){
+                const details = {
+                    month: month,
+                    time:time,
+                }
+                let detailYear = [];
+                detailYear.push(details);
+                const data = {
+                    createYear:year,
+                    details: detailYear,
+                }
+                const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:data}});
 
-            if (item) {
-                return new HttpResponse(item);
+                if (item) {
+                    return new HttpResponse(item);
+                }
+                throw new Error('Có lỗi, bạn có thể thử lại sau');
             }
-            throw new Error('Có lỗi, bạn có thể thử lại sau');
-
+            for (const element of timeReadBookUser) {
+                if(element.createYear==year){
+                    for (const element1 of element.details) {
+                        if(element1.month===month){
+                            element1.time=(element1.time+time);
+                        }else{
+                           const check=await this.model.find({'timeReadBook.details.month':month});
+                           if(check.length===0){
+                            const data = {
+                                month:month,
+                                time:time,
+                            }
+                            const item = await this.model.updateOne({ "_id": id, "timeReadBook.createYear": element.createYear},{ $push: { "timeReadBook.$.details" : data }});
+                            if (item) {
+                                return new HttpResponse(item);
+                            }
+                           }
+                        }
+                     
+                    }
+                    const item = await this.model.updateOne({ "_id": id, "timeReadBook.createYear": element.createYear},{ $set: { "timeReadBook.$.details" : element.details }});
+                    if (item) {
+                        return new HttpResponse(item);
+                    }  
+                }else{
+                    const details = {
+                        month: month,
+                        time:time,
+                    }
+                    let detailYear = [];
+                    detailYear.push(details);
+                    const data = {
+                        createYear:year,
+                        details: detailYear,
+                    }
+                    const item = await this.model.findByIdAndUpdate(id,{$push: {timeReadBook:data}});
+    
+                    if (item) {
+                        return new HttpResponse(item);
+                    }
+                    throw new Error('Có lỗi, bạn có thể thử lại sau');
+                }
+               
+            }
+       
+            
         } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
+
+    async getReadTimeBook(_id){
+        try {
+            const account = await this.model.findById(_id);
+            const timeReadBook=account.timeReadBook;
+            let dl=[];
+
+            for (const element of timeReadBook) {
+                
+                const data = {
+                    [element.createYear]:element.details,
+                  
+                }
+                dl.push(data);
+            }
+            
+            return new HttpResponse( dl);
+        } catch (errors) {
+            throw errors;
         }
     }
 }

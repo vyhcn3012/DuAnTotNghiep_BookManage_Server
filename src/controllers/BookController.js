@@ -32,7 +32,8 @@ class BookController extends Controller{
 
     async getChapterBook(req, res, next) {
         try {
-            const {id,idUser} = req.body;
+            const {id} = req.body;
+            const idUser=req.account._id;
             const response = await chapterService.getChapterBook(id,idUser);
             await res.status(response.statusCode).json(response);
         } catch (e) {
