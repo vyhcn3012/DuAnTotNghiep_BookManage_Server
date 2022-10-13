@@ -10,6 +10,7 @@ const { NotificationService } = require('./NotificationService');
 
 const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
+
 const bcrypt=require('bcryptjs');
 const request = require('request');
 var path = require("path");
@@ -549,7 +550,7 @@ class UserService extends Service{
           if (!file) {
             throw new Error("Image is not presented!");
           }
-         
+        
           const file64 = formatBufferTo64(file);
           const uploadResult = await cloudinaryUpload(file64.content);
           const response = {
@@ -559,9 +560,41 @@ class UserService extends Service{
           return new HttpResponse(response);
           
         } catch (e) {
-          return res.status(422).send({ message: e.message });
+            throw e;
         }
-      }
+    }
+
+    async createAudio(file) {
+        try {
+            if (!file) {
+                throw new Error("Image is not presented!");
+              }
+            let audioUrl;
+            const file64 = formatBufferTo64(file);
+            const fName = file.originalname.split(".")[0];
+            const cloudinaryUploadAudio =await cloudinary.uploader.upload(
+                file64.content,
+              {
+                resource_type: "video",
+                public_id: `AudioUploads/${fName}`,
+              },
+        
+              // Send cloudinary response or catch error
+              (err, audio) => {
+                audioUrl=audio;
+              }
+            );
+         
+            const response = {
+                cloudinaryId: audioUrl.public_id,
+                url: audioUrl.secure_url,
+            };
+            return new HttpResponse(response);
+          
+        } catch (e) {
+            throw e;
+        }
+    }
 }
 
 module.exports = { UserService };

@@ -300,7 +300,26 @@ class AuthCotroller {
         try {  
                const idUser=req.account._id;
                const {name}=req.body;
+               
                const urlImage= await userService.createImage(req.file);
+               const data = {
+                    image:urlImage.data.url,
+                    name,
+               }
+               const response = await userService.getChangeProfile(idUser,data);  
+               await res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      async creatAudio(req, res, next) {
+        try {  
+               const idUser=req.account._id;
+               const {name}=req.body;
+               
+               const urlImage= await userService.createAudio(req.file);
+              
                const data = {
                     image:urlImage.data.url,
                     name,

@@ -11,7 +11,7 @@ const upload = multer({
             'fileSize': 1080 * 1920 * 5
         },
         fileFilter: function (req, file, callback) {
-            const allowedExtensions = new RegExp(/.(jpg|png|jpeg|gif)$/gi);
+            const allowedExtensions = new RegExp(/.(jpg|png|jpeg|gif|mp3)$/gi);
             if (!allowedExtensions.test(file.originalname)) return callback(null, false);
             return callback(null, true);
         }
