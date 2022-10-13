@@ -2,7 +2,21 @@
 const express = require('express'),
     router = express.Router();
 const AuthController = require( '../../controllers/AuthCotroller' );
-
+var multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({
+        'storage': storage,
+        // 'storage': multer.memoryStorage(),
+        'limits': {
+            'fileSize': 1080 * 1920 * 5
+        },
+        fileFilter: function (req, file, callback) {
+            const allowedExtensions = new RegExp(/.(jpg|png|jpeg|gif)$/gi);
+            if (!allowedExtensions.test(file.originalname)) return callback(null, false);
+            return callback(null, true);
+        }
+      });
+const singleUpload = upload.single("file");
 router.get('/', (req, res) => {
     res.send('Welcome to the auth')
 });
@@ -27,4 +41,5 @@ router.post('/registerNumberPhone', AuthController.insertNumberphone);
 router.post('/loginNumberPhone', AuthController.loginNumberphone);
 router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.changeReadTimeBook);
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
+router.post('/upImage',[singleUpload],AuthController.checkLogin, AuthController.getChangeProfile);
 module.exports = router;

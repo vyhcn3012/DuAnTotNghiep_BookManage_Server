@@ -182,7 +182,11 @@ class Account {
                     }
                 ],
                 'required': false,
-            }
+            },
+            'typeLogin':{
+                'type': String,
+                'required': false,
+            },
         }, { 'timestamps': true } );
 
         schema.statics.findByEmail = function( email ) {

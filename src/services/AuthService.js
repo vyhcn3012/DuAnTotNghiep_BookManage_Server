@@ -27,7 +27,8 @@ class AuthService {
                     createdBy: null,
                     updatedBy: null,
                     name, email, phone, permission, image, bookmark, wallet,
-                    favoritebooks
+                    favoritebooks,
+                    typeLogin:"email"
                 }
                 account = await this.register(data);
             }

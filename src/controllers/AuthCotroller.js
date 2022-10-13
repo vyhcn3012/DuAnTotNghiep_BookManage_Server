@@ -7,6 +7,7 @@ const authService = new AuthService(new Auth().getInstance(), new Account().getI
 const userService = new UserService(new Account().getInstance());
 const autoBind = require('auto-bind');
 const bcrypt=require('bcryptjs');
+const { MediaService } = require('../services/MediaService');
 const { OAuth2Client } = require("google-auth-library"),
   client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -290,6 +291,21 @@ class AuthCotroller {
         try {  
                const idUser=req.account._id;
                const response = await userService.getpurchaseCart(idUser);  
+               await res.status(response.statusCode).json(response);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      async getChangeProfile(req, res, next) {
+        try {  
+               const idUser=req.account._id;
+               const {name}=req.body;
+               const urlImage= await userService.createImage(req.file);
+               const data = {
+                    image:urlImage.data.url,
+                    name,
+               }
+               const response = await userService.getChangeProfile(idUser,data);  
                await res.status(response.statusCode).json(response);
         } catch (e) {
           console.log(e);

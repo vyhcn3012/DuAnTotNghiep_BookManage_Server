@@ -12,7 +12,19 @@ const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
 const bcrypt=require('bcryptjs');
 const request = require('request');
-
+var path = require("path");
+const ALLOWED_FORMATS = ["image/jpeg", "image/png", "image/jpg"];
+const DatauriParser = require("datauri/parser");
+const parser = new DatauriParser();
+const formatBufferTo64 = (file) =>
+  parser.format(path.extname(file.originalname).toString(), file.buffer);
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: "cao-ng-fpt-polytechnic",
+  api_key: "811123551641114",
+  api_secret: "6DMIjAlUUCS8tRoJrDNSd_yqqCg",
+});
+const cloudinaryUpload = (file) => cloudinary.uploader.upload(file);
 class UserService extends Service{
     constructor(model) {
         super(model);
@@ -57,6 +69,7 @@ class UserService extends Service{
                 phone:phoneUser,
                 passwordUser:hash,
                 permission:"user",
+                typeLogin:"phone",
                 wallet:0,
             }       
             const item = await this.model.create( data );
@@ -517,6 +530,38 @@ class UserService extends Service{
             throw errors;
         }
     }
+
+    async getChangeProfile(id,data){
+        try {
+            
+            const item = await this.model.findByIdAndUpdate(id,data);
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
+    async createImage(file) {
+        try {
+          if (!file) {
+            throw new Error("Image is not presented!");
+          }
+         
+          const file64 = formatBufferTo64(file);
+          const uploadResult = await cloudinaryUpload(file64.content);
+          const response = {
+            cloudinaryId: uploadResult.public_id,
+            url: uploadResult.secure_url,
+          };
+          return new HttpResponse(response);
+          
+        } catch (e) {
+          return res.status(422).send({ message: e.message });
+        }
+      }
 }
 
 module.exports = { UserService };
