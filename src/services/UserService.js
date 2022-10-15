@@ -44,7 +44,7 @@ class UserService extends Service{
     }
     async insertNumberphone(body) {
         try {
-            const { phoneUser,passwordUser,token_fcm } = body;
+            const { phoneUser,passwordUser, userName, birthDay, token_fcm } = body;
             const phone = await this.model.findOne({'phone':phoneUser});
             if(phone){
                 return new HttpResponse( "Số điện thoại này đã đăng ký rồi" );
@@ -52,12 +52,14 @@ class UserService extends Service{
             const hash= await bcrypt.hash(passwordUser, await bcrypt.genSalt(10));
             const data = {
                 fcmtokens: token_fcm ? [token_fcm] : [],
-                name:" ", 
+                name: userName,
+                birthday: birthDay, 
                 email:" ",
                 phone:phoneUser,
                 passwordUser:hash,
                 permission:"user",
                 wallet:0,
+                type: "phone",
             }       
             const item = await this.model.create( data );
             return new HttpResponse( item );       
