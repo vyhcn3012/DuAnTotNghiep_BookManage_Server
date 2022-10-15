@@ -55,7 +55,6 @@ class AuthService {
                 token: tokenData.token,
                 account: cacheUser,
             }
-            console.log('token',_tokenData);
 
             return new HttpResponse(_tokenData);
         } catch (e) {

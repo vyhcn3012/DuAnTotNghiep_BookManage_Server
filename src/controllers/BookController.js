@@ -92,6 +92,7 @@ class BookController extends Controller{
             // next(e);
         }
     }
+
     async getBookByIdCategory(req, res, next) {
         try {
             const { id } = req.params;

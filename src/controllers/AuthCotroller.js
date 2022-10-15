@@ -3,8 +3,11 @@ const { UserService } = require('./../services/UserService');
 const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
 const { Account } = require('./../models/Account');
+const { Book } = require('./../models/Book');
+const { BookService } = require('./../services/BookService');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
+const bookService = new BookService(new Book().getInstance());
 const stripe = require("stripe")("sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7");
 const autoBind = require('auto-bind');
 const bcrypt=require('bcryptjs');
@@ -23,6 +26,7 @@ class AuthCotroller {
                 idToken: token,
                 audience: config.GOOGLE_CLIENT_ID
             });
+            
             const { name, email, picture } = ticket.getPayload();
             const body = {
                 email: email,
@@ -35,7 +39,6 @@ class AuthCotroller {
                 favoritebooks: "",
                 token_fcm: token_fcm
             }
-            console.log(body);
             const response = await authService.login(body);
             await res.status(response.statusCode).json(response);
         }catch(e) {
@@ -321,7 +324,16 @@ class AuthCotroller {
         }
       }
 
-      
+      async cpanel_index(req, res, next) {
+        try{
+            const user = req.account;
+            const books = await bookService.getBookById('632556f0616d4ba96f9658b5');
+            console.log(books.data);
+            res.render('home/index', {user: user, books: books.data});
+        }catch (e){
+           console.log(e);
+        }
+    } 
 }
 
 module.exports = new AuthCotroller(authService);
