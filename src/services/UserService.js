@@ -515,13 +515,18 @@ class UserService extends Service{
 
     async getpurchaseCart(idUser){
         try {
-          
-            const item = await this.model.find({'_id':idUser})
+            const item = await this.model.find({'_id':idUser},{purchaseHistory: 1})
             .populate({
                 path: 'purchaseHistory',
                 populate: {
                     path: 'idCart',
-                }   
+                    populate: {
+                        path: 'idChapter',
+                        populate: {
+                            path: 'idBook',
+                        }
+                    }
+                },    
             });
             if (item) {
                 return new HttpResponse(item);

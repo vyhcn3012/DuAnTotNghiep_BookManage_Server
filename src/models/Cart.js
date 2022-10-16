@@ -9,10 +9,12 @@ class Cart {
             'idBook': {
                 'type': Schema.Types.ObjectId,
                 'required': false,
+                'ref': 'book'
             },
             'idChapter': {
                 'type': Schema.Types.ObjectId,
                 'required': false,
+                'ref': 'chapter'
             },
             'purchaseDate': {
                 'type': Date,
