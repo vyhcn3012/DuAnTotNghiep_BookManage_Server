@@ -30,7 +30,6 @@ class MediaController extends Controller {
 
     async createImage(req, res) {
       try {
-        console.log(req.file);
         if (!req.file) {
           throw new Error("Image is not presented!");
         }
