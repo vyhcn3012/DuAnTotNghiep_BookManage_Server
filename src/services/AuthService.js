@@ -25,7 +25,6 @@ class AuthService {
                     updatedAt: new Date(),
                     createdBy: null,
                     updatedBy: null,
-                    type: "email",
                     name, email, phone, permission, image, bookmark, wallet,
                     favoritebooks,
                     typeLogin:"email"

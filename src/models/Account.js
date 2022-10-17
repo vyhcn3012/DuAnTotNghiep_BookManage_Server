@@ -75,7 +75,7 @@ class Account {
                 'required': false,
             },
             'birthday':{
-                'type': String,
+                'type': Date,
                 'required': false,
             },
             'overview':{
@@ -106,10 +106,6 @@ class Account {
             'favoriteAuthor':{
                 'type': String,
                 'required': false,
-            },
-            'type':{
-                'type': String,
-                'required': true,
             },
             'address':{
                 'type': String,
