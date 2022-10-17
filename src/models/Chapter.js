@@ -27,7 +27,7 @@ class Chapter {
                 'type': String,
                 'required': false,
             },
-            'linkSound': {
+            'linkAudio': {
                 'type': String,
                 'required': false,
             },
@@ -48,6 +48,10 @@ class Chapter {
                 'type': Boolean,
                 'required': true,
                 'default': false,
+            },
+            'chapterNumber': {
+                'type': Number,
+                'required': false,
             },
         }, { 'timestamps': false } );
         schema.plugin(uniqueValidator);

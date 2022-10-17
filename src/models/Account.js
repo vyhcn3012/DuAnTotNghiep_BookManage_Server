@@ -174,7 +174,23 @@ class Account {
                 ],
                 'required': true,
                 'default': [],
-            }
+            },
+            'purchaseHistory': {
+                'type': [
+                    {
+                        'idCart': {
+                            'type': Schema.Types.ObjectId,
+                            'required': true,
+                            'ref':'cart'
+                        },
+                    }
+                ],
+                'required': false,
+            },
+            'typeLogin':{
+                'type': String,
+                'required': false,
+            },
         }, { 'timestamps': true } );
 
         schema.statics.findByEmail = function( email ) {

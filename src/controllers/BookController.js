@@ -86,7 +86,6 @@ class BookController extends Controller{
         try {
             const { id } = req.params;
             const response = await this.service.getBookById(id);
-            console.log(response);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);

@@ -2,7 +2,21 @@
 const express = require('express'),
     router = express.Router();
 const AuthController = require( '../../controllers/AuthCotroller' );
-
+var multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({
+        'storage': storage,
+        // 'storage': multer.memoryStorage(),
+        'limits': {
+            'fileSize': 1080 * 1920 * 5
+        },
+        fileFilter: function (req, file, callback) {
+            const allowedExtensions = new RegExp(/.(jpg|png|jpeg|gif|mp3)$/gi);
+            if (!allowedExtensions.test(file.originalname)) return callback(null, false);
+            return callback(null, true);
+        }
+      });
+const singleUpload = upload.single("file");
 router.get('/', (req, res) => {
     res.send('Welcome to the auth')
 });
@@ -14,6 +28,7 @@ router.get('/:id/getFavoriteBooks', AuthController.getFavoriteBooks);
 router.get('/:id/getReadingBooks', AuthController.getReadingBooks);
 router.get('/:id/getDetailAuthor', AuthController.getDetailAuthor);
 router.get('/:id/getReadTimeBook', AuthController.getReadTimeBook);
+router.get('/getpurchaseCart',AuthController.checkLogin, AuthController.getpurchaseCart);
 
 router.post('/postChapterBought', AuthController.postChapterBought);
 router.post('/agreeAccess', AuthController.agreeAccess);
@@ -28,4 +43,5 @@ router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.chan
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 
 router.post('/creatPaymentIntent', AuthController.creatPaymentIntent);
+router.post('/upImage',[singleUpload],AuthController.checkLogin, AuthController.getChangeProfile);
 module.exports = router;

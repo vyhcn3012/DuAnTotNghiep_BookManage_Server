@@ -11,6 +11,7 @@ const bookService = new BookService(new Book().getInstance());
 const stripe = require("stripe")("sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7");
 const autoBind = require('auto-bind');
 const bcrypt=require('bcryptjs');
+const { MediaService } = require('../services/MediaService');
 const { OAuth2Client } = require("google-auth-library"),
   client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -324,16 +325,7 @@ class AuthCotroller {
         }
       }
 
-      async cpanel_index(req, res, next) {
-        try{
-            const user = req.account;
-            const books = await bookService.getBookById('632556f0616d4ba96f9658b5');
-            console.log(books.data);
-            res.render('home/index', {user: user, books: books.data});
-        }catch (e){
-           console.log(e);
-        }
-    } 
+      
 }
 
 module.exports = new AuthCotroller(authService);
