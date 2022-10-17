@@ -23,7 +23,7 @@ class CartController extends Controller{
             }
             const response = await this.service.createCart(body);
             const data=response.data;
-            const cart=await userService.purchaseCart(idUser,data._id);
+            await userService.purchaseCart(idUser,data._id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
