@@ -6,7 +6,9 @@ const { Service } = require("../../system/services/Service");
 const {Account} = require("../models/Account");
 const { NotificationService } = require("./NotificationService");
 const { Notification } = require("../models/Notification");
+const { UserService } = require("./UserService");
 const notificationService = new NotificationService(new Notification().getInstance());
+const userService = new UserService(new Account().getInstance());
 class ChapterService extends Service{
     constructor(model) {
         super(model);
@@ -14,15 +16,41 @@ class ChapterService extends Service{
         autoBind(this);
     }
 
-    async getChapterBook(_id) {
+    async getChapterBook(id,idUser) {
         try{
-            const chapter = await this.model.find({"idBook": _id});
-            if(!chapter){
-                const error = new Error("Không tìm thấy chương này");
-                error.statusCode = 404;
-                throw error;
+            const chapter = await this.model.find({"idBook": id});
+            const userChaper= await userService.findInfoById({"_id": idUser});
+            const data=userChaper.data.payBook;
+            let statusChapter=[];
+            for (const element of chapter) {
+                if(data.length==0){
+                    const data = {
+                        isPay:false,
+                        element
+                    }
+                    statusChapter.push(data);
+                }else{
+                    for (const element2 of data) { 
+                        const idChapter=element._id.toString();
+                        const idChapterOfpayBook=element2.idChapter.toString();
+                        if(idChapter==idChapterOfpayBook){
+                            const data = {
+                                isPay:true,
+                                element
+                            }
+                            statusChapter.push(data);
+                        }else{
+                            const data = {
+                                isPay:false,
+                                element
+                            }
+                            statusChapter.push(data);
+                        }
+                    }
+                }
+                
             }
-            return new HttpResponse(chapter);
+            return new HttpResponse(statusChapter);
         }catch(errors){
             throw errors;
         }

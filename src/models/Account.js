@@ -143,9 +143,50 @@ class Account {
                 'required': false,
             },
             'timeReadBook':{
+                'type': [
+                    {
+                        'createYear': {
+                            'type': Number,
+                            'required': true,
+                            
+                        },
+                        'details': {
+                            'type': [
+                                {
+                                    'month': {
+                                        'type': String,
+                                        'required': true,
+                                        
+                                    },
+                                    'time': {
+                                        'type': Number,
+                                        'required': true,
+                                    },
+                                }
+                            ],
+                            'required': false,
+                        }
+                    }
+                ],
+                'required': true,
+                'default': [],
+            },
+            'purchaseHistory': {
+                'type': [
+                    {
+                        'idCart': {
+                            'type': Schema.Types.ObjectId,
+                            'required': true,
+                            'ref':'cart'
+                        },
+                    }
+                ],
+                'required': false,
+            },
+            'typeLogin':{
                 'type': String,
                 'required': false,
-            }
+            },
         }, { 'timestamps': true } );
 
         schema.statics.findByEmail = function( email ) {

@@ -82,8 +82,6 @@ class BookService extends Service {
                 error.statusCode = 404;
                 throw error;
             }
-         
-            console.log(book);
             return new HttpResponse( book);
         } catch (errors) {
             throw errors;

@@ -32,8 +32,9 @@ class BookController extends Controller{
 
     async getChapterBook(req, res, next) {
         try {
-            const {id} = req.params;
-            const response = await chapterService.getChapterBook(id);
+            const {id} = req.body;
+            const idUser=req.account._id;
+            const response = await chapterService.getChapterBook(id,idUser);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
@@ -85,7 +86,6 @@ class BookController extends Controller{
         try {
             const { id } = req.params;
             const response = await this.service.getBookById(id);
-            console.log(response);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
