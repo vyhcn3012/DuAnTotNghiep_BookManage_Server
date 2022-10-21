@@ -28,7 +28,6 @@ class AuthCotroller {
             const check_email = config.EMAIL_GOOGLE_TESTING;
             const body = {
                 email: email,
-                role: config.USER_ROLE.USER,
                 name: name,
                 image: picture,
                 phone: " ",
