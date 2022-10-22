@@ -315,7 +315,6 @@ class AuthCotroller {
         try {  
                const idUser=req.account._id;
                const {name}=req.body;
-               
                const urlImage= await userService.createImage(req.file);
                const data = {
                     image:urlImage.data.url,
