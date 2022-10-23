@@ -15,7 +15,6 @@ class AuthService {
     async login(body){
         const { name, email, phone, permission, image, bookmark, wallet,
             favoritebooks, token_fcm } = body;
-        //console.log("===> login", token_fcm);
 
         try {
             let account = await this.userService.findByEmail(email);
@@ -46,9 +45,9 @@ class AuthService {
             }
             let cacheUser = await this.userService.findInfoByEmail(email);
             cacheUser = cacheUser.data;
-            console.log("===> cacheUser", cacheUser);
 
             const token = await this.model.generateToken(cacheUser);
+            console.log('token',token);
             await this.model.create({ token, 'account': new mongoose.mongo.ObjectId(cacheUser._id) });
             const tokenData = await this.model.findOne({ 'token': token });
 
@@ -57,6 +56,7 @@ class AuthService {
                 token: tokenData.token,
                 account: cacheUser,
             }
+
             return new HttpResponse(_tokenData);
         } catch (e) {
             console.log('>>>>>>>>79 Auth service error: ', e);
@@ -86,6 +86,7 @@ class AuthService {
                 token: tokenData.token,
                 account: cacheUser,
             }
+
             return new HttpResponse(_tokenData);
         } catch (e) {
             console.log('>>>>>>>>79 Auth service error: ', e);

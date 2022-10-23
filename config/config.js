@@ -3,7 +3,7 @@ const path = require('path')
 module.exports.getConfig = () => {
     const config = {
         'MODE': 'Development',             
-        'PORT': process.env.PORT || 5555,
+        'PORT': process.env.PORT || 5556,
         'MONGO_URL': 'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
         'MONGO_RESTORE_URL': 'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
         'JWT_SECRET': 'R4ND0M5TR1NG',
@@ -38,7 +38,7 @@ module.exports.getConfig = () => {
     // Modify for Production
     if (process.env.NODE_ENV === 'production') {
         config.MODE = 'Production';
-        config.HOST = `https://bookofword.herokuapp.com`;
+        config.HOST = `https://bookworlddasboard.herokuapp.com`;
     } else {
         // local
         config.HOST = `http://localhost:${process.env.PORT || 5555}`;

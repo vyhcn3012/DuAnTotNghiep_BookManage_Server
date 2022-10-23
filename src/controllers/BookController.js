@@ -91,6 +91,7 @@ class BookController extends Controller{
             // next(e);
         }
     }
+
     async getBookByIdCategory(req, res, next) {
         try {
             const { id } = req.params;
@@ -105,6 +106,7 @@ class BookController extends Controller{
     async getCommentChapters(req, res, next) {
         try {
             const { id } = req.params;
+            console.log(id);
             const response = await commentService.getCommentChapters(id);
             await res.status(response.statusCode).json(response);
         } catch (e) {

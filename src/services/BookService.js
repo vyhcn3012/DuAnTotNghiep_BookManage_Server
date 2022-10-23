@@ -61,8 +61,8 @@ class BookService extends Service {
 
     async getBookById(id) {
             try {
-                const book = await this.model.find({'account':id})  
-
+                const book = await this.model.find({'account':id})
+                .populate('categoryId');
                 if (!book) {
                     const error = new Error('Không tìm thấy cuốn sách này');
                     error.statusCode = 404;
@@ -73,6 +73,7 @@ class BookService extends Service {
                 throw errors;
             }
     }
+
 
     async getBookByIdCategory(id) {
         try {

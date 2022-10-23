@@ -89,6 +89,13 @@ class UserService extends Service{
         }
     }
 
+    async timeReadBook(user) {
+        try {
+        } catch (error) {
+            throw error;
+        }  
+    }
+
     async getCountreadBook(id) {
         try {
             //$project: { count: { $size:"$historyBookRead" }}
@@ -313,6 +320,19 @@ class UserService extends Service{
                 throw new Error('Tài khoản không tìm thấy');
             }
             return new HttpResponse(_id);
+        }catch{
+            throw errors;
+        }
+    }
+
+    async getNotification(id){
+        try{
+            const account = await this.model.findById(id)
+            .populate('notification');
+            if(!account){
+                throw new Error('Tài khoản không tìm thấy');
+            }
+            return new HttpResponse(account);
         }catch{
             throw errors;
         }
