@@ -37,7 +37,7 @@ class Chapter {
                 'ref': 'comment'
             },
             'permission': {
-                'type': String,
+                'type': Number,
                 'required': false,
             },
             'price': {

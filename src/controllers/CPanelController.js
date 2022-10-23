@@ -69,6 +69,7 @@ class CPanelController {
                           favoritebooks: "",
                         };
                         const account = await authService.login(body);
+                        console.log(account);
     
                         res.cookie("token", account.data.token, {
                           expires: new Date(Date.now() + config.COOKIE_TOKEN_LIFETIME),

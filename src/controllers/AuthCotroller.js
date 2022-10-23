@@ -3,11 +3,8 @@ const { UserService } = require('./../services/UserService');
 const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
 const { Account } = require('./../models/Account');
-const { Book } = require('./../models/Book');
-const { BookService } = require('./../services/BookService');
 const authService = new AuthService(new Auth().getInstance(), new Account().getInstance());
 const userService = new UserService(new Account().getInstance());
-const bookService = new BookService(new Book().getInstance());
 const stripe = require("stripe")("sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7");
 const autoBind = require('auto-bind');
 const bcrypt=require('bcryptjs');
@@ -27,8 +24,8 @@ class AuthCotroller {
                 idToken: token,
                 audience: config.GOOGLE_CLIENT_ID
             });
-            
             const { name, email, picture } = ticket.getPayload();
+            const check_email = config.EMAIL_GOOGLE_TESTING;
             const body = {
                 email: email,
                 name: name,
@@ -174,26 +171,6 @@ class AuthCotroller {
         try {
             const { id, idBook } = req.body;
             const response = await userService.postFollowBooks(id,idBook);
-            await res.status(response.statusCode).json(response);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async getTimeRead(req, res, next) {
-        try {
-            const { idUser } = req.body;
-            const response = await userService.getTimeRead(idUser);
-            return res.status(response.statusCode).json(response);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async getNotification(req, res, next) {
-        try {
-            const { _id } = req.account;
-            const response = await userService.getNotification(_id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
