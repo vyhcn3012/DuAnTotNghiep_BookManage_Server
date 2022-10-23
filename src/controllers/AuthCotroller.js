@@ -66,7 +66,7 @@ class AuthCotroller {
     }
     async getTimeRead(req, res, next) {
         try {
-            const { id } = req.params;
+            const { id } = req.account;
             const response = await userService.getTimeRead(id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
