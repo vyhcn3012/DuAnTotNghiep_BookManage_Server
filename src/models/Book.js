@@ -49,6 +49,11 @@ class Book {
                 'type': Number,
                 'required': false,
             },
+            'status': {
+                'type': Number,
+                'required': true,
+                'default': 3,
+            },
         }, { 'timestamps': true } );
 
         schema.plugin( uniqueValidator );

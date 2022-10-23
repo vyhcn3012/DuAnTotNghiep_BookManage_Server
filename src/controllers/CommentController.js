@@ -16,14 +16,15 @@ class CommentController extends Controller {
 
     async postComment(req, res, next) {
         try {
-            const { evaluate, idChapter, content, idUser } =req.body;
-            const imageUser = await userService.findInfoById(idUser);
+            const { evaluate, idChapter, content, idUser, idBook } =req.body;
+            const detailUser = await userService.findInfoById(idUser);
             const data={
                 idChapter: idChapter,
                 content: content,
-                userName: idUser,
+                userName: detailUser.data.name,
                 evaluate: evaluate,
-                image: imageUser.data.image,
+                image: detailUser.data.image,
+                idBook: idBook
                
             }
             const response = await this.service.insert(data);

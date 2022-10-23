@@ -33,6 +33,11 @@ module.exports.getConfig = () => {
             'PENDING': 2, // Tài khoản đang chờ duyệt
             'ACTIVE': 3, // Tài khoản đã được duyệt
         },
+        'BOOK_STATUS': {
+            'CLOSE': 1, // Cuốn sách không hợp lệ đã hủy
+            'PENDING': 2, // Đang chờ kiểm duyệt nội dung sách
+            'ACTIVE': 3, // Sách đã được kiểm duyệt
+        },
     }
 
     // Modify for Production
