@@ -41,5 +41,6 @@ router.post('/registerNumberPhone', AuthController.insertNumberphone);
 router.post('/loginNumberPhone', AuthController.loginNumberphone);
 router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.changeReadTimeBook);
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
+router.post('/creatPaymentIntent', AuthController.creatPaymentIntent);
 router.post('/getChangeProfile',[singleUpload],AuthController.checkLogin, AuthController.getChangeProfile);
 module.exports = router;
