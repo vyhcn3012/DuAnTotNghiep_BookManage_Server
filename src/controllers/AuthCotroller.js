@@ -302,6 +302,17 @@ class AuthCotroller {
         }
       }
 
+      async getAllUsersChat(req, res, next) {
+        try {
+            const { _id } = req.account;
+            console.log(_id);
+            const response = await userService.getAllUsersChat(_id);
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+      }
+
       async getpurchaseCart(req, res, next) {
         try {  
                const idUser=req.account._id;

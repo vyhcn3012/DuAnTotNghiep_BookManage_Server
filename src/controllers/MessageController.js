@@ -19,6 +19,16 @@ class MessageController extends Controller {
             next(e);
         }
     }
+
+    async sendMessage(req, res, next) {
+        try {
+            const { from, to, message } = req.body;
+            const response = await this.service.sendMessage(from, to, message);
+            await res.status(response.statusCode).json(response);
+        } catch (e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new MessageController(messageService);

@@ -28,10 +28,11 @@ server.listen(PORT).on('error', (err) => {
 
 const io = socket(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "*",
       credentials: true,
     },
 });
+  
 
 global.onlineUsers = new Map();
 io.on("connection", (socket) => {

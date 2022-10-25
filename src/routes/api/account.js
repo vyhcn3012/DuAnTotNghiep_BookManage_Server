@@ -43,4 +43,6 @@ router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.chan
 router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuthor);
 router.post('/creatPaymentIntent', AuthController.creatPaymentIntent);
 router.post('/getChangeProfile',[singleUpload],AuthController.checkLogin, AuthController.getChangeProfile);
+
+router.get('/get-all-users-chat', AuthController.checkLogin, AuthController.getAllUsersChat);
 module.exports = router;

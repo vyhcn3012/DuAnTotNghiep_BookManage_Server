@@ -4,5 +4,8 @@ const AuthController = require( '../../controllers/AuthCotroller' );
 
 const express = require('express'),
     router = express.Router();
-router.post("getMessages", MessageController.getMessages);
+    
+router.post("/get-message", MessageController.getMessages);
+router.post("/send-message", MessageController.sendMessage);
+
 module.exports = router;

@@ -7,14 +7,13 @@ class Message {
     initSchema() {
         const schema = new Schema({
             'message': {
-                'type': String,
-                'required': true,
+                'text': { type: String, required: true },
             },
-            users: Array,
+            accounts: Array,
             'sender':{
                 'type': Schema.Types.ObjectId,
                 'required': true,
-                'ref':'user',
+                'ref':'account',
             },
         }, { 'timestamps': true } );
 
