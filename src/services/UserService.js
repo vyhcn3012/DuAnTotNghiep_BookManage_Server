@@ -105,6 +105,21 @@ class UserService extends Service{
         }
     }
 
+    async getAllUsersChat(_id) {
+        try {
+            const accounts = await this.model.find({ _id: { $ne: _id } }).select([
+                "email",
+                "name",
+                "image",
+                "_id",
+            ]);
+
+            return new HttpResponse(accounts);
+        }catch (e) {
+            throw e;
+        }
+    }
+
     async findByEmail(email) {  
         return this.model.findByEmail(email);
     }

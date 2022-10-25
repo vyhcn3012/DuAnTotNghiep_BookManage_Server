@@ -13,20 +13,39 @@ class MessageService extends Service {
     }
 
     async getMessages(from, to) {
-        const messages = await this.model.find({
-            users: {
-                $all: [from, to],
-              },
-            }).sort({ updatedAt: 1 });
+        try {
+            const messages = await this.model.find({
+                users: {
+                    $all: [from, to],
+                },
+                }).sort({ updatedAt: 1 });
 
-        const projectedMessages = messages.map((msg) => {
-            return {
-                fromSelf: msg.sender.toString() === from,
-                message: msg.message.text,
-            };
-        });
+            const projectedMessages = messages.map((msg) => {
+                return {
+                    fromSelf: msg.sender.toString() === from,
+                    message: msg.message.text,
+                };
+            });
 
-        return new HttpResponse(projectedMessages);
+            return new HttpResponse(projectedMessages);
+        } catch (e){
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        }
+    }
+
+    async sendMessage(from, to, message) {
+        try {
+            const data = await this.model.create({
+                message: { text: message },
+                accounts: [from, to],
+                sender: from,
+            });
+            
+            return new HttpResponse(data);
+        } catch (e){
+            console.log(e);
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        }
     }
 }
 
