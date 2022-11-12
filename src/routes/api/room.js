@@ -9,5 +9,6 @@ router.post(
     AuthController.checkLogin,
     RoomController.createRoom,
 );
+router.get('/get-rooms', AuthController.checkLogin, RoomController.getRooms);
 
 module.exports = router;

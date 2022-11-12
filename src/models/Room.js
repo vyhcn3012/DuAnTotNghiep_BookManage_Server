@@ -13,9 +13,9 @@ class Room {
                 },
                 image: {
                     type: String,
-                    required: false,
+                    requred: false,
                 },
-                user: {
+                users: {
                     type: [Schema.Types.ObjectId],
                     required: true,
                     ref: 'account',

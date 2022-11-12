@@ -1,105 +1,103 @@
 'use strict';
-const mongoose = require( 'mongoose' );
-const autoBind = require( 'auto-bind' );
-const { HttpResponse } = require( '../helpers/HttpResponse' );
+const mongoose = require('mongoose');
+const autoBind = require('auto-bind');
+const { HttpResponse } = require('../helpers/HttpResponse');
 
 class Service {
-    constructor( model ) {
+    constructor(model) {
         this.model = model;
-        autoBind( this );
+        autoBind(this);
     }
 
-    async getAll( query ) {
+    async getAll(query) {
         let { skip, limit, sortBy } = query;
 
-        skip = skip ? Number( skip ) : 0;
-        limit = limit ? Number( limit ) : 10;
-        sortBy = sortBy ? sortBy : { 'createdAt': -1 };
+        skip = skip ? Number(skip) : 0;
+        limit = limit ? Number(limit) : 10;
+        sortBy = sortBy ? sortBy : { createdAt: -1 };
 
         delete query.skip;
         delete query.limit;
         delete query.sortBy;
 
-        if ( query._id ) {
+        if (query._id) {
             try {
-                query._id = new mongoose.mongo.ObjectId( query._id );
-            } catch ( error ) {
-                throw new Error( 'Có lỗi, bạn có thể thử lại sau' );
+                query._id = new mongoose.mongo.ObjectId(query._id);
+            } catch (error) {
+                throw new Error('Có lỗi, bạn có thể thử lại sau');
             }
         }
 
         try {
             const items = await this.model
-                    .find( query )
-                    .sort( sortBy )
-                    .skip( skip )
-                    .limit( limit ),
+                    .find(query)
+                    .sort(sortBy)
+                    .skip(skip)
+                    .limit(limit),
+                total = await this.model.countDocuments(query);
 
-                total = await this.model.countDocuments( query );
-
-            return new HttpResponse( items, { 'totalCount': total } );
-        } catch ( errors ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau');;
+            return new HttpResponse(items, { totalCount: total });
+        } catch (errors) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-
-    async get( id ) {
+    async get(id) {
         try {
-            const item = await this.model.findById( id );
+            const item = await this.model.findById(id);
 
-            if ( !item ) {
-                const error = new Error( 'Item not found' );
+            if (!item) {
+                const error = new Error('Item not found');
 
                 error.statusCode = 404;
                 throw error;
             }
 
-            return new HttpResponse( item );
-        } catch ( errors ) {
-            console.log('========>65 service get error: ' ,id,  errors);
-            throw new Error('Có lỗi, bạn có thể thử lại sau');;
+            return new HttpResponse(item);
+        } catch (errors) {
+            console.log('========>65 service get error: ', id, errors);
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-    async insert( data ) {
+    async insert(data) {
         try {
-            const item = await this.model.create( data );
-
-            if ( item ) {
-                return new HttpResponse( item );
+            const item = await this.model.create(data);
+            if (item) {
+                return new HttpResponse(item);
             }
-            throw new Error( 'Có lỗi, bạn có thể thử lại sau' );
-            
-        } catch ( error ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau');;
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (error) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-    async update( id, data ) {
+    async update(id, data) {
         try {
-            const item = await this.model.findByIdAndUpdate( id, data, { 'new': true } );
+            const item = await this.model.findByIdAndUpdate(id, data, {
+                new: true,
+            });
 
-            return new HttpResponse( item );
-        } catch ( errors ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau');;
+            return new HttpResponse(item);
+        } catch (errors) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-    async delete( id ) {
+    async delete(id) {
         try {
-            const item = await this.model.findByIdAndDelete( id );
+            const item = await this.model.findByIdAndDelete(id);
 
-            if ( !item ) {
-                const error = new Error( 'Item not found' );
+            if (!item) {
+                const error = new Error('Item not found');
 
                 error.statusCode = 404;
                 throw error;
             } else {
-                return new HttpResponse( item, { 'deleted': true } );
+                return new HttpResponse(item, { deleted: true });
             }
-        } catch ( errors ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau');;
+        } catch (errors) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 }

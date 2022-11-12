@@ -1,29 +1,29 @@
-"use strict";
-const { Service } = require("../../system/services/Service");
-const autoBind = require("auto-bind");
-const config = require("../../config/config").getConfig();
-const { HttpResponse } = require("../../system/helpers/HttpResponse");
-const { UserBookService } = require("./UserBookService");
-const { UserBook } = require("../models/UserBook");
-const { Notification } = require("../models/Notification");
-const { NotificationService } = require("./NotificationService");
+'use strict';
+const { Service } = require('../../system/services/Service');
+const autoBind = require('auto-bind');
+const config = require('../../config/config').getConfig();
+const { HttpResponse } = require('../../system/helpers/HttpResponse');
+const { UserBookService } = require('./UserBookService');
+const { UserBook } = require('../models/UserBook');
+const { Notification } = require('../models/Notification');
+const { NotificationService } = require('./NotificationService');
 
 const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
 
-const bcrypt = require("bcryptjs");
-const request = require("request");
-var path = require("path");
-const ALLOWED_FORMATS = ["image/jpeg", "image/png", "image/jpg"];
-const DatauriParser = require("datauri/parser");
+const bcrypt = require('bcryptjs');
+const request = require('request');
+var path = require('path');
+const ALLOWED_FORMATS = ['image/jpeg', 'image/png', 'image/jpg'];
+const DatauriParser = require('datauri/parser');
 const parser = new DatauriParser();
 const formatBufferTo64 = (file) =>
     parser.format(path.extname(file.originalname).toString(), file.buffer);
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require('cloudinary').v2;
 cloudinary.config({
-    cloud_name: "cao-ng-fpt-polytechnic",
-    api_key: "811123551641114",
-    api_secret: "6DMIjAlUUCS8tRoJrDNSd_yqqCg",
+    cloud_name: 'cao-ng-fpt-polytechnic',
+    api_key: '811123551641114',
+    api_secret: '6DMIjAlUUCS8tRoJrDNSd_yqqCg',
 });
 const cloudinaryUpload = (file) => cloudinary.uploader.upload(file);
 class UserService extends Service {
@@ -38,17 +38,17 @@ class UserService extends Service {
         try {
             const item = await this.model.create(data);
             const account = await this.model.findById(item._id).populate({
-                path: "department",
+                path: 'department',
                 populate: {
-                    path: "unit",
-                    select: "name _id",
+                    path: 'unit',
+                    select: 'name _id',
                 },
             });
 
             if (account) {
                 return account;
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             //throw new Error('Có lỗi, bạn có thể thử lại sau', errors);;
         }
@@ -58,20 +58,20 @@ class UserService extends Service {
             const { phoneUser, passwordUser, token_fcm } = body;
             const phone = await this.model.findOne({ phone: phoneUser });
             if (phone) {
-                return new HttpResponse("Số điện thoại này đã đăng ký rồi");
+                return new HttpResponse('Số điện thoại này đã đăng ký rồi');
             }
             const hash = await bcrypt.hash(
                 passwordUser,
-                await bcrypt.genSalt(10)
+                await bcrypt.genSalt(10),
             );
             const data = {
                 fcmtokens: token_fcm ? [token_fcm] : [],
-                name: " ",
-                email: " ",
+                name: ' ',
+                email: ' ',
                 phone: phoneUser,
                 passwordUser: hash,
-                permission: "user",
-                typeLogin: "phone",
+                permission: 'user',
+                typeLogin: 'phone',
                 wallet: 0,
             };
             const item = await this.model.create(data);
@@ -86,7 +86,7 @@ class UserService extends Service {
             const data = await this.model.findOne({ phone: phoneUser });
             return new HttpResponse(data);
         } catch (error) {
-            throw new Error("Có lỗi, bạn có thể thử lại sau nhen");
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
         }
     }
 
@@ -94,10 +94,10 @@ class UserService extends Service {
         try {
             //$project: { count: { $size:"$historyBookRead" }}
             const readbook = await this.model.findById(id, {
-                count: { $size: "$historyBookRead" },
+                count: { $size: '$historyBookRead' },
             });
             if (!readbook) {
-                const error = new Error("Không tìm thấy ");
+                const error = new Error('Không tìm thấy ');
                 error.statusCode = 404;
                 throw error;
             }
@@ -112,7 +112,7 @@ class UserService extends Service {
         try {
             const accounts = await this.model
                 .find({ _id: { $ne: _id } })
-                .select(["email", "name", "image", "_id"]);
+                .select(['email', 'name', 'image', '_id']);
 
             return new HttpResponse(accounts);
         } catch (e) {
@@ -122,9 +122,9 @@ class UserService extends Service {
 
     async findByEmail(email) {
         return this.model.findByEmail(email).populate({
-            path: "notification",
+            path: 'notification',
             populate: {
-                path: "chapter",
+                path: 'chapter',
             },
         });
     }
@@ -133,10 +133,10 @@ class UserService extends Service {
         try {
             const book = await this.model.find(
                 { _id: id },
-                { _id: 0, timeReadBook: 1 }
+                { _id: 0, timeReadBook: 1 },
             );
             if (!book) {
-                const error = new Error("Không tìm thấy cuốn sách này");
+                const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -150,7 +150,7 @@ class UserService extends Service {
         try {
             const author = await this.model.find({ authorAcess: authorAcess });
             if (!author) {
-                const error = new Error("Không tìm thấy này");
+                const error = new Error('Không tìm thấy này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -169,7 +169,7 @@ class UserService extends Service {
 
             const author = await this.model.findByIdAndUpdate(id, data);
             if (!author) {
-                const error = new Error("Không tìm thấy này");
+                const error = new Error('Không tìm thấy này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -186,7 +186,7 @@ class UserService extends Service {
             };
             const author = await this.model.findByIdAndUpdate(id, data);
             if (!author) {
-                const error = new Error("Không tìm thấy này");
+                const error = new Error('Không tìm thấy này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -202,7 +202,7 @@ class UserService extends Service {
             };
             const author = await this.model.findByIdAndUpdate(id, data);
             if (!author) {
-                const error = new Error("Không tìm thấy này");
+                const error = new Error('Không tìm thấy này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -217,14 +217,14 @@ class UserService extends Service {
             const book = await this.model
                 .find({ _id: id }, { _id: 0, favoritebooks: 1 })
                 .populate({
-                    path: "favoriteBooks",
+                    path: 'favoriteBooks',
                     populate: {
-                        path: "idBook",
+                        path: 'idBook',
                     },
                 });
             // console.log(">>>> 120 ", book);
             if (!book) {
-                const error = new Error("Không tìm thấy cuốn sách này");
+                const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -236,7 +236,7 @@ class UserService extends Service {
     async postFavoriteBooks(id, idBook) {
         try {
             const check = await this.model.find({
-                $and: [{ _id: id }, { "favoriteBooks.idBook": idBook }],
+                $and: [{ _id: id }, { 'favoriteBooks.idBook': idBook }],
             });
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {
@@ -244,7 +244,7 @@ class UserService extends Service {
                 });
                 return new HttpResponse(book);
             }
-            return new HttpResponse("Sách đã được thêm vào yêu thích rồi");
+            return new HttpResponse('Sách đã được thêm vào yêu thích rồi');
         } catch (errors) {
             throw errors;
         }
@@ -253,7 +253,7 @@ class UserService extends Service {
     async postFollowBooks(id, idBook) {
         try {
             const check = await this.model.find({
-                $and: [{ _id: id }, { "followBooks.idBook": idBook }],
+                $and: [{ _id: id }, { 'followBooks.idBook': idBook }],
             });
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {
@@ -262,7 +262,7 @@ class UserService extends Service {
 
                 return new HttpResponse(book);
             }
-            return new HttpResponse("Sách đã thêm vào theo dõi");
+            return new HttpResponse('Sách đã thêm vào theo dõi');
         } catch (errors) {
             throw errors;
         }
@@ -273,14 +273,14 @@ class UserService extends Service {
             const book = await this.model
                 .find({ _id: id }, { _id: 0, historyBookRead: 1 })
                 .populate({
-                    path: "historyBookRead",
+                    path: 'historyBookRead',
                     populate: {
-                        path: "idBook",
+                        path: 'idBook',
                     },
                 });
 
             if (!book) {
-                const error = new Error("Không tìm thấy cuốn sách này");
+                const error = new Error('Không tìm thấy cuốn sách này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -294,7 +294,7 @@ class UserService extends Service {
     async postChapterBought(idUser, idChapter) {
         try {
             const check = await this.model.find({
-                "payBook.idChapter": idChapter,
+                'payBook.idChapter': idChapter,
             });
             if (check.length === 0) {
                 let account = await this.model.findByIdAndUpdate(idUser, {
@@ -303,9 +303,9 @@ class UserService extends Service {
                 return new HttpResponse(account);
             }
             if (!account) {
-                throw new Error("Tài khoản không tìm thấy");
+                throw new Error('Tài khoản không tìm thấy');
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (e) {
             throw e;
         }
@@ -314,7 +314,7 @@ class UserService extends Service {
     async postIdReadingBooks(id, idBook) {
         try {
             const check = await this.model.find({
-                "historyBookRead.idBook": idBook,
+                'historyBookRead.idBook': idBook,
             });
             if (check.length === 0) {
                 const book = await this.model.findByIdAndUpdate(id, {
@@ -322,7 +322,7 @@ class UserService extends Service {
                 });
                 return new HttpResponse(book);
             }
-            return new HttpResponse("FF");
+            return new HttpResponse('FF');
         } catch (errors) {
             throw errors;
         }
@@ -332,7 +332,7 @@ class UserService extends Service {
         try {
             const account = await this.model.findById(_id);
             if (!account) {
-                const error = new Error("Không tìm thấy tài khoản này");
+                const error = new Error('Không tìm thấy tài khoản này');
                 error.statusCode = 404;
                 throw error;
             }
@@ -345,15 +345,15 @@ class UserService extends Service {
     async insertNotificationToUser(book, notification) {
         try {
             const bookFavorite = await this.model.find({
-                "favoriteBooks.idBook": book,
+                'favoriteBooks.idBook': book,
             });
             const _id = bookFavorite.map(({ _id }) => _id);
             const accounts = await this.model.updateMany(
                 { _id: { $in: _id } },
-                { $push: { notification: notification } }
+                { $push: { notification: notification } },
             );
             if (!accounts) {
-                throw new Error("Tài khoản không tìm thấy");
+                throw new Error('Tài khoản không tìm thấy');
             }
             return new HttpResponse(_id);
         } catch {
@@ -365,7 +365,7 @@ class UserService extends Service {
         try {
             let account = await this.findByEmail(_email);
             if (!account) {
-                throw new Error("Tài khoản không tìm thấy");
+                throw new Error('Tài khoản không tìm thấy');
             }
 
             const {
@@ -398,7 +398,7 @@ class UserService extends Service {
             if (account) {
                 return new HttpResponse(account);
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (e) {
             throw e;
         }
@@ -410,13 +410,13 @@ class UserService extends Service {
             for (let i = 0; i < _id.length; i++) {
                 let account = await this.model.findById(_id[i]);
                 if (!account) {
-                    throw new Error("Tài khoản không tìm thấy");
+                    throw new Error('Tài khoản không tìm thấy');
                 }
                 const fcm = account.fcmtokens[account.fcmtokens.length - 1];
                 const response = notification.sendFCM(
                     fcm,
                     user_id,
-                    notification_id
+                    notification_id,
                 );
                 console.log(response);
                 return new HttpResponse(response);
@@ -430,7 +430,7 @@ class UserService extends Service {
         try {
             let oneChapter = await eventService.get(eventId);
             if (!oneChapter || !oneChapter.data.available) {
-                throw new Error("Không tìm thấy chương truyện này");
+                throw new Error('Không tìm thấy chương truyện này');
             }
             oneChapter = oneChapter.data;
 
@@ -453,7 +453,7 @@ class UserService extends Service {
                 updatedAt: new Date(),
                 updatedBy: userId,
                 registerAt: new Date(),
-                notes: "",
+                notes: '',
             };
 
             const item = await userBookService.insert(userBook);
@@ -461,10 +461,10 @@ class UserService extends Service {
             if (item) {
                 return new HttpResponse(item);
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (error) {
-            console.log(">>>>>>>>>>>>user register event error: ", error);
-            throw new Error(error.message || "Có lỗi, bạn có thể thử lại sau");
+            console.log('>>>>>>>>>>>>user register event error: ', error);
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
         }
     }
 
@@ -474,9 +474,9 @@ class UserService extends Service {
             const timeReadBookUser = userReadTime.timeReadBook;
             const { time } = body;
             var d = new Date();
-            const options = { month: "long" };
-            const month = new Intl.DateTimeFormat("en-US", options).format(
-                d.getMonth() + 1
+            const options = { month: 'long' };
+            const month = new Intl.DateTimeFormat('en-US', options).format(
+                d.getMonth() + 1,
             );
             const year = d.getFullYear();
             if (timeReadBookUser.length == 0) {
@@ -496,7 +496,7 @@ class UserService extends Service {
                 if (item) {
                     return new HttpResponse(item);
                 }
-                throw new Error("Có lỗi, bạn có thể thử lại sau");
+                throw new Error('Có lỗi, bạn có thể thử lại sau');
             }
             for (const element of timeReadBookUser) {
                 if (element.createYear == year) {
@@ -505,7 +505,7 @@ class UserService extends Service {
                             element1.time = element1.time + time;
                         } else {
                             const check = await this.model.find({
-                                "timeReadBook.details.month": month,
+                                'timeReadBook.details.month': month,
                             });
                             if (check.length === 0) {
                                 const data = {
@@ -515,14 +515,14 @@ class UserService extends Service {
                                 const item = await this.model.updateOne(
                                     {
                                         _id: id,
-                                        "timeReadBook.createYear":
+                                        'timeReadBook.createYear':
                                             element.createYear,
                                     },
                                     {
                                         $push: {
-                                            "timeReadBook.$.details": data,
+                                            'timeReadBook.$.details': data,
                                         },
-                                    }
+                                    },
                                 );
                                 if (item) {
                                     return new HttpResponse(item);
@@ -533,9 +533,9 @@ class UserService extends Service {
                     const item = await this.model.updateOne(
                         {
                             _id: id,
-                            "timeReadBook.createYear": element.createYear,
+                            'timeReadBook.createYear': element.createYear,
                         },
-                        { $set: { "timeReadBook.$.details": element.details } }
+                        { $set: { 'timeReadBook.$.details': element.details } },
                     );
                     if (item) {
                         return new HttpResponse(item);
@@ -557,11 +557,11 @@ class UserService extends Service {
                     if (item) {
                         return new HttpResponse(item);
                     }
-                    throw new Error("Có lỗi, bạn có thể thử lại sau");
+                    throw new Error('Có lỗi, bạn có thể thử lại sau');
                 }
             }
         } catch (error) {
-            throw new Error(error.message || "Có lỗi, bạn có thể thử lại sau");
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
         }
     }
 
@@ -595,7 +595,7 @@ class UserService extends Service {
             if (item) {
                 return new HttpResponse(item);
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             throw errors;
         }
@@ -606,13 +606,13 @@ class UserService extends Service {
             const item = await this.model
                 .find({ _id: idUser }, { purchaseHistory: 1 })
                 .populate({
-                    path: "purchaseHistory",
+                    path: 'purchaseHistory',
                     populate: {
-                        path: "idCart",
+                        path: 'idCart',
                         populate: {
-                            path: "idChapter",
+                            path: 'idChapter',
                             populate: {
-                                path: "idBook",
+                                path: 'idBook',
                             },
                         },
                     },
@@ -620,7 +620,7 @@ class UserService extends Service {
             if (item) {
                 return new HttpResponse(item);
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             throw errors;
         }
@@ -632,7 +632,7 @@ class UserService extends Service {
             if (item) {
                 return new HttpResponse(item);
             }
-            throw new Error("Có lỗi, bạn có thể thử lại sau");
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
             throw errors;
         }
@@ -641,7 +641,7 @@ class UserService extends Service {
     async createImage(file) {
         try {
             if (!file) {
-                throw new Error("Image is not presented!");
+                throw new Error('Image is not presented!');
             }
 
             const file64 = formatBufferTo64(file);
@@ -659,22 +659,22 @@ class UserService extends Service {
     async createAudio(file) {
         try {
             if (!file) {
-                throw new Error("Image is not presented!");
+                throw new Error('Image is not presented!');
             }
             let audioUrl;
             const file64 = formatBufferTo64(file);
-            const fName = file.originalname.split(".")[0];
+            const fName = file.originalname.split('.')[0];
             const cloudinaryUploadAudio = await cloudinary.uploader.upload(
                 file64.content,
                 {
-                    resource_type: "video",
+                    resource_type: 'video',
                     public_id: `AudioUploads/${fName}`,
                 },
 
                 // Send cloudinary response or catch error
                 (err, audio) => {
                     audioUrl = audio;
-                }
+                },
             );
 
             const response = {

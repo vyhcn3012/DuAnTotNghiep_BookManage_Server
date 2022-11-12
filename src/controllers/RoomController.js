@@ -13,9 +13,26 @@ class RoomController extends Controller {
 
     async createRoom(req, res, next) {
         try {
-            const { name, user } = req.body;
-            console.log('===> name', name, user);
-            const response = await this.service.insert(name, user);
+            const { name, image, users } = req.body;
+            const createdBy = req.account._id;
+            users.push(createdBy);
+            const response = await this.service.insert({
+                name,
+                image,
+                users,
+                createdBy,
+                createdAt: new Date(),
+            });
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getRooms(req, res, next) {
+        try {
+            const { _id } = req.account;
+            const response = await this.service.getRooms(_id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
