@@ -14,11 +14,13 @@ class MessageService extends Service {
 
     async getMessages(from, to) {
         try {
-            const messages = await this.model.find({
-                users: {
-                    $all: [from, to],
-                },
-                }).sort({ updatedAt: 1 });
+            const messages = await this.model
+                .find({
+                    users: {
+                        $all: [from, to],
+                    },
+                })
+                .sort({ updatedAt: 1 });
 
             const projectedMessages = messages.map((msg) => {
                 return {
@@ -28,21 +30,21 @@ class MessageService extends Service {
             });
 
             return new HttpResponse(projectedMessages);
-        } catch (e){
+        } catch (e) {
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-    async sendMessage(from, to, message) {
+    async sendMessage(message, room, _idUser) {
         try {
             const data = await this.model.create({
                 message: { text: message },
-                accounts: [from, to],
-                sender: from,
+                room: room,
+                sender: _idUser,
             });
-            
+
             return new HttpResponse(data);
-        } catch (e){
+        } catch (e) {
             console.log(e);
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         }

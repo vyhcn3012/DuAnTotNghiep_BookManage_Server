@@ -5,7 +5,6 @@ require('./config/database');
 // attention, reload cache each restart, every midnight
 // require('./config/cache').start();
 
-
 const config = require('./config/config').getConfig(),
     PORT = config.PORT;
 // const { socket } = require('./config/socket');
@@ -16,38 +15,42 @@ console.log(`✔ Port: ${PORT}`);
 
 const { server: app } = require('./config/server');
 const server = http.createServer(app);
-const socket = require("socket.io");
+const socket = require('socket.io');
 
-server.listen(PORT).on('error', (err) => {
-    console.log('✘ Application failed to start');
-    console.error('✘', err.message);
-    process.exit(0);
-}).on('listening', () => {
-    console.log('✔ Application Started');
-});
+server
+    .listen(PORT)
+    .on('error', (err) => {
+        console.log('✘ Application failed to start');
+        console.error('✘', err.message);
+        process.exit(0);
+    })
+    .on('listening', () => {
+        console.log('✔ Application Started');
+    });
 
 const io = socket(server, {
     cors: {
-      origin: "*",
-      credentials: true,
+        origin: '*',
+        credentials: true,
     },
 });
-  
 
 global.onlineUsers = new Map();
-io.on("connection", (socket) => {
+io.on('connection', (socket) => {
     global.chatSocket = socket;
-    socket.on("add-user", (userId) => {
+
+    socket.on('add-user', (userId) => {
+        console.log(userId);
         onlineUsers.set(userId, socket.id);
     });
-  
-    socket.on("send-msg", (data) => {
+
+    socket.on('send-msg', (data) => {
+        console.log(data.to);
         const sendUserSocket = onlineUsers.get(data.to);
         if (sendUserSocket) {
-            socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+            socket.to(sendUserSocket).emit('msg-recieve', data.msg);
         }
     });
 });
-
 
 module.exports = { server };

@@ -1,26 +1,37 @@
-const mongoose = require( 'mongoose' );
-const { Schema } = require( 'mongoose' );
-const uniqueValidator = require( 'mongoose-unique-validator' );
+const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 class Message {
     static instance = null;
     initSchema() {
-        const schema = new Schema({
-            'message': {
-                'text': { type: String, required: true },
+        const schema = new Schema(
+            {
+                message: {
+                    text: { type: String, required: true },
+                },
+                room: {
+                    type: Schema.Types.ObjectId,
+                    required: true,
+                    ref: 'room',
+                },
+                user: {
+                    type: Schema.Types.ObjectId,
+                    required: true,
+                    ref: 'account',
+                },
+                createdAt: {
+                    type: Date,
+                    required: true,
+                },
             },
-            accounts: Array,
-            'sender':{
-                'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref':'account',
-            },
-        }, { 'timestamps': true } );
+            { timestamps: true },
+        );
 
-        schema.plugin( uniqueValidator );
+        schema.plugin(uniqueValidator);
         try {
-            mongoose.model( 'message', schema );
-        } catch ( e ) {
+            mongoose.model('message', schema);
+        } catch (e) {
             throw e;
         }
     }
@@ -28,8 +39,8 @@ class Message {
     getInstance() {
         if (!Message.instance) {
             this.initSchema();
-            Message.instance = mongoose.model( 'message' );
-        }        
+            Message.instance = mongoose.model('message');
+        }
         return Message.instance;
     }
 }
