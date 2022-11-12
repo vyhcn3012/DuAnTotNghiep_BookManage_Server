@@ -12,20 +12,20 @@ class MessageService extends Service {
         autoBind(this);
     }
 
-    async getMessages(from, to) {
+    async getMessages(room, _idUser) {
         try {
             const messages = await this.model
-                .find({
-                    users: {
-                        $all: [from, to],
-                    },
-                })
+                .find({ room: room })
+                .populate('user')
                 .sort({ updatedAt: 1 });
-
+            console.log(messages);
             const projectedMessages = messages.map((msg) => {
                 return {
-                    fromSelf: msg.sender.toString() === from,
+                    fromSelf: msg.user._id.toString() === _idUser,
                     message: msg.message.text,
+                    createdAt: msg.createdAt,
+                    name: msg.user.name,
+                    avatar: msg.user.image,
                 };
             });
 
@@ -40,7 +40,8 @@ class MessageService extends Service {
             const data = await this.model.create({
                 message: { text: message },
                 room: room,
-                sender: _idUser,
+                user: _idUser,
+                createdAt: new Date(),
             });
 
             return new HttpResponse(data);

@@ -10,6 +10,10 @@ router.post(
     AuthController.checkLogin,
     MessageController.getMessages,
 );
-router.post('/send-message', MessageController.sendMessage);
+router.post(
+    '/send-message',
+    AuthController.checkLogin,
+    MessageController.sendMessage,
+);
 
 module.exports = router;

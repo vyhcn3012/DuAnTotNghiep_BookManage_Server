@@ -12,8 +12,9 @@ class MessageController extends Controller {
 
     async getMessages(req, res, next) {
         try {
-            const { from, to } = req.body;
-            const response = await this.service.getMessages(from, to);
+            const { room } = req.body;
+            const { _id } = req.account;
+            const response = await this.service.getMessages(room, _id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
