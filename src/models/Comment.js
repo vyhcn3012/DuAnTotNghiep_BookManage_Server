@@ -11,6 +11,11 @@ class Comment {
                 'required': true,
                 'ref': 'chapter'
             },
+            'idBook': {
+                'type': Schema.Types.ObjectId,
+                'required': false,
+                'ref': 'book'
+            },
             'userName': {
                 'type': String,
                 'required': false,
