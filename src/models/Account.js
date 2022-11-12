@@ -5,7 +5,6 @@ const uniqueValidator = require( 'mongoose-unique-validator' );
 class Account {
     static instance = null;
     initSchema() {
-            {
         const schema = new Schema({
             'name': {
                 'type': String,
