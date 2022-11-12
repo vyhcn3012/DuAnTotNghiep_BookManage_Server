@@ -125,7 +125,15 @@ class UserService extends Service {
             path: 'notification',
             populate: {
                 path: 'chapter',
-            },
+                select: 'title _id',
+            }
+        }).
+        populate({
+            path: 'notification',
+            populate: {
+                path: 'book',
+                select: 'name image _id',
+            }
         });
     }
 
