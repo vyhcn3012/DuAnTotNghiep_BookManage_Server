@@ -121,20 +121,22 @@ class UserService extends Service {
     }
 
     async findByEmail(email) {
-        return this.model.findByEmail(email).populate({
-            path: 'notification',
-            populate: {
-                path: 'chapter',
-                select: 'title _id',
-            }
-        }).
-        populate({
-            path: 'notification',
-            populate: {
-                path: 'book',
-                select: 'name image _id',
-            }
-        });
+        return this.model
+            .findByEmail(email)
+            .populate({
+                path: 'notification',
+                populate: {
+                    path: 'chapter',
+                    select: 'title _id',
+                },
+            })
+            .populate({
+                path: 'notification',
+                populate: {
+                    path: 'book',
+                    select: 'name image _id',
+                },
+            });
     }
 
     async getTimeRead(id) {
@@ -415,6 +417,7 @@ class UserService extends Service {
     async findFCMTokenById(_id, notification_id, user_id) {
         try {
             const id = _id.length;
+            console.log('id', _id[1]);
             for (let i = 0; i < _id.length; i++) {
                 let account = await this.model.findById(_id[i]);
                 if (!account) {
@@ -426,8 +429,7 @@ class UserService extends Service {
                     user_id,
                     notification_id,
                 );
-                console.log(response);
-                return new HttpResponse(response);
+                // return new HttpResponse(response);
             }
         } catch (e) {
             throw e;
