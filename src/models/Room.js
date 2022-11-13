@@ -2,47 +2,51 @@ const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-class Message {
+class Room {
     static instance = null;
     initSchema() {
         const schema = new Schema(
             {
-                message: {
-                    text: { type: String, required: true },
-                },
-                room: {
-                    type: Schema.Types.ObjectId,
+                name: {
+                    type: String,
                     required: true,
-                    ref: 'room',
+                    unique: false,
                 },
-                user: {
+                image: {
+                    type: String,
+                    requred: false,
+                },
+                users: {
+                    type: [Schema.Types.ObjectId],
+                    required: true,
+                    ref: 'account',
+                },
+                createdBy: {
                     type: Schema.Types.ObjectId,
                     required: true,
                     ref: 'account',
                 },
                 createdAt: {
                     type: Date,
-                    required: true,
+                    required: false,
                 },
             },
-            { timestamps: true },
+            { timestamps: false },
         );
-
         schema.plugin(uniqueValidator);
+
         try {
-            mongoose.model('message', schema);
-        } catch (e) {
-            throw e;
-        }
+            mongoose.model('room', schema);
+        } catch (e) {}
     }
 
     getInstance() {
-        if (!Message.instance) {
+        if (!Room.instance) {
             this.initSchema();
-            Message.instance = mongoose.model('message');
+            Room.instance = mongoose.model('room');
         }
-        return Message.instance;
+        return Room.instance;
     }
 }
 
-module.exports = { Message };
+module.exports = { Room };

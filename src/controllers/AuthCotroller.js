@@ -1,20 +1,20 @@
-const { AuthService } = require("./../services/AuthService");
-const { UserService } = require("./../services/UserService");
-const config = require("../../config/config").getConfig();
-const { Auth } = require("./../models/Auth");
-const { Account } = require("./../models/Account");
+const { AuthService } = require('./../services/AuthService');
+const { UserService } = require('./../services/UserService');
+const config = require('../../config/config').getConfig();
+const { Auth } = require('./../models/Auth');
+const { Account } = require('./../models/Account');
 const authService = new AuthService(
     new Auth().getInstance(),
-    new Account().getInstance()
+    new Account().getInstance(),
 );
 const userService = new UserService(new Account().getInstance());
-const stripe = require("stripe")(
-    "sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7"
+const stripe = require('stripe')(
+    'sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7',
 );
-const autoBind = require("auto-bind");
-const bcrypt = require("bcryptjs");
-const { MediaService } = require("../services/MediaService");
-const { OAuth2Client } = require("google-auth-library"),
+const autoBind = require('auto-bind');
+const bcrypt = require('bcryptjs');
+const { MediaService } = require('../services/MediaService');
+const { OAuth2Client } = require('google-auth-library'),
     client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
     constructor(service) {
@@ -35,17 +35,17 @@ class AuthCotroller {
                 email: email,
                 name: name,
                 image: picture,
-                phone: " ",
-                permission: "author",
-                bookmark: "",
+                phone: ' ',
+                permission: 'author',
+                bookmark: '',
                 wallet: 0,
-                favoritebooks: "",
+                favoritebooks: '',
                 token_fcm: token_fcm,
             };
             const response = await authService.login(body);
             await res.status(response.statusCode).json(response);
         } catch (e) {
-            console.log(">>>>>>132 login error: " + e);
+            console.log('>>>>>>132 login error: ' + e);
             next(e);
         }
     }
@@ -54,7 +54,7 @@ class AuthCotroller {
         try {
             //console.log("getAuthor" + userService.getAll);
             const response = await userService.getAll({ limit: 1000 });
-            const data = response.data.filter((x) => x.permission === "author");
+            const data = response.data.filter((x) => x.permission === 'author');
             res.status(response.statusCode).json(data);
         } catch (e) {
             // next(e);
@@ -154,7 +154,7 @@ class AuthCotroller {
             const { idUser, idChapter } = req.body;
             const response = await userService.postChapterBought(
                 idUser,
-                idChapter
+                idChapter,
             );
             await res.status(response.statusCode).json(response);
         } catch (e) {
@@ -190,7 +190,7 @@ class AuthCotroller {
             const response = await this.service.logout(
                 token,
                 fcmtoken,
-                req.account
+                req.account,
             );
             await res.status(response.statusCode).json(response);
         } catch (e) {
@@ -214,9 +214,9 @@ class AuthCotroller {
     extractToken(req) {
         if (
             req.headers.authorization &&
-            req.headers.authorization.split(" ")[0] === "Bearer"
+            req.headers.authorization.split(' ')[0] === 'Bearer'
         ) {
-            return req.headers.authorization.split(" ")[1];
+            return req.headers.authorization.split(' ')[1];
         } else if (req.query && req.query.token) {
             return req.query.token;
         } else if (req.cookies && req.cookies.token) {
@@ -246,14 +246,14 @@ class AuthCotroller {
             if (id == 1) {
                 const response = await userService.getAll({ limit: 1000 });
 
-                res.render("user/index", {
+                res.render('user/index', {
                     data: response.data,
                     idData: JSON.stringify(id),
                 });
             } else if (id == 2) {
                 const response = await userService.findauthorAcess(id);
 
-                res.render("user/indexAccess", {
+                res.render('user/indexAccess', {
                     data: response.data,
                     idData: JSON.stringify(id),
                 });
@@ -305,7 +305,7 @@ class AuthCotroller {
             const response = await authService.loginNumberphone(body);
             const checkPassword = await bcrypt.compare(
                 passwordUser,
-                response.data.account.passwordUser
+                response.data.account.passwordUser,
             );
             if (checkPassword) {
                 return res.status(response.statusCode).json(response);

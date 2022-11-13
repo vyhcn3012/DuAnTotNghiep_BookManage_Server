@@ -12,37 +12,40 @@ class MessageService extends Service {
         autoBind(this);
     }
 
-    async getMessages(from, to) {
+    async getMessages(room, _idUser) {
         try {
-            const messages = await this.model.find({
-                users: {
-                    $all: [from, to],
-                },
-                }).sort({ updatedAt: 1 });
-
+            const messages = await this.model
+                .find({ room: room })
+                .populate('user')
+                .sort({ updatedAt: 1 });
+            console.log(messages);
             const projectedMessages = messages.map((msg) => {
                 return {
-                    fromSelf: msg.sender.toString() === from,
+                    fromSelf: msg.user._id.toString() === _idUser,
                     message: msg.message.text,
+                    createdAt: msg.createdAt,
+                    name: msg.user.name,
+                    avatar: msg.user.image,
                 };
             });
 
             return new HttpResponse(projectedMessages);
-        } catch (e){
+        } catch (e) {
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
     }
 
-    async sendMessage(from, to, message) {
+    async sendMessage(message, room, _idUser) {
         try {
             const data = await this.model.create({
                 message: { text: message },
-                accounts: [from, to],
-                sender: from,
+                room: room,
+                user: _idUser,
+                createdAt: new Date(),
             });
-            
+
             return new HttpResponse(data);
-        } catch (e){
+        } catch (e) {
             console.log(e);
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         }
