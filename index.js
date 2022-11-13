@@ -1,7 +1,6 @@
 require('dotenv').config();
 // Initialize DB Connection
 require('./config/database');
-
 // attention, reload cache each restart, every midnight
 // require('./config/cache').start();
 
@@ -37,15 +36,14 @@ const io = socket(server, {
 
 global.onlineUsers = new Map();
 io.on('connection', (socket) => {
+    console.log('New client connected');
     global.chatSocket = socket;
-
     socket.on('add-user', (userId) => {
         console.log(userId);
         onlineUsers.set(userId, socket.id);
     });
 
     socket.on('send-msg', (data) => {
-        console.log(data.to);
         const sendUserSocket = onlineUsers.get(data.to);
         if (sendUserSocket) {
             socket.to(sendUserSocket).emit('msg-recieve', data.msg);

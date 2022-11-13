@@ -10,6 +10,7 @@ class Room {
                 name: {
                     type: String,
                     required: true,
+                    unique: false,
                 },
                 image: {
                     type: String,

@@ -8,60 +8,62 @@ const jwt = require('jsonwebtoken'),
 class Auth {
     static instance = null;
     initSchema() {
-        const schema = new Schema({
-            'token': {
-                'type': String,
-                'required': true,
+        const schema = new Schema(
+            {
+                token: {
+                    type: String,
+                    required: true,
+                },
+                account: {
+                    type: Schema.Types.ObjectId,
+                    required: true,
+                    ref: 'account',
+                },
             },
-            'account': {
-                'type': Schema.Types.ObjectId,
-                'required': true,
-                'ref': 'account'
-            }
-        }, { 'timestamps': true } );
+            { timestamps: true },
+        );
 
-        schema.statics.generateToken = async function( account ){
-            try{
-                const token = await jwt.sign({
-                    '_id': account._id?.toString() || '',
-                    'email': account.email,
-                    'phone': account.phone,
-                    'name': account.name,
-                    'permission': account.permission,
-                    'image': account.image,
-                    'bookmark': account.bookmark,
-                    'wallet': account.wallet,
-                    'favoritebooks': account.favoritebooks,
-                    'fcmtokens': account.fcmtokens,
-                    'historyBookRead': account.historyBookRead || [],
-                }, jwtKey, {
-                    'algorithm': 'HS256',
-                    'expiresIn': jwtExpirySeconds,
-                });
+        schema.statics.generateToken = async function (account) {
+            try {
+                const token = await jwt.sign(
+                    {
+                        _id: account._id?.toString() || '',
+                        email: account.email,
+                        phone: account.phone,
+                        name: account.name,
+                        permission: account.permission,
+                        image: account.image,
+                        wallet: account.wallet,
+                    },
+                    jwtKey,
+                    {
+                        algorithm: 'HS256',
+                        expiresIn: jwtExpirySeconds,
+                    },
+                );
                 return token;
-            }catch(e){
+            } catch (e) {
                 throw e;
             }
         };
 
-        schema.statics.decodeToken = async function( token ) {
+        schema.statics.decodeToken = async function (token) {
             try {
-                return await jwt.verify( token, jwtKey );
-            } catch ( e ) {
+                return await jwt.verify(token, jwtKey);
+            } catch (e) {
                 throw e;
             }
         };
         try {
-            mongoose.model( 'auth', schema );
-        } catch ( e ) {
-        }
+            mongoose.model('auth', schema);
+        } catch (e) {}
     }
 
     getInstance() {
         if (!Auth.instance) {
             this.initSchema();
-            Auth.instance = mongoose.model( 'auth' );
-        }        
+            Auth.instance = mongoose.model('auth');
+        }
         return Auth.instance;
     }
 }
