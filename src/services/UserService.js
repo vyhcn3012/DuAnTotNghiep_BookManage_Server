@@ -599,16 +599,6 @@ class UserService extends Service {
                             throw new Error('Có lỗi, bạn có thể thử lại sau');
                         }
                     }
-                    const item = await this.model.updateOne(
-                        {
-                            _id: id,
-                            'timeReadBook.createYear': element.createYear,
-                        },
-                        { $set: { 'timeReadBook.$.details': element.details } },
-                    );
-                    if (item) {
-                        return new HttpResponse(item);
-                    }
                 } else {
                     const detailsmonth = {
                         day: day,
