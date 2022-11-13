@@ -478,17 +478,24 @@ class UserService extends Service {
             const month = new Intl.DateTimeFormat("en-US", options).format(
                 d.getMonth() + 1
             );
+            const day = d.getDate();
             const year = d.getFullYear();
             if (timeReadBookUser.length == 0) {
-                const details = {
-                    month: month,
+                const detailsmonth = {
+                    day: day,
                     time: time,
                 };
+                let detailmonth = [];
+                detailmonth.push(detailsmonth);
+                const detailsyear = {
+                    month: month,
+                    detailsmonth: detailmonth,
+                };
                 let detailYear = [];
-                detailYear.push(details);
+                detailYear.push(detailsyear);
                 const data = {
                     createYear: year,
-                    details: detailYear,
+                    detailsyear: detailYear,
                 };
                 const item = await this.model.findByIdAndUpdate(id, {
                     $push: { timeReadBook: data },
@@ -515,8 +522,7 @@ class UserService extends Service {
                                 const item = await this.model.updateOne(
                                     {
                                         _id: id,
-                                        "timeReadBook.createYear":
-                                            element.createYear,
+                                        "timeReadBook.createYear": element.createYear,
                                     },
                                     {
                                         $push: {

@@ -95,7 +95,17 @@ class Account {
                     default: 1,
                 },
                 aboutAuthor: {
-                    type: String,
+                    type: 
+                        {
+                            introduce: {
+                                type: String,
+                                required: false,
+                            },
+                            details: {
+                                type: String,
+                                required: false,
+                            },
+                        },
                     required: false,
                 },
                 notification: {
@@ -160,16 +170,27 @@ class Account {
                                 type: Number,
                                 required: true,
                             },
-                            details: {
+                            detailsyear: {
                                 type: [
                                     {
                                         month: {
                                             type: String,
                                             required: true,
                                         },
-                                        time: {
-                                            type: Number,
-                                            required: true,
+                                        detailsmonth: {
+                                            type: [
+                                                {
+                                                    day: {
+                                                        type: Number,
+                                                        required: true,
+                                                    },
+                                                    time: {
+                                                        type: Number,
+                                                        required: true,
+                                                    },
+                                                },
+                                            ],
+                                            required: false,
                                         },
                                     },
                                 ],

@@ -29,6 +29,18 @@ class CartController extends Controller{
             // next(e);
         }
     }
+
+    async getToTalBooks(req, res, next) {
+        try {
+            const { month, idUser }=req.body;
+            // const idUser=req.account._id;
+          
+            const response = await this.service.getToTalBooks(idUser, month);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            // next(e);
+        }
+    }
 }
 
 module.exports = new CartController(cartService);
