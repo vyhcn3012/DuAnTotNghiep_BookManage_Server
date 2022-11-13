@@ -150,22 +150,32 @@ class Account {
                             'required': true,
                             
                         },
-                        'details': {
+                        'detailsyear': {
                             'type': [
                                 {
                                     'month': {
                                         'type': String,
                                         'required': true,
-                                        
                                     },
-                                    'time': {
-                                        'type': Number,
-                                        'required': true,
+                                    'detailsmonth': {
+                                        'type': [
+                                            {
+                                                'day': {
+                                                    'type': Number,
+                                                    'required': true,
+                                                },
+                                                'time': {
+                                                    'type': Number,
+                                                    'required': true,
+                                                },
+                                            },
+                                        ],
+                                        'required': false,
                                     },
-                                }
+                                },
                             ],
                             'required': false,
-                        }
+                        },
                     }
                 ],
                 'required': true,

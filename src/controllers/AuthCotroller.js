@@ -81,9 +81,9 @@ class AuthCotroller {
 
     async changeReadTimeBook(req, res, next) {
         try {
-            const idUser = req.account._id;
+            const { _id } = req.account;
             const { body } = req;
-            const response = await userService.changeReadTimeBook(idUser, body);
+            const response = await userService.changeReadTimeBook(_id, body);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
@@ -151,9 +151,10 @@ class AuthCotroller {
 
     async postChapterBought(req, res, next) {
         try {
-            const { idUser, idChapter } = req.body;
+            const { idChapter } = req.body;
+            const { _id } = req.account;
             const response = await userService.postChapterBought(
-                idUser,
+                _id,
                 idChapter,
             );
             await res.status(response.statusCode).json(response);

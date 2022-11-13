@@ -30,7 +30,7 @@ router.get('/:id/getDetailAuthor', AuthController.getDetailAuthor);
 router.get('/:id/getReadTimeBook', AuthController.getReadTimeBook);
 router.get('/getpurchaseCart',AuthController.checkLogin, AuthController.getpurchaseCart);
 
-router.post('/postChapterBought', AuthController.postChapterBought);
+router.post('/postChapterBought',AuthController.checkLogin, AuthController.postChapterBought);
 router.post('/agreeAccess', AuthController.agreeAccess);
 router.post('/refuseAccess', AuthController.refuseAccess);
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
