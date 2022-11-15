@@ -303,18 +303,24 @@ class UserService extends Service {
 
     async postChapterBought(idUser, idChapter) {
         try {
-            const check = await this.model.find({
-                'payBook.idChapter': idChapter, '_id': idUser,
-            });
-            if (check.length === 0) {
-                let account = await this.model.findByIdAndUpdate(idUser, {
-                    $push: { payBook: { idChapter } },
-                });
-              
-                return new HttpResponse(account);
-            }else{
-                return new HttpResponse('Bạn đã mua chapter này rồi');
+            
+            for (const element of idChapter) {
+                for(const element1 of element.idChapter){
+                    const check = await this.model.find({
+                        'payBook.idChapter': element1, '_id': idUser,
+                    });
+                    if (check.length === 0) {
+                        const data = {
+                            idChapter: element1,
+                        };
+                        await this.model.findByIdAndUpdate(idUser, {
+                            $push: { payBook:  data  },
+                        });
+                    }
+                }
             }
+            return new HttpResponse("Success");
+            
         } catch (e) {
             throw e;
         }
