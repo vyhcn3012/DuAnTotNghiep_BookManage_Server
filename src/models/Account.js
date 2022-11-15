@@ -88,7 +88,16 @@ class Account {
                 'default': 1
             },
             'aboutAuthor':{
-                'type': String,
+                'type':  {
+                            'introduce': {
+                                type: String,
+                                required: false,
+                            },
+                            'details': {
+                                type: String,
+                                required: false,
+                            },
+                        },
                 'required': false,
             },
             'notification':{
