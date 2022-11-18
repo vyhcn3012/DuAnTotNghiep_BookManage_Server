@@ -18,6 +18,7 @@ class ChapterService extends Service{
 
     async getChapterBook(id,idUser) {
         try{
+          
             const chapter = await this.model.find({"idBook": id});
             const userChaper= await userService.findInfoById({"_id": idUser});
             const data=userChaper.data.payBook;

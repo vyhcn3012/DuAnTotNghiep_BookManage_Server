@@ -340,11 +340,18 @@ class AuthCotroller {
         try {
             const idUser = req.account._id;
             const { name } = req.body;
-            const urlImage = await userService.createImage(req.file);
-            const data = {
-                image: urlImage.data.url,
-                name,
-            };
+            let data;
+            if(req.file){
+                const urlImage = await userService.createImage(req.file);
+                data = {
+                    image: urlImage.data.url,
+                    name,
+                };
+            }else{
+                data = {
+                    name,
+                };
+            }
             const response = await userService.getChangeProfile(idUser, data);
             await res.status(response.statusCode).json(response);
         } catch (e) {
