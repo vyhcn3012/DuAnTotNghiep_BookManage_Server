@@ -650,7 +650,6 @@ class UserService extends Service {
                             [day.day]: day.time,
                         };
                         dlday.push(data);
-                        
                     }
                     const data = {
                         [month.month]: dlday,
@@ -730,8 +729,7 @@ class UserService extends Service {
                 throw new Error('Image is not presented!');
             }
 
-            const file64 = formatBufferTo64(file);
-            const uploadResult = await cloudinaryUpload(file64.content);
+            const uploadResult = await cloudinaryUpload(file);
             const response = {
                 cloudinaryId: uploadResult.public_id,
                 url: uploadResult.secure_url,
