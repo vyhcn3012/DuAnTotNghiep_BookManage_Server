@@ -18,37 +18,35 @@ class ChapterService extends Service{
 
     async getChapterBook(id,idUser) {
         try{
+          
             const chapter = await this.model.find({"idBook": id});
             const userChaper= await userService.findInfoById({"_id": idUser});
             const data=userChaper.data.payBook;
             let statusChapter=[];
+            let count = 0;
             for (const element of chapter) {
-                if(data.length==0){
-                    const data = {
-                        isPay:false,
-                        element
-                    }
-                    statusChapter.push(data);
-                }else{
-                    for (const element2 of data) { 
-                        const idChapter=element._id.toString();
-                        const idChapterOfpayBook=element2.idChapter.toString();
-                        if(idChapter==idChapterOfpayBook){
-                            const data = {
-                                isPay:true,
-                                element
-                            }
-                            statusChapter.push(data);
-                        }else{
-                            const data = {
-                                isPay:false,
-                                element
-                            }
-                            statusChapter.push(data);
-                        }
+                const idChapter=element._id.toString();
+                for (const element2 of data) { 
+                    const idChapterOfpayBook=element2.idChapter.toString();
+                    if(idChapter==idChapterOfpayBook){
+                       count=1;
                     }
                 }
-                
+                if(count==1){
+                    const data = {
+                        isPay:true,
+                        idChapter:element._id,
+                        chapterNumber:element.chapterNumber,
+                    }
+                    statusChapter.push(data);
+                    count =0;
+                }else{
+                    const data = {
+                        isPay:false,
+                        idChapter:element._id,
+                    }
+                    statusChapter.push(data);
+                }
             }
             return new HttpResponse(statusChapter);
         }catch(errors){
@@ -66,6 +64,20 @@ class ChapterService extends Service{
           
         } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
+    async getChapterDetails(id) {
+        try {
+            const item = await this.model.findById(id);
+            if (!item) {
+                const error = new Error("Không tìm thấy chương này");
+                error.statusCode = 404;
+                throw error;
+              }
+           
+            return new HttpResponse( item );
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
         }
     }
 }

@@ -94,6 +94,15 @@ class ChapterController extends Controller {
     async test(req, res, next) {
         return res.render('test');
     }
+    async getChapterDetailsBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await chapterService.getChapterDetails(id);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new ChapterController(chapterService);
