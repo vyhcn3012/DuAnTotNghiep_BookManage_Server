@@ -729,13 +729,7 @@ class UserService extends Service {
                 throw new Error('Image is not presented!');
             }
 
-<<<<<<< Updated upstream
             const uploadResult = await cloudinaryUpload(file);
-=======
-            const file64 = formatBufferTo64(file);
-            console.log(file64);
-            const uploadResult = await cloudinaryUpload(file64.content);
->>>>>>> Stashed changes
             const response = {
                 cloudinaryId: uploadResult.public_id,
                 url: uploadResult.secure_url,
