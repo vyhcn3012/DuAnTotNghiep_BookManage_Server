@@ -2,7 +2,7 @@ const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { Room } = require('../models/Room');
 const { RoomService } = require('../services/RoomService');
-
+const { UserService } = require('../services/UserService');
 const roomService = new RoomService(new Room().getInstance());
 
 class RoomController extends Controller {
@@ -67,8 +67,15 @@ class RoomController extends Controller {
 
     async updateRoom(req, res, next) {
         try {
-            const { roomId, name, image } = req.body;
-            const response = await this.service.updateRoom(roomId, name, image);
+            const { roomId, name, file } = req.body;
+            const urlImage = await UserService.createImage(
+                'data:image/jpeg;base64,' + file,
+            );
+            const response = await this.service.updateRoom(
+                roomId,
+                name,
+                urlImage,
+            );
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);

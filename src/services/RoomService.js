@@ -93,7 +93,24 @@ class RoomService extends Service {
             }
 
             if (!name && image) {
-                //
+                const response = await this.model.updateOne(
+                    { _id: roomId },
+                    { image: image },
+                );
+
+                if (response) {
+                    return new HttpResponse(response);
+                }
+            }
+
+            if (name && image) {
+                const response = await this.model.updateOne(
+                    { _id: roomId },
+                    { name: name, image: image },
+                );
+                if (response) {
+                    return new HttpResponse(response);
+                }
             }
         } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
