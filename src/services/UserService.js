@@ -729,7 +729,13 @@ class UserService extends Service {
                 throw new Error('Image is not presented!');
             }
 
+<<<<<<< Updated upstream
             const uploadResult = await cloudinaryUpload(file);
+=======
+            const file64 = formatBufferTo64(file);
+            console.log(file64);
+            const uploadResult = await cloudinaryUpload(file64.content);
+>>>>>>> Stashed changes
             const response = {
                 cloudinaryId: uploadResult.public_id,
                 url: uploadResult.secure_url,
@@ -737,6 +743,30 @@ class UserService extends Service {
             return new HttpResponse(response);
         } catch (e) {
             throw e;
+        }
+    }
+
+    async getAuthor() {
+        try {
+            const item = await this.model.find({
+                role: config.ROLE_USER.AUTHOR,
+            });
+
+            const data = item.map((item) => {
+                return {
+                    _id: item._id,
+                    name: item.name,
+                    avatar: item.image,
+                    aboutAuthor: item.aboutAuthor,
+                };
+            });
+
+            if (item) {
+                return new HttpResponse(data);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
         }
     }
 

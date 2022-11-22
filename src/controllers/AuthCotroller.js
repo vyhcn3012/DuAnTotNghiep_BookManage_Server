@@ -52,10 +52,8 @@ class AuthCotroller {
 
     async getAuthor(req, res, next) {
         try {
-            //console.log("getAuthor" + userService.getAll);
-            const response = await userService.getAll({ limit: 1000 });
-            const data = response.data.filter((x) => x.permission === 'author');
-            res.status(response.statusCode).json(data);
+            const response = await userService.getAuthor();
+            res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
         }

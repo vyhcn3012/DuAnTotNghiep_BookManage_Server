@@ -39,6 +39,41 @@ class RoomController extends Controller {
             next(e);
         }
     }
+
+    async addMember(req, res, next) {
+        try {
+            const { roomId, userId } = req.body;
+            const response = await this.service.addMember(roomId, userId);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async removeMember(req, res, next) {
+        try {
+            const { _id } = req.account;
+            const { roomId, userId } = req.body;
+            const response = await this.service.removeMember(
+                roomId,
+                userId,
+                _id,
+            );
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async updateRoom(req, res, next) {
+        try {
+            const { roomId, name, image } = req.body;
+            const response = await this.service.updateRoom(roomId, name, image);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new RoomController(roomService);
