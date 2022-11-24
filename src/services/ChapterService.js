@@ -24,6 +24,7 @@ class ChapterService extends Service{
             const data=userChaper.data.payBook;
             let statusChapter=[];
             let count = 0;
+            let dataChapter;
             for (const element of chapter) {
                 const idChapter=element._id.toString();
                 for (const element2 of data) { 
@@ -33,19 +34,60 @@ class ChapterService extends Service{
                     }
                 }
                 if(count==1){
-                    const data = {
-                        isPay:true,
-                        idChapter:element._id,
-                        chapterNumber:element.chapterNumber,
+                    if(element?.linkAudio && element?.htmlChapter){
+                        dataChapter = {
+                            isPay:true,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:true,
+                            canListen:true,
+                        }
+                    }else if(element?.linkAudio){
+                        dataChapter = {
+                            isPay:true,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:false,
+                            canListen:true,
+                        }
+                    }else if(element?.htmlChapter){
+                        dataChapter = {
+                            isPay:true,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:true,
+                            canListen:false,
+                        }
                     }
-                    statusChapter.push(data);
+                    statusChapter.push(dataChapter);
                     count =0;
                 }else{
-                    const data = {
-                        isPay:false,
-                        idChapter:element._id,
+                    if(element?.linkAudio && element?.htmlChapter){
+                        dataChapter = {
+                            isPay:false,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:true,
+                            canListen:true,
+                        }
+                    }else if(element?.linkAudio){
+                        dataChapter = {
+                            isPay:false,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:false,
+                            canListen:true,
+                        }
+                    }else if(element?.htmlChapter){
+                        dataChapter = {
+                            isPay:false,
+                            idChapter:element._id,
+                            chapterNumber:element.chapterNumber,
+                            canRead:true,
+                            canListen:false,
+                        }
                     }
-                    statusChapter.push(data);
+                    statusChapter.push(dataChapter);
                 }
             }
             return new HttpResponse(statusChapter);
