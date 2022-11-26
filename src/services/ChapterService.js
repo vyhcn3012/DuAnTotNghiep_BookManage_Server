@@ -39,6 +39,8 @@ class ChapterService extends Service{
                             isPay:true,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:true,
                             canListen:true,
                         }
@@ -47,6 +49,8 @@ class ChapterService extends Service{
                             isPay:true,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:false,
                             canListen:true,
                         }
@@ -55,6 +59,8 @@ class ChapterService extends Service{
                             isPay:true,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:true,
                             canListen:false,
                         }
@@ -67,6 +73,8 @@ class ChapterService extends Service{
                             isPay:false,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:true,
                             canListen:true,
                         }
@@ -75,6 +83,8 @@ class ChapterService extends Service{
                             isPay:false,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:false,
                             canListen:true,
                         }
@@ -83,6 +93,8 @@ class ChapterService extends Service{
                             isPay:false,
                             idChapter:element._id,
                             chapterNumber:element.chapterNumber,
+                            title:element.title,
+                            price:element.price,
                             canRead:true,
                             canListen:false,
                         }
