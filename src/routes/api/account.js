@@ -34,7 +34,7 @@ router.post('/postChapterBought',AuthController.checkLogin, AuthController.postC
 router.post('/agreeAccess', AuthController.agreeAccess);
 router.post('/refuseAccess', AuthController.refuseAccess);
 router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
-router.post('/postFavoriteBooks', AuthController.postFavoriteBooks);
+router.post('/postFavoriteBooks',AuthController.checkLogin, AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.postFollowBooks);
 
 router.post('/registerNumberPhone', AuthController.insertNumberphone);

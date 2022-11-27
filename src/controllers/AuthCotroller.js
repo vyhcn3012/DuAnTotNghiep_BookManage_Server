@@ -165,8 +165,9 @@ class AuthCotroller {
 
     async postFavoriteBooks(req, res, next) {
         try {
-            const { id, idBook } = req.body;
-            const response = await userService.postFavoriteBooks(id, idBook);
+            const { idBook } = req.body;
+            const { _id } = req.account;
+            const response = await userService.postFavoriteBooks(_id, idBook);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
