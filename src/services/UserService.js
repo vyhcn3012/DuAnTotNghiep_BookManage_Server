@@ -794,6 +794,21 @@ class UserService extends Service {
             throw e;
         }
     }
+
+    async findAll(page, limit) {
+        try {
+            const item = await this.model
+                .find({})
+                .skip((page - 1) * limit)
+                .limit(limit);
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
 }
 
 module.exports = { UserService };
