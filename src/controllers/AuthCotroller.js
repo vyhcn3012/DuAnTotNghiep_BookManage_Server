@@ -52,10 +52,8 @@ class AuthCotroller {
 
     async getAuthor(req, res, next) {
         try {
-            //console.log("getAuthor" + userService.getAll);
-            const response = await userService.getAll({ limit: 1000 });
-            const data = response.data.filter((x) => x.permission === 'author');
-            res.status(response.statusCode).json(data);
+            const response = await userService.getAuthor();
+            res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
         }
@@ -201,6 +199,22 @@ class AuthCotroller {
         }
     }
 
+    async isAdmin(req, res, next) {
+        try {
+            const { role } = req.account;
+            if (
+                role == config.ROLE_USER.ADMIN ||
+                role == config.ROLE_USER.SUPER_ADMIN
+            ) {
+                next();
+            } else {
+                return res.redirect('/cpanel/home');
+            }
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async checkLogin(req, res, next) {
         try {
             const token = this.extractToken(req);
@@ -246,11 +260,27 @@ class AuthCotroller {
     async indexUser_Cpanel(req, res, next) {
         try {
             const { id } = req.params;
+            const { page, limit } = req.query;
+            console.log(page, limit);
             if (id == 1) {
-                const response = await userService.getAll({ limit: 1000 });
+                const response = await userService.findAll(page, limit);
+
+                const data = response.data.map((item, index) => {
+                    return {
+                        index: index + 1,
+                        id: item._id,
+                        name: item.name,
+                        email: item.email,
+                        phone: item.phone,
+                        role: item.role,
+                        image: item.image || '',
+                        createdAt: item.createdAt,
+                        updatedAt: item.updatedAt,
+                    };
+                });
 
                 res.render('user/index', {
-                    data: response.data,
+                    data: data,
                     idData: JSON.stringify(id),
                 });
             } else if (id == 2) {
@@ -341,19 +371,16 @@ class AuthCotroller {
     async getChangeProfile(req, res, next) {
         try {
             const idUser = req.account._id;
-            const { name } = req.body;
-            let data;
-            if(req.file){
-                const urlImage = await userService.createImage(req.file);
-                data = {
-                    image: urlImage.data.url,
-                    name,
-                };
-            }else{
-                data = {
-                    name,
-                };
-            }
+            const { name, file } = req.body;
+            const urlImage = await userService.createImage(
+                'data:image/jpeg;base64,' + file,
+            );
+
+            const data = {
+                image: urlImage.data.url,
+                name,
+            };
+
             const response = await userService.getChangeProfile(idUser, data);
             await res.status(response.statusCode).json(response);
         } catch (e) {

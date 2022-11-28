@@ -15879,7 +15879,9 @@ body {
 
 .mg-5-f {
   margin: 5px !important; }
-
+.th-header {
+  font-size: 20px;
+} 
 .mg-y-5 {
   margin-top: 5px;
   margin-bottom: 5px; }

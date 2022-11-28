@@ -650,7 +650,6 @@ class UserService extends Service {
                             [day.day]: day.time,
                         };
                         dlday.push(data);
-                        
                     }
                     const data = {
                         [month.month]: dlday,
@@ -730,8 +729,7 @@ class UserService extends Service {
                 throw new Error('Image is not presented!');
             }
 
-            const file64 = formatBufferTo64(file);
-            const uploadResult = await cloudinaryUpload(file64.content);
+            const uploadResult = await cloudinaryUpload(file);
             const response = {
                 cloudinaryId: uploadResult.public_id,
                 url: uploadResult.secure_url,
@@ -739,6 +737,30 @@ class UserService extends Service {
             return new HttpResponse(response);
         } catch (e) {
             throw e;
+        }
+    }
+
+    async getAuthor() {
+        try {
+            const item = await this.model.find({
+                role: config.ROLE_USER.AUTHOR,
+            });
+
+            const data = item.map((item) => {
+                return {
+                    _id: item._id,
+                    name: item.name,
+                    avatar: item.image,
+                    aboutAuthor: item.aboutAuthor,
+                };
+            });
+
+            if (item) {
+                return new HttpResponse(data);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
         }
     }
 
@@ -770,6 +792,21 @@ class UserService extends Service {
             return new HttpResponse(response);
         } catch (e) {
             throw e;
+        }
+    }
+
+    async findAll(page, limit) {
+        try {
+            const item = await this.model
+                .find({})
+                .skip((page - 1) * limit)
+                .limit(limit);
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
         }
     }
 }
