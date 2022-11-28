@@ -336,7 +336,7 @@ class UserService extends Service {
                 });
                 return new HttpResponse(book);
             }
-            return new HttpResponse('FF');
+            return new HttpResponse('Đã và đang đọc');
         } catch (errors) {
             throw errors;
         }

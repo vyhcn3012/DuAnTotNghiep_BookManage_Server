@@ -33,7 +33,7 @@ router.get('/getpurchaseCart',AuthController.checkLogin, AuthController.getpurch
 router.post('/postChapterBought',AuthController.checkLogin, AuthController.postChapterBought);
 router.post('/agreeAccess', AuthController.agreeAccess);
 router.post('/refuseAccess', AuthController.refuseAccess);
-router.post('/postIdReadingBooks', AuthController.postIdReadingBooks);
+router.post('/postIdReadingBooks',AuthController.checkLogin, AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks',AuthController.checkLogin, AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.postFollowBooks);
 

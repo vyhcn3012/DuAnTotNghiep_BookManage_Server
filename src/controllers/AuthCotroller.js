@@ -141,8 +141,9 @@ class AuthCotroller {
 
     async postIdReadingBooks(req, res, next) {
         try {
-            const { id, idBook } = req.body;
-            const response = await userService.postIdReadingBooks(id, idBook);
+            const { idBook } = req.body;
+            const { _id } = req.account;
+            const response = await userService.postIdReadingBooks(_id, idBook);
             await res.status(response.statusCode).json(response);
         } catch (errors) {
             throw errors;

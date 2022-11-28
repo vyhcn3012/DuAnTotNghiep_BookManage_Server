@@ -97,6 +97,18 @@ class Account {
                                 type: String,
                                 required: false,
                             },
+                            'instagram': {
+                                type: String,
+                                required: false,
+                            },
+                            'faceBook': {
+                                type: String,
+                                required: false,
+                            },
+                            'youtube': {
+                                type: String,
+                                required: false,
+                            },
                         },
                 'required': false,
             },
