@@ -26,9 +26,9 @@ class ChapterService extends Service{
             let count = 0;
             let dataChapter;
             for (const element of chapter) {
-                const idChapter=element._id.toString();
+                const idChapter=element._id;
                 for (const element2 of data) { 
-                    const idChapterOfpayBook=element2.idChapter.toString();
+                    const idChapterOfpayBook=element2.idChapter;
                     if(idChapter==idChapterOfpayBook){
                        count=1;
                     }
