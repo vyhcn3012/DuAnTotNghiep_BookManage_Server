@@ -335,7 +335,11 @@ class AuthCotroller {
         try {
             const { body } = req;
             const { passwordUser } = req.body;
+           
             const response = await authService.loginNumberphone(body);
+            if(response.data === 'Số điện thoại này chưa đăng ký'){
+                return res.status(response.statusCode).json(response);
+            }
             const checkPassword = await bcrypt.compare(
                 passwordUser,
                 response.data.account.passwordUser,

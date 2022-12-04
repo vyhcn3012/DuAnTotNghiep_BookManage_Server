@@ -84,6 +84,9 @@ class UserService extends Service {
         try {
             const { phoneUser } = body;
             const data = await this.model.findOne({ phone: phoneUser });
+            if (!data) {
+                return null;
+            }
             return new HttpResponse(data);
         } catch (error) {
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');

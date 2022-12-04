@@ -90,6 +90,9 @@ class AuthService {
     async loginNumberphone(body) {
         try {
             let response = await this.userService.loginNumberphone(body);
+            if (!response) {
+                return new HttpResponse('Số điện thoại này chưa đăng ký');
+            }
             let account = response.data;
             const { token_fcm } = body;
             if (token_fcm) {
