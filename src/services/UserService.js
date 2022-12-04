@@ -495,6 +495,9 @@ class UserService extends Service {
             const month = new Intl.DateTimeFormat('en-US', options).format(d);
             const day = d.getDate();
             const year = d.getFullYear();
+            let checkMonth=0;
+            let checkDay=0;
+            let checkYear=0;
             if (timeReadBookUser.length == 0) {
                 const detailsmonth = {
                     day: day,
@@ -522,10 +525,13 @@ class UserService extends Service {
             }
             for (const element of timeReadBookUser) {
                 if (element.createYear == year) {
+                    checkYear = 1;
                     for (const element1 of element.detailsyear) {
                         if (element1.month === month) {
+                            checkMonth = 1;
                             for (const element2 of element1.detailsmonth) {
                                 if (element2.day === day) {
+                                    checkDay = 1;
                                     const times = time + element2.time;
                                     const item =
                                         await this.model.findByIdAndUpdate(
@@ -550,89 +556,92 @@ class UserService extends Service {
                                     throw new Error(
                                         'Có lỗi, bạn có thể thử lại sau',
                                     );
-                                } else {
-                                    const detailsmonth = {
-                                        day: day,
-                                        time: time,
-                                    };
-                                    const item =
-                                        await this.model.findByIdAndUpdate(
-                                            id,
-                                            {
-                                                $push: {
-                                                    'timeReadBook.$[i].detailsyear.$[j].detailsmonth':
-                                                        detailsmonth,
-                                                },
-                                            },
-                                            {
-                                                arrayFilters: [
-                                                    { 'i.createYear': year },
-                                                    { 'j.month': month },
-                                                ],
-                                            },
-                                        );
-                                    if (item) {
-                                        return new HttpResponse(item);
-                                    }
-                                    throw new Error(
-                                        'Có lỗi, bạn có thể thử lại sau',
-                                    );
                                 }
                             }
-                        } else {
-                            const detailsmonth = {
-                                day: day,
-                                time: time,
-                            };
-                            let detailmonth = [];
-                            detailmonth.push(detailsmonth);
-                            const detailsyear = {
-                                month: month,
-                                detailsmonth: detailmonth,
-                            };
-                            const item = await this.model.findByIdAndUpdate(
-                                id,
-                                {
-                                    $push: {
-                                        'timeReadBook.$[i].detailsyear':
-                                            detailsyear,
-                                    },
-                                },
-                                {
-                                    arrayFilters: [{ 'i.createYear': year }],
-                                },
-                            );
-                            if (item) {
-                                return new HttpResponse(item);
+                            if(checkDay == 0){
+                                const detailsmonth = {
+                                    day: day,
+                                    time: time,
+                                };
+                                const item =
+                                    await this.model.findByIdAndUpdate(
+                                        id,
+                                        {
+                                            $push: {
+                                                'timeReadBook.$[i].detailsyear.$[j].detailsmonth':
+                                                    detailsmonth,
+                                            },
+                                        },
+                                        {
+                                            arrayFilters: [
+                                                { 'i.createYear': year },
+                                                { 'j.month': month },
+                                            ],
+                                        },
+                                    );
+                                if (item) {
+                                    return new HttpResponse(item);
+                                }
+                                throw new Error(
+                                    'Có lỗi, bạn có thể thử lại sau',
+                                );
                             }
-                            throw new Error('Có lỗi, bạn có thể thử lại sau');
                         }
                     }
-                } else {
-                    const detailsmonth = {
-                        day: day,
-                        time: time,
-                    };
-                    let detailmonth = [];
-                    detailmonth.push(detailsmonth);
-                    const detailsyear = {
-                        month: month,
-                        detailsmonth: detailmonth,
-                    };
-                    let detailYear = [];
-                    detailYear.push(detailsyear);
-                    const data = {
-                        createYear: year,
-                        detailsyear: detailYear,
-                    };
-                    const item = await this.model.findByIdAndUpdate(id, {
-                        $push: { timeReadBook: data },
-                    });
-                    if (item) {
-                        return new HttpResponse(item);
-                    }
-                    throw new Error('Có lỗi, bạn có thể thử lại sau');
+                    if(checkMonth==0){
+                        const detailsmonth = {
+                            day: day,
+                            time: time,
+                        };
+                        let detailmonth = [];
+                        detailmonth.push(detailsmonth);
+                        const detailsyear = {
+                            month: month,
+                            detailsmonth: detailmonth,
+                        };
+                        const item = await this.model.findByIdAndUpdate(
+                            id,
+                            {
+                                $push: {
+                                    'timeReadBook.$[i].detailsyear':
+                                        detailsyear,
+                                },
+                            },
+                            {
+                                arrayFilters: [{ 'i.createYear': year }],
+                            },
+                        );
+                        if (item) {
+                            return new HttpResponse(item);
+                        }
+                        throw new Error('Có lỗi, bạn có thể thử lại sau');
+                    } 
                 }
+            }
+            if(checkYear==0){
+                const detailsmonth = {
+                    day: day,
+                    time: time,
+                };
+                let detailmonth = [];
+                detailmonth.push(detailsmonth);
+                const detailsyear = {
+                    month: month,
+                    detailsmonth: detailmonth,
+                };
+                let detailYear = [];
+                detailYear.push(detailsyear);
+                const data = {
+                    createYear: year,
+                    detailsyear: detailYear,
+                };
+                const item = await this.model.findByIdAndUpdate(id, {
+                    $push: { timeReadBook: data },
+                });
+                if (item) {
+                    return new HttpResponse(item);
+                }
+                throw new Error('Có lỗi, bạn có thể thử lại sau');
             }
         } catch (error) {
             throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
@@ -643,30 +652,31 @@ class UserService extends Service {
         try {
             const account = await this.model.findById(_id);
             const timeReadBook = account.timeReadBook;
-            let dlyear = [];
-            let dlmonth = [];
-            let dlday = [];
+            let days;
+            let months;
+            let years;
             for (const year of timeReadBook) {
                 for (const month of year.detailsyear) {
                     for (const day of month.detailsmonth) {
-                        const data = {
+                         days = {
+                            ...days,
                             [day.day]: day.time,
                         };
-                        dlday.push(data);
                     }
-                    const data = {
-                        [month.month]: dlday,
+                    months = {
+                        ...months,
+                        [month.month]: days,
                     };
-                    dlmonth.push(data);
+                    days = {};
                 }
-                const data = {
-                    [year.createYear]: dlmonth,
+                years = {
+                    ...years,
+                    [year.createYear]: months,
                 };
-                dlyear.push(data);
-                dlday = [];
-                dlmonth = [];
+                months = {};
+               
             }
-            return new HttpResponse(dlyear);
+            return new HttpResponse(years);
         } catch (errors) {
             throw errors;
         }
