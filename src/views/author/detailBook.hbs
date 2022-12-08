@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "DM Sans", sans-serif;
+	line-height: 1.5;
+	background-color: #f1f3fb;
+	padding: 0 2rem;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+
+// iOS Reset 
+input {
+	appearance: none;
+	border-radius: 0;
+}
+
+.card {
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 425px;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(#999, .25);
+	padding: .75rem;
+}
+
+.card-image {
+}
+
+.card-heading {
+	position: absolute;
+	left: 10%;
+	top: 15%;
+	right: 10%;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: #735400;
+	line-height: 1.222;
+	small {
+		display: block;
+		font-size: .75em;
+		font-weight: 400;
+		margin-top: .25em;
+	}
+}
+
+.card-form {
+	padding: 2rem 1rem 0;
+}
+
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1.5rem;
+	&+.input {
+		margin-top: 1.5rem;
+	}
+}
+
+.input-label {
+	color: #8597a3;
+	position: absolute;
+	top: 0rem;
+	transition: .25s ease;
+    font-size: 15px;
+}
+
+.input-field {
+	border: 0;
+	z-index: 1;
+	background-color: transparent;
+	border-bottom: 2px solid #eee; 
+	font: inherit;
+	font-size: 15px;
+    margin: 10px;
+	padding: .40rem 0;
+	&:focus, &:valid {
+		outline: 0;
+		border-bottom-color: #6658d3;
+		&+.input-label {
+			color: #6658d3;
+			transform: translateY(-1.5rem);
+		}
+	}
+}
+
+.action {
+	margin-top: 2rem;
+}
+
+.action-button {
+	font: inherit;
+	font-size: 1.25rem;
+	padding: 1em;
+	width: 100%;
+	font-weight: 500;
+	background-color: #6658d3;
+	border-radius: 6px;
+	color: #FFF;
+	border: 0;
+	&:focus {
+		outline: 0;
+	}
+}
+
+.card-info {
+	padding: 1rem 1rem;
+	text-align: center;
+	font-size: .875rem;
+	color: #8597a3;
+	a {
+		display: block;
+		color: #6658d3;
+		text-decoration: none;
+	}
+}
+    </style>
+</head>
+<body>
+    <div class="az-header">
+      <div class="container">
+        <div class="az-header-left">
+          <a href="index.html" class="az-logo"><span></span> azia</a>
+          <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+        </div><!-- az-header-left -->
+        <div class="az-header-menu">
+          <div class="az-header-menu-header">
+            <a href="index.html" class="az-logo"><span></span> azia</a>
+            <a href="" class="close">&times;</a>
+          </div><!-- az-header-menu-header -->
+          <ul class="nav">
+            <li class="nav-item">
+              <a href="/cpanel/authors/quan-ly-sach" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-area-outline"></i>Quản lý sách</a>
+            </li>
+            <li class="nav-item">
+              <a href="chart-chartjs.html" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-bar-outline"></i> Thống kê</a>
+            </li>
+            <li class="nav-item">
+              <a href="/cpanel/books/allBook" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-area-outline"></i>Đăng sách</a>
+            </li>
+          </ul>
+        </div><!-- az-header-menu -->
+        <div class="dropdown az-profile-menu">
+          
+            <a href="" class="az-img-user">
+                <img src="https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg">
+                </a>
+          </div>
+        </div><!-- az-header-right -->
+    </div><!-- container -->
+    <div class="container">
+
+    <div class="action">
+		<a class="action-button" href="/cpanel/authors/quan-ly-chuong/{{data._id}}">Quản lý chương sách</a>
+	</div>
+	<!-- code here -->
+	<div class="card">
+		<img src="{{data.image}}" class="card-image">
+		<form class="card-form">
+			<div class="input">
+				<input type="text" name="name" class="input-field" value="{{data.name}}" required/>
+				<label class="input-label">Tên sách</label>
+			</div>
+			<div class="input">
+				<input type="text" class="input-field" value="{{data.overview}}" required/>
+				<label class="input-label">Giới thiệu</label>
+			</div>
+			<div class="input">
+				<input type="text" class="input-field" value="Đời sống" required/>
+				<label class="input-label">Thể loại</label>
+			</div>
+			<div class="action">
+				<button class="action-button">Thay đổi</button>
+			</div>
+		</form>
+        
+	</div>
+</div>
+
+</body>
+</html>

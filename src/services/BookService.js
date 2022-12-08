@@ -61,7 +61,7 @@ class BookService extends Service {
 
     async getBookById(id) {
             try {
-                const book = await this.model.find({'account':id}),
+                const book = await this.model.find({'account':id});
                 total = await this.model.countDocuments( {'account':id} );
                 if (!book) {
                     const error = new Error('Không tìm thấy cuốn sách này');
@@ -72,6 +72,25 @@ class BookService extends Service {
             } catch (errors) {
                 throw errors;
             }
+    }
+
+    async findOneBookAuthor(idBook, idUser) {
+      try {
+        const book = await this.model.findById(idBook);
+        if (!book) {
+          const error = new Error("Không tìm thấy cuốn sách này");
+          error.statusCode = 404;
+          throw error;
+        }
+        if (book.account != idUser) {
+          const error = new Error("Bạn không có quyền truy cập");
+          error.statusCode = 404;
+          throw error;
+        }
+        return book;
+      }catch (e){
+        throw e;
+      }
     }
 
     async getBookByIdCategory(id) {
@@ -154,6 +173,18 @@ class BookService extends Service {
         .limit(limit);
 
       // console.log(deps)
+      return book;
+    } catch (errors) {
+      throw errors;
+    }
+  }
+
+  async cpanel_authorManagerBook(_id){
+    try {
+      const book = await this.model.find({account:_id});
+      if (!book) {
+        return null;
+      }
       return book;
     } catch (errors) {
       throw errors;
