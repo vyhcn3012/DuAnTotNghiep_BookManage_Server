@@ -1,6 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <body>
-        <div class="az-header">
+    <div class="az-header">
       <div class="container">
         <div class="az-header-left">
           <a href="index.html" class="az-logo"><span></span> azia</a>
@@ -31,7 +40,7 @@
           </div>
         </div><!-- az-header-right -->
     </div><!-- container -->
-    <form>
+    <form style="margin-top: 20px;">
         <div class="form-group">
             <label style="font-size: 15px; margin-left: 30px;" >Tên sách</label>
             <input disabled style="width: 300px; height: 30px; font-size: 15px; margin-left: 15px;" type="idBook" name="idBook">
@@ -46,8 +55,10 @@
         </div>        
     </form>
      <div id="editor"></div>
-        <button id="buttonSave" onclick="onSave()" type="button"
+     <div style="margin-top: 15px; margin-left: 600px; ">
+        <button id="buttonSave" onclick="onSave()" type="button" style="width: 100px; height: 30px; font-size: 15px;"
         class="btn btn-primary">Lưu</button>
+    </div>
 </body>
 <script>
     let editorinstance;
@@ -104,3 +115,4 @@
             })
     }
 </script>
+</html>

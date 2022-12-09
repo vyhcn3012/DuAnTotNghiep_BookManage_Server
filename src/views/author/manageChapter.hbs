@@ -129,10 +129,10 @@ h1,h2,h3,h4,h5,h6 {
     <div class="container--">
 	<div class="table">
 		<div class="table-header">
-			<div class="header__item"><a id="name" class="filter__link" href="#">Name</a></div>
-			<div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Wins</a></div>
-			<div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Draws</a></div>
-			<div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Losses</a></div>
+			<div class="header__item"><a id="name" class="filter__link" href="#">STT</a></div>
+			<div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Tên chương</a></div>
+			<div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Chú thích</a></div>
+			<div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Tác vụ</a></div>
 		</div>
 		<div class="table-content">	
             {{#each chapters}}
@@ -140,7 +140,10 @@ h1,h2,h3,h4,h5,h6 {
 				<div class="table-data">{{this.index}}</div>
 				<div class="table-data">{{this.title}}</div>
 				<div class="table-data">{{this.permission}}</div>
-				<div class="table-data">{{this.releasedDate}}</div>
+				<td>
+					<a href="/cpanel/authors//quan-ly-chuong/sua/{{this._id}}" class="btn btn-primary">Sửa</a>
+					<a href="/api/chapters/{{this._id}}/deleteChapter" class="btn btn-danger">Xóa</a>
+				</td>
 			</div>
             {{/each}}
 		</div>	

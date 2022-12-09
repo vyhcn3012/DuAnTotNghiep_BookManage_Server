@@ -147,6 +147,21 @@ class ChapterService extends Service{
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
         }
     }
+
+    async deleteChapter(ChapterId) {
+        try {
+            const item = await this.model.findByIdAndDelete(ChapterId);
+            if (!item) {
+                const error = new Error("Không tìm thấy chương này");
+                error.statusCode = 404;
+                throw error;
+              }
+           
+            return new HttpResponse( item );
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
+        }
+    }
 }
 
 module.exports = { ChapterService };

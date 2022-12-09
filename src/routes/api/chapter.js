@@ -6,4 +6,5 @@ const express = require('express'),
 
 router.post("/insertChapterBook", AuthController.checkLogin, ChapterController.insertChapterBook);
 router.get("/:id/getChapterDetails", AuthController.checkLogin, ChapterController.getChapterDetailsBook);
+router.get("/:id/deleteChapter", AuthController.checkLogin, ChapterController.deleteChapterBook);
 module.exports = router;

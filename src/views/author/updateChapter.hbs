@@ -5,43 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .body-author {
-            color: white;
-            margin-top: -250px;
-            margin-left: -800px;
-        }
-  
-        .box {
-            height: 200px;
-            width: 150px;
-            background-color: aliceblue;
-            margin: 10px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-  
-        .img-author {
-            height: 200px;
-            width: 150px;
-        }
-  
-        .text-author {
-            font-size: 20px;
-            color: black;
-        }
-
-        ._textHeader {
-            font-size: 20px;
-            color: black;
-            margin-left: 100px;
-            margin-top: 30px;
-        }
-    </style>
 </head>
 <body>
-    <div class="az-header">
+        <div class="az-header">
       <div class="container">
         <div class="az-header-left">
           <a href="index.html" class="az-logo"><span></span> azia</a>
@@ -72,16 +38,5 @@
           </div>
         </div><!-- az-header-right -->
       </div><!-- container -->
-    <h2 class = "_textHeader">Sách của tôi</h2>
-    <div class="body-author">
-    {{#each data}}
-    <div class="box">
-        <a href="/cpanel/authors/quan-ly-sach/{{_id}}">
-            <img class="img-author" src = "{{this.image}}">
-            <div class = "text-author">{{this.name}}</div>
-        </a>
-    </div>
-    {{/each}}
-    </div>
 </body>
 </html>

@@ -128,6 +128,29 @@ class ChapterController extends Controller {
             next(e);
         }
     }
+
+    async deleteChapterBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await chapterService.deleteChapter(id);
+            return res.redirect(`/cpanel/authors/quan-ly-chuong/${response.data.idBook}`);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async cpanel_updateChapterBook(req, res, next) {
+        try {
+            const { idChapter } = req.params;
+            const chapter = await chapterService.getChapterDetails(idChapter);
+            console.log(chapter.data);
+            return res.render('author/updateChapter', {
+                chapter: chapter.data,
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new ChapterController(chapterService);
