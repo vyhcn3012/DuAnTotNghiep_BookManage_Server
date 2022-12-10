@@ -24,9 +24,11 @@
             <li class="nav-item active">
               <a href="/cpanel/users/1/allUser" class="nav-link with-sub"><i class="typcn typcn-book"></i>Quản lý user</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link"><i class="typcn typcn-chart-bar-outline"></i><button class="btn btn-indigo btn-rounded btn-block" onclick="onWaitAccessAuthor()">Xin quyền làm tác giả</button></a>
+            {{#if 99}}
+            <li  class="nav-item">
+              <a class="nav-link"><i class="typcn typcn-chart-bar-outline"></i><button style="visibility: hidden;" class="btn btn-indigo btn-rounded btn-block" onclick="onWaitAccessAuthor()">Xin quyền làm tác giả</button></a>
             </li>
+            {{/if}}
           </ul>
         </div><!-- az-header-menu -->
         <div class="az-header-right">
