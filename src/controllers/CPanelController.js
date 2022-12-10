@@ -63,7 +63,7 @@ class CPanelController {
                                 audience: config.GOOGLE_CLIENT_ID,
                             });
 
-                            console.log(token.id_token);
+                          
                             const { name, email, picture } =
                                 ticket.getPayload();
 
@@ -79,7 +79,7 @@ class CPanelController {
                                 favoritebooks: '',
                             };
                             const account = await authService.login(body);
-                            console.log(account);
+                        
 
                             res.cookie('token', account.data.token, {
                                 expires: new Date(

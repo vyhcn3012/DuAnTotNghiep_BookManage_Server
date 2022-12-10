@@ -143,7 +143,7 @@ class ChapterController extends Controller {
         try {
             const { idChapter } = req.params;
             const chapter = await chapterService.getChapterDetails(idChapter);
-            console.log(chapter.data);
+         
             return res.render('author/updateChapter', {
                 chapter: chapter.data,
             });

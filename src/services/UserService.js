@@ -104,7 +104,7 @@ class UserService extends Service {
                 error.statusCode = 404;
                 throw error;
             }
-            console.log(id);
+        
             return new HttpResponse(readbook);
         } catch (errors) {
             throw errors;
@@ -426,7 +426,7 @@ class UserService extends Service {
     async findFCMTokenById(_id, notification_id, user_id) {
         try {
             const id = _id.length;
-            console.log('id', _id[1]);
+          
             for (let i = 0; i < _id.length; i++) {
                 let account = await this.model.findById(_id[i]);
                 if (!account) {

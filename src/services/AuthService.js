@@ -67,8 +67,7 @@ class AuthService {
             }
             let cacheUser = await this.userService.findInfoByEmail(email);
             cacheUser = cacheUser.data;
-            console.log('===> cacheUser', cacheUser);
-
+           
             const token = await this.model.generateToken(cacheUser);
             await this.model.create({
                 token,

@@ -55,7 +55,7 @@ class CartService extends Service {
              const item = await this.model.find(query),
              total = await this.model.countDocuments( query );
              count=total;
-             console.log(item);
+           
         }
        
         

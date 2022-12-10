@@ -26,7 +26,7 @@ class MediaService extends Service{
 
     async createImage(file) {
         try {
-          console.log(file);
+        
           if (!file) {
             throw new Error("Image is not presented!");
           }

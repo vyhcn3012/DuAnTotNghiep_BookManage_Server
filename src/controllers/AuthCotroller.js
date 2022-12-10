@@ -199,6 +199,22 @@ class AuthCotroller {
         }
     }
 
+    async logoutWeb(req, res, next) {
+        try {
+            const token = this.extractToken(req);
+            const { fcmtoken } = req.account;
+            req.account = await this.service.checkLogin(token);
+            const response = await this.service.logout(
+                token,
+                fcmtoken,
+                req.account,
+            );
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async isAdmin(req, res, next) {
         try {
             const { role } = req.account;
@@ -263,7 +279,7 @@ class AuthCotroller {
             const { role } = req.account;
             
             const { page, limit } = req.query;
-            console.log(page, limit);
+           
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
 

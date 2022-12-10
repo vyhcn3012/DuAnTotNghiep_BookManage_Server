@@ -32,7 +32,7 @@ class RoomController extends Controller {
     async getRooms(req, res, next) {
         try {
             const { _id } = req.account;
-            console.log(_id);
+          
             const response = await this.service.getRooms(_id);
             await res.status(response.statusCode).json(response);
         } catch (e) {
