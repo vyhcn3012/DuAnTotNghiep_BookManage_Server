@@ -103,6 +103,54 @@ class ChapterController extends Controller {
             next(e);
         }
     }
+
+    async cpanel_authorManagerChapter(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { _id } = req.account;
+            const book = await bookService.findOneBookAuthor(id, _id);
+            if(book){
+                const chapters = await chapterService.getChapterByBook(id);
+                const result = chapters.data.map((chapter, index) => {
+                    return {
+                        ...chapter,
+                        index: index + 1,
+                    };
+                });
+
+                return res.render('author/manageChapter', {
+                    chapters: result,
+                    book: book,
+                });
+            }
+            return null;
+        }catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteChapterBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const response = await chapterService.deleteChapter(id);
+            return res.redirect(`/cpanel/authors/quan-ly-chuong/${response.data.idBook}`);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async cpanel_updateChapterBook(req, res, next) {
+        try {
+            const { idChapter } = req.params;
+            const chapter = await chapterService.getChapterDetails(idChapter);
+            console.log(chapter.data);
+            return res.render('author/updateChapter', {
+                chapter: chapter.data,
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new ChapterController(chapterService);

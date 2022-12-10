@@ -14,6 +14,10 @@ router.get(
     AuthCotroller.checkLogin,
     ChapterController.cpanel_insertChapterBook,
 );
+router.get('/quan-ly-sach', AuthCotroller.checkLogin, BookController.cpanel_authorManagerBook);
+router.get('/quan-ly-sach/:id', AuthCotroller.checkLogin, BookController.cpanel_updateBook);
+router.get('/quan-ly-chuong/:id', AuthCotroller.checkLogin, ChapterController.cpanel_authorManagerChapter);
+router.get('/quan-ly-chuong/:id/:idChapter', AuthCotroller.checkLogin, ChapterController.cpanel_updateChapterBook);
 router.get('/test', ChapterController.test);
 
 module.exports = router;

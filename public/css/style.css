@@ -158,6 +158,7 @@ body {
   text-align: left;
   background-color: #fff; }
 
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important; }
 
@@ -166,6 +167,35 @@ hr {
   height: 0;
   overflow: visible; }
 
+.body-author {
+  padding: 0 24px;
+  margin: 0;
+  height: 100vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  height: 100px;
+  width: 50px;
+  background-color: aliceblue;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.img-author {
+  height: 100px;
+  width: 50px;
+}
+
+.text-author {
+  font-size: 20px;
+  color: black;
+}
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0.5rem; }

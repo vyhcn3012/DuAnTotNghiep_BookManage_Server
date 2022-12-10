@@ -160,6 +160,28 @@ class BookController extends Controller {
             console.log(e);
         }
     }
+
+    async cpanel_authorManagerBook(req, res, next) {
+        try {
+            const { _id } = req.account;
+            const response = await this.service.cpanel_authorManagerBook(_id);
+            await res.render('author/managerBook', { data: response, user: req.account });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async cpanel_updateBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { _id } = req.account;
+            const book = await this.service.findOneBookAuthor(id, _id);
+            console.log(book);
+            return res.render('author/detailBook', {data: book});
+        } catch (e){
+            console.log(e);
+        }
+    }
 }
 
 module.exports = new BookController(bookService);

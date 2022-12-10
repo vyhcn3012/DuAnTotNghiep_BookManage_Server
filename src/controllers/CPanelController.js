@@ -87,7 +87,7 @@ class CPanelController {
                                 ),
                                 httpOnly: true,
                             });
-                            res.redirect('/cpanel/users/1/allUser');
+                            res.redirect('/cpanel/authors/quan-ly-sach');
                         }
                     },
                 );

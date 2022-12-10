@@ -1,21 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form {
+            font-size: 18px;
+        }
+    </style>
+</head>
 <body>
+    <div class="az-header">
+      <div class="container">
+        <div class="az-header-left">
+          <a href="index.html" class="az-logo"><span></span> azia</a>
+          <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+        </div><!-- az-header-left -->
+        <div class="az-header-menu">
+          <div class="az-header-menu-header">
+            <a href="index.html" class="az-logo"><span></span> azia</a>
+            <a href="" class="close">&times;</a>
+          </div><!-- az-header-menu-header -->
+          <ul class="nav">
+            <li class="nav-item">
+              <a href="/cpanel/authors/quan-ly-sach" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-area-outline"></i>Quản lý sách</a>
+            </li>
+            <li class="nav-item">
+              <a href="chart-chartjs.html" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-bar-outline"></i> Thống kê</a>
+            </li>
+            <li class="nav-item">
+              <a href="/cpanel/authors/them-sach" class="nav-link" style="font-size: 15px;"><i class="typcn typcn-chart-area-outline"></i>Đăng sách</a>
+            </li>
+          </ul>
+        </div><!-- az-header-menu -->
+        <div class="dropdown az-profile-menu">
+          
+            <a href="" class="az-img-user">
+                <img src="https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg">
+                </a>
+          </div>
+        </div><!-- az-header-right -->
+      </div><!-- container -->
     <div class="main-panel">
         <div class="content-wrapper">
-            <div class="page-header">
-                <h3 class="page-title"> Thêm&Cập nhật elements </h3>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Thêm&Cập nhật</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thêm&Cập nhật elements</li>
-                    </ol>
-                </nav>
-            </div>
             <div class="row">
-                <div class="col-md-6 grid-margin stretch-card">
+                <div class="col-md-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Thêm</h4>
-                            <p class="card-description"> Form thêm mới </p>
                             <form>
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
@@ -24,11 +57,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Tên sản phẩm</label>
                                     <input name="name" type="text" class="form-control" id="name"
-                                        placeholder="Tên sản phẩm">
+                                        placeholder="Tên sản phẩm" style="font-size: 16px;">
                                 </div>
                                 <div class="form-group">
                                     <label>Danh mục</label>
-                                    <select name="categoryId" class="form-control" id="categoryId">
+                                    <select name="categoryId" class="form-control" id="categoryId" style="font-size: 16px;">
                                         {{#each categories}}
                                         <option value="{{this._id}}">{{this.name}}</option>
                                         {{/each}}
@@ -37,13 +70,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Giới thiệu</label>
-                                    <input class="form-control" type="text"
-                                        name="introduction" id="introduction" />
+                                    <input  class="form-control" type="text"
+                                        name="introduction" id="introduction" style="font-size: 16px;" />
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputConfirmPassword1">Số tiền</label>
                                     <input name="isPrice" id="isPrice" class="form-control" id="exampleInputConfirmPassword1"
-                                        placeholder="Số lượng">
+                                        placeholder="Số lượng" style="font-size: 16px;">
                                 </div>
                         <button id="buttonSave" onclick="onSave()" type="button"
                             class="btn btn-primary">Lưu</button>
@@ -101,3 +134,4 @@
             })
     }
 </script>
+</html>
