@@ -155,7 +155,7 @@ class BookController extends Controller {
     async cpanel_insertBook(req, res, next) {
         try {
             const categories = await categoryService.getAll();
-            return res.render('author/insertBook', { categories: categories });
+            return res.render('author/insertBook', { categories: categories.data });
         } catch (e) {
             console.log(e);
         }
