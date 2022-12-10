@@ -176,7 +176,6 @@ class BookController extends Controller {
             const { id } = req.params;
             const { _id } = req.account;
             const book = await this.service.findOneBookAuthor(id, _id);
-            console.log(book);
             return res.render('author/detailBook', {data: book});
         } catch (e){
             console.log(e);
