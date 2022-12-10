@@ -150,10 +150,11 @@ class BookController extends Controller {
     async cpanel_getbyIdBook(req, res, next) {
         const { id } = req.params;
         const byIdBook = await this.service.cpanel_GetbyId(id);
-        const categories = await CategoryController.getCategories();
+        const categories = await categoryService.getAll();
+       
         res.render('book/updatebook', {
             datas: byIdBook,
-            categories: categories,
+            categories: categories.data,
         });
     }
 
