@@ -397,6 +397,7 @@ class UserService extends Service {
                 wallet,
                 favoritebooks,
                 notification,
+                role,
             } = account;
 
             account = {
@@ -411,6 +412,7 @@ class UserService extends Service {
                 wallet,
                 favoritebooks,
                 notification,
+                role,
             };
             if (account) {
                 return new HttpResponse(account);

@@ -260,6 +260,8 @@ class AuthCotroller {
     async indexUser_Cpanel(req, res, next) {
         try {
             const { id } = req.params;
+            const { role } = req.account;
+            
             const { page, limit } = req.query;
             console.log(page, limit);
             if (id == 1) {
@@ -280,6 +282,7 @@ class AuthCotroller {
                 });
 
                 res.render('user/index', {
+                    [role]: role,
                     data: data,
                     idData: JSON.stringify(id),
                 });
@@ -287,6 +290,7 @@ class AuthCotroller {
                 const response = await userService.findauthorAcess(id);
 
                 res.render('user/indexAccess', {
+                    [role]: role,
                     data: response.data,
                     idData: JSON.stringify(id),
                 });

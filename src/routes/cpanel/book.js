@@ -13,5 +13,6 @@ router.get(
 router.get('/insertBook', categoryController.cpanel_getAllCategories);
 router.post('/allBook', bookController.cpanel_insertBook);
 router.get('/:id/updateBook', bookController.cpanel_getbyIdBook);
+router.get('/chart', bookController.cpanel_chart);
 
 module.exports = router;

@@ -142,6 +142,11 @@ class BookController extends Controller {
 
         res.render('book/tablebook', { datas: allBook });
     }
+
+    async cpanel_chart(req, res, next) {
+        res.render('chart/chart');
+    }
+
     async cpanel_getbyIdBook(req, res, next) {
         const { id } = req.params;
         const byIdBook = await this.service.cpanel_GetbyId(id);
