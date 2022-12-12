@@ -351,6 +351,17 @@ class AuthCotroller {
             console.log(e);
         }
     }
+
+    async resetPassword(req, res, next) {
+        try {
+            const { passwordUser } = req.body;
+            const { _id } = req.account;
+            const response = await userService.resetPassword(_id,passwordUser);
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            console.log(e);
+        }
+    }
     async loginNumberphone(req, res, next) {
         try {
             const { body } = req;
@@ -366,6 +377,10 @@ class AuthCotroller {
             );
             if (checkPassword) {
                 return res.status(response.statusCode).json(response);
+            }else{
+                return res.status(response.statusCode).json({
+                    message: 'Mật khẩu không đúng',
+                });
             }
         } catch (e) {
             console.log(e);

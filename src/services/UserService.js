@@ -300,6 +300,25 @@ class UserService extends Service {
         }
     }
 
+    async resetPassword(id, passwordUser) {
+        try {
+            const hash = await bcrypt.hash(
+                passwordUser,
+                await bcrypt.genSalt(10),
+            );
+            const data = {
+                passwordUser: hash,
+            }
+            const user = await this.model.findByIdAndUpdate(id,data);
+            if (user) {
+                return new HttpResponse('Đã reset thành công');
+            }
+            return new HttpResponse('Không tìm thấy user');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async postFollowBooks(id, idBook) {
         try {
             const check = await this.model.find({
