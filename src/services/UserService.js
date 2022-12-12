@@ -250,19 +250,31 @@ class UserService extends Service {
     async getCountPayBook() {
         try {
             let response = [];
+            let dayTime = 0;
+           
             const allUser = await this.model.find();
             for(const element of allUser){
+                for(const readtime of element.timeReadBook){
+                    for (const month of readtime.detailsyear) {
+                        for (const day of month.detailsmonth) {
+                            if(day.time){
+                                dayTime+=day.time;
+                            }
+                        }  
+                    }
+                }
                 const data = {
-                    _id: element._id,
-                    countPayBook: element.payBook.length,
+                    id: element._id,
                     name: element.name,
+                    timeRead: dayTime,
                     email: element.email,
                     image: element.image,
+                   
                 }
                 response.push(data);
-
+                dayTime = 0;
             }
-            response.sort((a, b) => b.countPayBook - a.countPayBook);
+            response.sort((a, b) => b.timeRead - a.timeRead).splice(10);
             return new HttpResponse(response);
         } catch (errors) {
             throw errors;
