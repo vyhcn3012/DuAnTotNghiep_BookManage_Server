@@ -267,6 +267,7 @@ class UserService extends Service {
                     id: element._id,
                     name: element.name,
                     timeRead: dayTime,
+                    historyBookRead: element.historyBookRead.length,
                     email: element.email,
                     image: element.image,
                    
