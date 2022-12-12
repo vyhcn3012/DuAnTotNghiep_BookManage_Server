@@ -246,6 +246,30 @@ class UserService extends Service {
             throw errors;
         }
     }
+
+    async getCountPayBook() {
+        try {
+            let response = [];
+            const allUser = await this.model.find();
+            for(const element of allUser){
+                const data = {
+                    _id: element._id,
+                    countPayBook: element.payBook.length,
+                    name: element.name,
+                    email: element.email,
+                    image: element.image,
+                }
+                response.push(data);
+
+            }
+            response.sort((a, b) => b.countPayBook - a.countPayBook);
+            return new HttpResponse(response);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
+
     async postFavoriteBooks(id, idBook) {
         try {
             const check = await this.model.find({

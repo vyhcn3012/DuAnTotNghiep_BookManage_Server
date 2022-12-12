@@ -28,6 +28,7 @@ router.get('/:id/getFavoriteBooks', AuthController.getFavoriteBooks);
 router.get('/:id/getReadingBooks', AuthController.getReadingBooks);
 router.get('/:id/getDetailAuthor', AuthController.getDetailAuthor);
 router.get('/:id/getReadTimeBook', AuthController.getReadTimeBook);
+router.get('/getCountPayBook', AuthController.getCountPayBook);
 router.get('/getpurchaseCart',AuthController.checkLogin, AuthController.getpurchaseCart);
 
 router.post('/postChapterBought',AuthController.checkLogin, AuthController.postChapterBought);

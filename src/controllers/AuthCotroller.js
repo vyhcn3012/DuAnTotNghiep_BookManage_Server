@@ -383,6 +383,15 @@ class AuthCotroller {
         }
     }
 
+    async getCountPayBook(req, res, next) {
+        try {
+            const response = await userService.getCountPayBook();
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+    
     async getpurchaseCart(req, res, next) {
         try {
             const idUser = req.account._id;
