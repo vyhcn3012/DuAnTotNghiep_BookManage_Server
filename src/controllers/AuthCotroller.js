@@ -7,6 +7,9 @@ const authService = new AuthService(
     new Auth().getInstance(),
     new Account().getInstance(),
 );
+const { CartService } = require('../services/CartService');
+const { Cart } = require('../models/Cart');
+const cartService = new CartService(new Cart().getInstance());
 const userService = new UserService(new Account().getInstance());
 const stripe = require('stripe')(
     'sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7',
@@ -14,6 +17,8 @@ const stripe = require('stripe')(
 const autoBind = require('auto-bind');
 const bcrypt = require('bcryptjs');
 const { MediaService } = require('../services/MediaService');
+
+
 const { OAuth2Client } = require('google-auth-library'),
     client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -156,6 +161,17 @@ class AuthCotroller {
                 _id,
                 idChapter,
             );
+            for (const element of idChapter) {
+                for (const element1 of element.idChapter) {
+                    const body = {
+                        idBook: element.idBook,
+                        idChapter: element1,
+                        purchaseDate: new Date(),
+                    }
+                    cartService.createCart(body, _id);
+                }
+            }
+          
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);

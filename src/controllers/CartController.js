@@ -2,11 +2,10 @@ const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { CartService } = require('../services/CartService');
 const { Cart } = require('../models/Cart');
-const { UserService } = require('../services/UserService');
-const { Account } = require('../models/Account');
+
 
 const cartService = new CartService(new Cart().getInstance());
-const userService = new UserService(new Account().getInstance());
+
 class CartController extends Controller{
     constructor(service) {
         super(service);
@@ -22,8 +21,7 @@ class CartController extends Controller{
                 purchaseDate,
             }
             const response = await this.service.createCart(body);
-            const data=response.data;
-            await userService.purchaseCart(idUser,data._id);
+          
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);

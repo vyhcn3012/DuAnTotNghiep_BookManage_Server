@@ -3,7 +3,6 @@ const autoBind = require("auto-bind");
 const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
-const { UserService } = require("./UserService");
 class BookService extends Service {
   constructor(model) {
     super(model);
