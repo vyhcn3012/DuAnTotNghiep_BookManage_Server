@@ -302,7 +302,7 @@ class UserService extends Service {
         }
     }
 
-    async resetPassword(id, passwordUser) {
+    async resetPassword(phoneUser, passwordUser) {
         try {
             const hash = await bcrypt.hash(
                 passwordUser,
@@ -311,7 +311,7 @@ class UserService extends Service {
             const data = {
                 passwordUser: hash,
             }
-            const user = await this.model.findByIdAndUpdate(id,data);
+            const user = await this.model.findOneAndUpdate({phone:phoneUser},data);
             if (user) {
                 return new HttpResponse('Đã reset thành công');
             }

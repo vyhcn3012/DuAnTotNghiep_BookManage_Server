@@ -358,9 +358,8 @@ class AuthCotroller {
 
     async resetPassword(req, res, next) {
         try {
-            const { passwordUser } = req.body;
-            const { _id } = req.account;
-            const response = await userService.resetPassword(_id,passwordUser);
+            const { phoneUser,passwordUser } = req.body;
+            const response = await userService.resetPassword(phoneUser,passwordUser);
             return res.status(response.statusCode).json(response);
         } catch (e) {
             console.log(e);
