@@ -5,9 +5,6 @@ const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
 const { BookService } = require('../services/BookService');
 const { Book } = require('../models/Book');
-const { UserService } = require('../services/UserService');
-const { Account } = require('../models/Account');
-const userService = new UserService(new Account().getInstance());
 const bookService = new BookService(new Book().getInstance());
 
 class CartService extends Service {
@@ -18,12 +15,11 @@ class CartService extends Service {
   }
 
 
-  async createCart(body,idUser) {
+  async createCart(body) {
     try {
         const item = await this.model.create(body);
         
           if (item) {
-              await userService.purchaseCart(idUser,item._id);
               return new HttpResponse(item);
           }
           throw new Error('Có lỗi, bạn có thể thử lại sau');

@@ -10,7 +10,9 @@ const { NotificationService } = require('./NotificationService');
 
 const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
-
+const { CartService } = require('../services/CartService');
+const { Cart } = require('../models/Cart');
+const cartService = new CartService(new Cart().getInstance());
 const bcrypt = require('bcryptjs');
 const request = require('request');
 var path = require('path');
@@ -375,6 +377,13 @@ class UserService extends Service {
                         await this.model.findByIdAndUpdate(idUser, {
                             $push: { payBook: data },
                         });
+                        const body = {
+                            idBook: element.idBook,
+                            idChapter: element1,
+                            purchaseDate: new Date(),
+                        }
+                        const idcart = await cartService.createCart(body);
+                        await this.purchaseCart(idUser,idcart.data._id);
                     }
                 }
             }
