@@ -14,7 +14,6 @@ class CartController extends Controller{
     async createCart(req, res, next) {
         try {
             const {idBook, idChapter, purchaseDate}=req.body;
-            const idUser=req.account._id;
             const body = {
                 idBook,
                 idChapter,
