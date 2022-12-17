@@ -40,6 +40,24 @@ class BookController extends Controller {
         }
     }
 
+    async updatePriceBook(req, res, next) {
+        try {
+            const { idBook } = req.body;
+            let price = 0;
+            const item = await chapterService.getChapterByBook(idBook);
+            for(const chapter of item.data){
+               price += chapter.price;
+            }
+            const data = {
+              isPrice: price
+            }
+            const response = await this.service.updatePriceBook(idBook,data);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async getBooksByNumberRead(req, res, next) {
         try {
             const sortBy = { numSumRead: -1 };

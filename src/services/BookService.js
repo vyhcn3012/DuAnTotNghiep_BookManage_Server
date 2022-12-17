@@ -3,6 +3,7 @@ const autoBind = require("auto-bind");
 const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
+
 class BookService extends Service {
   constructor(model) {
     super(model);
@@ -36,6 +37,19 @@ class BookService extends Service {
         const item = await this.model.create(body);
           if (item) {
               return new HttpResponse(item);
+          }
+          throw new Error('Có lỗi, bạn có thể thử lại sau');
+      
+    } catch (error) {
+        throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+    }
+  }
+
+  async updatePriceBook(idBook,data) {
+    try {
+        const book = await this.model.findByIdAndUpdate(idBook,data)
+          if (book) {
+              return new HttpResponse(book);
           }
           throw new Error('Có lỗi, bạn có thể thử lại sau');
       

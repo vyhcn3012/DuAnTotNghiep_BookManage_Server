@@ -177,6 +177,17 @@ class AuthCotroller {
         }
     }
 
+    async deleteFavoriteBooks(req, res, next) {
+        try {
+            const { idBook } = req.body;
+            const { _id } = req.account;
+            const response = await userService.deleteFavoriteBooks(_id, idBook);
+            await res.status(response.statusCode).json(response);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async postFollowBooks(req, res, next) {
         try {
             const { id, idBook } = req.body;

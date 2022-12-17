@@ -302,6 +302,15 @@ class UserService extends Service {
         }
     }
 
+    async deleteFavoriteBooks(id, idBook) {
+        try {
+            const book = await this.model.findByIdAndUpdate(id, { $pull: {favoriteBooks:{idBook: idBook} } } );
+            return new HttpResponse(book);
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
     async resetPassword(phoneUser, passwordUser) {
         try {
             const hash = await bcrypt.hash(

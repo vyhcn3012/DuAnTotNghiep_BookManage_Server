@@ -45,5 +45,7 @@ router.post('/accessAuthor',AuthController.checkLogin, AuthController.AccessAuth
 router.post('/creatPaymentIntent', AuthController.creatPaymentIntent);
 router.post('/getChangeProfile',[singleUpload],AuthController.checkLogin, AuthController.getChangeProfile);
 
+router.delete('/deleteFavoriteBooks',AuthController.checkLogin, AuthController.deleteFavoriteBooks);
+
 router.get('/get-all-users-chat', AuthController.checkLogin, AuthController.getAllUsersChat);
 module.exports = router;

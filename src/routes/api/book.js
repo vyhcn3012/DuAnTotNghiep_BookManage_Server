@@ -21,4 +21,6 @@ router.get('/:id/getCommentChapter', bookController.getCommentChapters);
 
 router.post('/insertBook', AuthController.checkLogin, bookController.insertBook);
 
+router.post('/updatePriceBook', bookController.updatePriceBook);
+
 module.exports = router;

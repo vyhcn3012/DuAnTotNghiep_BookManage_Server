@@ -4,10 +4,11 @@ const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
 const {Account} = require("../models/Account");
-const { NotificationService } = require("./NotificationService");
-const { Notification } = require("../models/Notification");
 const { UserService } = require("./UserService");
-const notificationService = new NotificationService(new Notification().getInstance());
+const { BookService } = require("./BookService");
+const { Book } = require("../models/Book");
+
+const bookService = new BookService(new Book().getInstance());
 const userService = new UserService(new Account().getInstance());
 class ChapterService extends Service{
     constructor(model) {
@@ -18,6 +19,7 @@ class ChapterService extends Service{
 
     async getChapterBook(id,idUser) {
         try{
+            const book = await bookService.get(id);
           
             const chapter = await this.model.find({"idBook": id});
             const userChaper= await userService.findInfoById({"_id": idUser});
@@ -25,8 +27,11 @@ class ChapterService extends Service{
             let statusChapter=[];
             let count = 0;
             let dataChapter;
+          
             for (const element of chapter) {
+                
                 const idChapter=element._id;
+                
                 for (const element2 of data) { 
                     const idChapterOfpayBook=element2.idChapter;
                     if(idChapter==idChapterOfpayBook){
@@ -68,37 +73,72 @@ class ChapterService extends Service{
                     statusChapter.push(dataChapter);
                     count =0;
                 }else{
-                    if(element?.linkAudio && element?.htmlChapter){
-                        dataChapter = {
-                            isPay:false,
-                            idChapter:element._id,
-                            chapterNumber:element.chapterNumber,
-                            title:element.title,
-                            price:element.price,
-                            canRead:true,
-                            canListen:true,
+                    if(book.isPrice===0){
+                        if(element?.linkAudio && element?.htmlChapter){
+                            dataChapter = {
+                                isPay:true,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:true,
+                                canListen:true,
+                            }
+                        }else if(element?.linkAudio){
+                            dataChapter = {
+                                isPay:true,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:false,
+                                canListen:true,
+                            }
+                        }else if(element?.htmlChapter){
+                            dataChapter = {
+                                isPay:true,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:true,
+                                canListen:false,
+                            }
                         }
-                    }else if(element?.linkAudio){
-                        dataChapter = {
-                            isPay:false,
-                            idChapter:element._id,
-                            chapterNumber:element.chapterNumber,
-                            title:element.title,
-                            price:element.price,
-                            canRead:false,
-                            canListen:true,
-                        }
-                    }else if(element?.htmlChapter){
-                        dataChapter = {
-                            isPay:false,
-                            idChapter:element._id,
-                            chapterNumber:element.chapterNumber,
-                            title:element.title,
-                            price:element.price,
-                            canRead:true,
-                            canListen:false,
+                    }else{
+                        if(element?.linkAudio && element?.htmlChapter){
+                            dataChapter = {
+                                isPay:false,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:true,
+                                canListen:true,
+                            }
+                        }else if(element?.linkAudio){
+                            dataChapter = {
+                                isPay:false,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:false,
+                                canListen:true,
+                            }
+                        }else if(element?.htmlChapter){
+                            dataChapter = {
+                                isPay:false,
+                                idChapter:element._id,
+                                chapterNumber:element.chapterNumber,
+                                title:element.title,
+                                price:element.price,
+                                canRead:true,
+                                canListen:false,
+                            }
                         }
                     }
+                   
                     statusChapter.push(dataChapter);
                 }
             }
