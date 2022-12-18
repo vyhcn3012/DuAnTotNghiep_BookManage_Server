@@ -3,7 +3,7 @@ const path = require('path');
 module.exports.getConfig = () => {
     const config = {
         MODE: 'Development',
-        PORT: process.env.PORT || 5555,
+        PORT: process.env.PORT || 80,
         MONGO_URL:
             'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
         MONGO_RESTORE_URL:
@@ -52,7 +52,7 @@ module.exports.getConfig = () => {
         config.HOST = `https://bookworlddasboard.herokuapp.com`;
     } else {
         // local
-        config.HOST = `http://localhost:${process.env.PORT || 5555}`;
+        config.HOST = `http://localhost:${process.env.PORT || 80}`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 

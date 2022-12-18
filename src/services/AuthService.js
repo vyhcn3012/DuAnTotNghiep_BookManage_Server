@@ -69,6 +69,7 @@ class AuthService {
             cacheUser = cacheUser.data;
            
             const token = await this.model.generateToken(cacheUser);
+            console.log('===> token', token);
             await this.model.create({
                 token,
                 account: new mongoose.mongo.ObjectId(cacheUser._id),

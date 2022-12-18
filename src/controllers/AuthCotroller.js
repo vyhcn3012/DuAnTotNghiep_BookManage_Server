@@ -361,6 +361,7 @@ class AuthCotroller {
         try {
             const { body } = req;
             const response = await userService.insertNumberphone(body);
+            console.log(response);
             return res.status(response.statusCode).json(response);
         } catch (e) {
             console.log(e);
@@ -467,6 +468,19 @@ class AuthCotroller {
             console.log(e);
         }
     }
+
+    async getProfile(req, res, next) {
+        try{
+            const { _id } = req.account;
+            const response = await userService.getProfile(_id);
+            return res.status(response.statusCode).json(response);
+        }catch(e){
+            return res.status(500).json({
+                message: 'Lỗi server',
+            });
+        }
+    }
 }
+
 
 module.exports = new AuthCotroller(authService);

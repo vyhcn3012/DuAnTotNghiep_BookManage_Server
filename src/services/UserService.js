@@ -60,7 +60,7 @@ class UserService extends Service {
             const { phoneUser, passwordUser, token_fcm } = body;
             const phone = await this.model.findOne({ phone: phoneUser });
             if (phone) {
-                return new HttpResponse('Số điện thoại này đã đăng ký rồi');
+                return {data: 'Số điện thoại đã tồn tại', statusCode: 400, error: true }
             }
             const hash = await bcrypt.hash(
                 passwordUser,
@@ -890,6 +890,31 @@ class UserService extends Service {
                 .find({})
                 .skip((page - 1) * limit)
                 .limit(limit);
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
+
+    async getProfile(userId) {
+        try {
+            const item = await this.model.findById(userId).populate({
+                path: 'notification',
+                populate: {
+                    path: 'chapter',
+                    select: 'title _id',
+                },
+            })
+            .populate({
+                path: 'notification',
+                populate: {
+                    path: 'book',
+                    select: 'name image _id',
+                },
+            });
             if (item) {
                 return new HttpResponse(item);
             }

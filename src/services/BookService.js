@@ -74,8 +74,8 @@ class BookService extends Service {
 
     async getBookById(id) {
             try {
-                const book = await this.model.find({'account':id});
-                total = await this.model.countDocuments( {'account':id} );
+                const book = await this.model.find({ account: id});
+                const total = await this.model.countDocuments( {account : id} );
                 if (!book) {
                     const error = new Error('Không tìm thấy cuốn sách này');
                     error.statusCode = 404;
