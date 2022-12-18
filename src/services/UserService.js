@@ -608,6 +608,9 @@ class UserService extends Service {
                             for (const element2 of element1.detailsmonth) {
                                 if (element2.day === day) {
                                     checkDay = 1;
+                                    if(element2.time==undefined){
+                                        element2.time=0;
+                                    }
                                     const times = time + element2.time;
                                     const item =
                                         await this.model.findByIdAndUpdate(
