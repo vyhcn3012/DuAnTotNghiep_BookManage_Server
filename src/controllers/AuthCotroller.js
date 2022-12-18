@@ -473,7 +473,14 @@ class AuthCotroller {
         try{
             const { _id } = req.account;
             const response = await userService.getProfile(_id);
-            return res.status(response.statusCode).json(response);
+            const token = await authService.findtoken(_id);
+
+            const data = 
+            {
+                ...response,
+                token: token,
+            };
+            return res.status(response.statusCode).json(data);
         }catch(e){
             return res.status(500).json({
                 message: 'Lỗi server',

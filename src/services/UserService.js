@@ -5,9 +5,9 @@ const config = require('../../config/config').getConfig();
 const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const { UserBookService } = require('./UserBookService');
 const { UserBook } = require('../models/UserBook');
+const { Auth } = require('../models/Auth');
 const { Notification } = require('../models/Notification');
 const { NotificationService } = require('./NotificationService');
-
 const notification = new NotificationService(new Notification().getInstance());
 const userBookService = new UserBookService(new UserBook().getInstance());
 const { CartService } = require('../services/CartService');
@@ -915,6 +915,7 @@ class UserService extends Service {
                     select: 'name image _id',
                 },
             });
+        
             if (item) {
                 return new HttpResponse(item);
             }

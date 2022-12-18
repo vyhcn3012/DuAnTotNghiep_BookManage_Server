@@ -3,6 +3,7 @@ const { UserService } = require('./UserService');
 const autoBind = require('auto-bind');
 const { HttpResponse } = require('../../system/helpers/HttpResponse');
 const mongoose = require('mongoose');
+const { Service } = require('../../system/services/Service');
 const config = require('../../config/config').getConfig();
 
 class AuthService {
@@ -189,6 +190,18 @@ class AuthService {
 
             error.statusCode = 401;
             throw error;
+        }
+    }
+
+    async findtoken(idUser) {
+        try {
+            const result = await this.model
+                .findOne({ account: idUser })
+                .sort({ createdAt: -1 })
+                .limit(1);
+            return result.token;
+        }catch (e){
+            console.log(e)
         }
     }
 }
