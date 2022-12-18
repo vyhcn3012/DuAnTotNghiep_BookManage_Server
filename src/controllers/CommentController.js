@@ -24,7 +24,8 @@ class CommentController extends Controller {
                 userName: detailUser.data.name,
                 evaluate: evaluate,
                 image: detailUser.data.image,
-                idBook: idBook
+                idBook: idBook,
+                time: new Date()
                
             }
             const response = await this.service.insert(data);
