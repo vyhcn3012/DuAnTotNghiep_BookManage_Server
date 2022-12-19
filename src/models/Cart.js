@@ -6,20 +6,39 @@ class Cart {
     static instance = null;
     initSchema() {
         const schema = new Schema({
-            'idBook': {
-                'type': Schema.Types.ObjectId,
+            'allPurchase': {
+                'type': [
+                    {
+                        'idBook': {
+                            'type': Schema.Types.ObjectId,
+                            'required': false,
+                            'ref': 'book'
+                        },
+                        'chapters': {
+                            'type': [
+                                {
+                                    'idChapter': {
+                                        'type': Schema.Types.ObjectId,
+                                        'required': true,
+                                        'ref':'chapter'
+                                    },
+                                }
+                            ],
+                            'required': false,
+                        },
+                    }
+                ],
                 'required': false,
-                'ref': 'book'
-            },
-            'idChapter': {
-                'type': Schema.Types.ObjectId,
-                'required': false,
-                'ref': 'chapter'
             },
             'purchaseDate': {
                 'type': Date,
                 'required': false,
             },
+            'totalPrice': {
+                'type': String,
+                'required': false,
+            },
+
            
         }, { 'timestamps': true } );
 
