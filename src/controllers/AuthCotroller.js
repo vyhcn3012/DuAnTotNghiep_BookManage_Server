@@ -153,11 +153,12 @@ class AuthCotroller {
 
     async postChapterBought(req, res, next) {
         try {
-            const { idChapter } = req.body;
+            const { idChapter,totalPrice } = req.body;
             const { _id } = req.account;
             const response = await userService.postChapterBought(
                 _id,
                 idChapter,
+                totalPrice,
             );
           
             await res.status(response.statusCode).json(response);
