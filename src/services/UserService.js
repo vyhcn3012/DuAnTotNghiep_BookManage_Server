@@ -371,8 +371,11 @@ class UserService extends Service {
         }
     }
 
-    async postChapterBought(idUser, idChapter) {
+    async postChapterBought(idUser, idChapter,totalPrice) {
         try {
+            let count = 0;
+            let chapters = [];
+            let allPurchase = [];
             for (const element of idChapter) {
                 for (const element1 of element.idChapter) {
                     const check = await this.model.find({
@@ -383,19 +386,27 @@ class UserService extends Service {
                         const data = {
                             idChapter: element1,
                         };
+                        chapters.push(data);
                         await this.model.findByIdAndUpdate(idUser, {
                             $push: { payBook: data },
                         });
-                        const body = {
-                            idBook: element.idBook,
-                            idChapter: element1,
-                            purchaseDate: new Date(),
-                        }
-                        const idcart = await cartService.createCart(body);
-                        await this.purchaseCart(idUser,idcart.data._id);
                     }
                 }
+                    allPurchase.push({
+                        idBook: element.idBook,
+                        chapters: chapters,
+                    });
+                    chapters = [];
             }
+            const body = {
+                allPurchase,
+                purchaseDate: new Date(),
+                totalPrice: totalPrice,
+            }
+            const idcart = await cartService.createCart(body);
+            await this.purchaseCart(idUser,idcart.data._id);
+            chapters = [];
+
             return new HttpResponse('Success');
         } catch (e) {
             throw e;
@@ -787,9 +798,15 @@ class UserService extends Service {
                     populate: {
                         path: 'idCart',
                         populate: {
-                            path: 'idChapter',
+                            path: 'allPurchase',
                             populate: {
-                                path: 'idBook',
+                                path: 'chapters',
+                                populate: {
+                                    path: 'idChapter',select:'title idBook chapterNumber',
+                                    populate: {
+                                        path: 'idBook',select:'name image introduction', 
+                                    },
+                                },
                             },
                         },
                     },
