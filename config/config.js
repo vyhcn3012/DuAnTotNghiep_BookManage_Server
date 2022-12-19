@@ -3,7 +3,7 @@ const path = require('path');
 module.exports.getConfig = () => {
     const config = {
         MODE: 'Development',
-        PORT: process.env.PORT || 80,
+        PORT: process.env.PORT || 443,
         MONGO_URL:
             'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
         MONGO_RESTORE_URL:
