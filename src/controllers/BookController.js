@@ -159,7 +159,7 @@ class BookController extends Controller {
     async cpanel_getAllBook(req, res, next) {
         const allBook = await this.service.cpanel_GetAll({ limit: 1000 });
         const { role } = req.account;
-        res.render('book/tablebook', { datas: allBook, [role]: role });
+        res.render('admin/manage-book/index', { datas: allBook, [role]: role });
     }
 
     async cpanel_chart(req, res, next) {
