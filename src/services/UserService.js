@@ -792,7 +792,7 @@ class UserService extends Service {
     async getpurchaseCart(idUser) {
         try {
             const item = await this.model
-                .find({ _id: idUser }, { purchaseHistory: 1 })
+                .findOne({ _id: idUser }, { purchaseHistory: 1 })
                 .populate({
                     path: 'purchaseHistory',
                     populate: {
