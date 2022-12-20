@@ -27,7 +27,7 @@ class CategoryController extends Controller {
     }
     async getAllCategories_Cpanel(req, res, next){
         const allCategories = await this.service.cpanel_GetAll({ limit: 1000 });
-        res.render('category/index', {allCategories: allCategories});
+        res.render('admin/manage-category/index.hbs', {allCategories: allCategories});
         
     }
     async insertCategories_Cpanel(req, res, next){

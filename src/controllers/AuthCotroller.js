@@ -246,6 +246,22 @@ class AuthCotroller {
         }
     }
 
+    async isAuthor(req, res, next) {
+        try {
+            const { role } = req.account;
+            if (
+                role == config.ROLE_USER.AUTHOR ||
+                role == config.ROLE_USER.AUTHOR
+            ) {
+                next();
+            } else {
+                return res.redirect('/cpanel/home');
+            }
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async checkLogin(req, res, next) {
         try {
             const token = this.extractToken(req);
@@ -297,16 +313,37 @@ class AuthCotroller {
 
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
-
                 const data = response.data.map((item, index) => {
                     return {
                         index: index + 1,
                         id: item._id,
-                        name: item.name,
-                        email: item.email,
+                        name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
+                        email:  item.email.trim() == '' ? item.phone : item.email,
                         phone: item.phone,
                         role: item.role,
-                        image: item.image || '',
+                        image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
+                        createdAt: item.createdAt,
+                        updatedAt: item.updatedAt,
+                    };
+                });
+
+            
+                res.render('admin/manager-user/index.hbs', {
+                    [role]: role,
+                    data: data,
+                    idData: JSON.stringify(id),
+                });
+            } else if (id == 2) {
+                const response = await userService.findauthorAcess(config.AUTHOR_ACCOUNT_STATUS.PENDING, page, limit);
+                const data = response.data.map((item, index) => {
+                    return {
+                        index: index + 1,
+                        id: item._id,
+                        name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
+                        email:  item.email.trim() == '' ? item.phone : item.email,
+                        phone: item.phone,
+                        role: item.role,
+                        image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                     };
@@ -315,14 +352,6 @@ class AuthCotroller {
                 res.render('admin/manager-user/index.hbs', {
                     [role]: role,
                     data: data,
-                    idData: JSON.stringify(id),
-                });
-            } else if (id == 2) {
-                const response = await userService.findauthorAcess(id);
-
-                res.render('user/indexAccess', {
-                    [role]: role,
-                    data: response.data,
                     idData: JSON.stringify(id),
                 });
             }

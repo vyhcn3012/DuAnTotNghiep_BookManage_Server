@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +27,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class='az-header'>
         <div class='container'>
@@ -86,11 +84,7 @@
 
             </div><!-- az-content-left -->
             <div class='az-content-body pd-lg-l-40 d-flex flex-column'>
-                <select id='selectChange' onchange='onChangeFindTable(this)' class='select-css'
-                    style='height: 30px; font-size: 14px; margin-bottom: 10px; margin-top: 10px;'>
-                    <option>Danh sách các người dùng</option>
-                    <option>Danh sách đang xin làm tác giả</option>
-                </select>
+                <h2 class='az-content-title'>Basic Tables</h2>
                 <p style='color: red' id='show_message'></p>
                 <div class='table-responsive'>
                     <table class='table mg-b-0'>
@@ -99,56 +93,68 @@
                                 <th style='font-size: 20px;'>ID</th>
                                 <th style='font-size: 20px;'>Image</th>
                                 <th style='font-size: 20px;'>Name</th>
-                                <th style='font-size: 20px;'>Email</th>
+                                <th style='font-size: 20px;'>Description</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each data}}
+                            {{#each allCategories}}
                             <tr>
-                                <th scope='row'>{{this.index}}</th>
+                                <th scope='row'>1</th>
                                 <td>
-                                    <img style='height:80px ; width:80px;' src='{{this.image}}' />
+                                    <img style='width:70px ;height:70px;' src='{{this.image}}' />
                                 </td>
                                 <td>{{this.name}}</td>
-                                <td>{{this.email}}</td>
+                                <td>{{this.description}}</td>
+                                <td>
+                                    <button style='font-size: 15px;' id='buttonEdit' class='btn btn-link'
+                                        onclick="editCate('{{this._id}}')">Edit</button>
+                                </td>
+                                <td>
+                                    <button style='font-size: 15px;' onclick="goDelete('{{this._id}}')"
+                                        data-toggle='modal' data-target='#confirmModal' id='buttonEdit'
+                                        class='btn btn-link'>Delete</button>
+                                </td>
                             </tr>
                             {{/each}}
                         </tbody>
                     </table>
                 </div><!-- table-responsive -->
+
+                <div class='ht-40'></div>
+
+                <div class='az-footer mg-t-auto'>
+                    <div class='container'>
+                        <span class='text-muted d-block text-center text-sm-left d-sm-inline-block'>Copyright ©
+                            bootstrapdash.com 2020</span>
+                        <span class='float-none float-sm-right d-block mt-1 mt-sm-0 text-center'>
+                            Free
+                            <a href='https://www.bootstrapdash.com/bootstrap-admin-template/' target='_blank'>Bootstrap
+                                admin templates</a>
+                            from Bootstrapdash.com</span>
+                    </div><!-- container -->
+                </div><!-- az-footer -->
             </div><!-- az-content-body -->
         </div><!-- container -->
     </div><!-- az-content -->
-</body>
-<script>
 
-        let idData = {{{ idData }}}; 
-        const message = document.getElementById('selectChange'); 
-
-        if (idData == 2) {
-            message.value = "Danh sách đang xin làm tác giả";
-        } else if (idData == 1) {
-            message.value = "Danh sách các người dùng";
+    <script>
+        let deleted_id; const fetchAPI = async (url, option) => {
+            const res =
+                await fetch(url, option); return res.json();
         } 
-
-        const onChangeFindTable = (id) => {
-            const value = id.value; 
-            if (value === "Danh sách các người dùng") {
-                onGetUser(1);
-            } else if (value === "Danh sách đang xin làm tác giả") {
-                onGetUser(2);
+        const editCate = (id) => { window.location.href = `/cpanel/categories/${id}/getDetailCategory` }
+        const goDelete = (id) => { deleted_id = id; onDelete(); } const onDelete
+            = async () => {
+                const url =
+                    `/api/categories/${deleted_id}/deletCategory`; const option = {
+                        method:
+                            'delete', headers: { 'Content-Type': 'application/json' }
+                    } try {
+                        await
+                            fetchAPI(url, option); window.location.href = 'getAllCategories';
+                    }
+                catch (e) { console.log('Delete error: ', e) }
             }
-        } 
-
-        const fetchAPI = async (url, option) => {
-            const res = await fetch(url, option); 
-            return res.json();
-        } 
-        
-        const onGetUser = async (id) => { 
-            console.log(id);
-            window.location.href = `/cpanel/admins/quan-ly-nguoi-dung/${id}?page=1&limit=10`
-        }
-
-</script>
+    </script>
+</body>
 </html>
