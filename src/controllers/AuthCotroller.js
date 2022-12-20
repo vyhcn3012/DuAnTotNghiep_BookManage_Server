@@ -370,9 +370,15 @@ class AuthCotroller {
     }
     async AccessAuthor(req, res, next) {
         try {
-            const { _id } = req.account;
-            const response = await userService.AccessAuthor(_id);
-            return res.status(response.statusCode).json(response);
+            const { id, status } = req.params;
+            if(status == config.AUTHOR_ACCOUNT_STATUS.CLOSE){
+                await userService.AccessAuthor(id);
+                return res.redirect('/cpanel/home/man-hinh-chinh');
+            }else if(status == config.AUTHOR_ACCOUNT_STATUS.PENDING){
+                return res.redirect('/cpanel/home/man-hinh-chinh');
+            }else if(status == config.AUTHOR_ACCOUNT_STATUS.ACTIVE){
+                return res.redirect('/cpanel/authors/quan-ly-sach');
+            }
         } catch (e) {
             console.log(e);
         }
