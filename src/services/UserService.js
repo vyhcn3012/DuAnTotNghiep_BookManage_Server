@@ -812,9 +812,9 @@ class UserService extends Service {
                         },
                     },
                 });
+                let details =[];
                 let response =[];
                 let data;
-                let historyCart;
                 item.purchaseHistory.map((item)=>{
                     item.idCart.allPurchase.map((item2)=>{
                         item2.chapters.map((item3)=>{
@@ -829,19 +829,18 @@ class UserService extends Service {
                                 price:item3.idChapter.price,
                             }
                         })
-                        response.push(data);
+                        details.push(data);
                         data = {};
                     })
-                    historyCart = {
-                        ...historyCart,
+                    response.push({
                         idCart:item.idCart._id,
-                        allProduct:response,
+                        allProduct:details,
                         purchaseDate:item.idCart.purchaseDate,
                         totalPrice:item.idCart.totalPrice,
-                    }
+                    });
                 });
             if (item) {
-                return new HttpResponse(historyCart);
+                return new HttpResponse(response);
             }
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
