@@ -1,0 +1,129 @@
+<body>
+
+    <div class='az-header'>
+        <div class='container'>
+            <div class='az-header-left'>
+                <a href='index.html' class='az-logo'><span></span>
+                    Book World</a>
+                <a href='' id='azMenuShow' class='az-header-menu-icon d-lg-none'><span></span></a>
+            </div><!-- az-header-left -->
+            <div class='az-header-menu'>
+                <div class='az-header-menu-header'>
+                    <a href='index.html' class='az-logo'><span></span>
+                        Book World</a>
+                    <a href='' class='close'>&times;</a>
+                </div><!-- az-header-menu-header -->
+                <ul class='nav'>
+                    <li class='nav-item'>
+                        <a href='/cpanel/books/allBook' class='nav-link'><i
+                                class='typcn typcn-chart-area-outline'></i>Quản lý sách</a>
+                    </li>
+                    <li class='nav-item'>
+                        <a href='/cpanel/books/chart' class='nav-link'><i class='typcn typcn-chart-bar-outline'></i>
+                            Thống kê</a>
+                    </li>
+                    <li class='nav-item active'>
+                        <a href='/cpanel/categories/getAllCategories' class='nav-link'><i
+                                class='typcn typcn-chart-bar-outline'></i>Quản lý
+                            thể loại sách</a>
+                    </li>
+                    <li class='nav-item'>
+                        <a href='/cpanel/users/1/allUser' class='nav-link'><i class='typcn typcn-book'></i>Quản lý
+                            user</a>
+                    </li>
+                    {{#if 99}}
+                    <li class='nav-item'>
+                        <a class='nav-link'><i class='typcn typcn-chart-bar-outline'></i><button
+                                style='visibility: hidden;' class='btn btn-indigo btn-rounded btn-block'
+                                onclick='onWaitAccessAuthor()'>Xin quyền làm tác giả</button></a>
+                    </li>
+                    {{/if}}
+                    <li class='nav-item'>
+                        <a href='/api/auth/logoutWeb' class='nav-link'><i
+                                class='typcn typcn-chart-bar-outline'></i><button
+                                class='btn btn-indigo btn-rounded btn-block'>logout</button></a>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- container -->
+    </div><!-- az-header -->
+
+    <div class=''>
+        <div class='container'>
+            <div class='az-content-left az-content-left-components'>
+
+            </div><!-- az-content-left -->
+            <div class='az-content-body pd-lg-l-40 d-flex flex-column'>
+                <h2 class='az-content-title'>Basic Tables</h2>
+                <p style='color: red' id='show_message'></p>
+                <div class='table-responsive'>
+                    <table class='table mg-b-0'>
+                        <thead>
+                            <tr>
+                                <th style='font-size: 20px;'>ID</th>
+                                <th style='font-size: 20px;'>Image</th>
+                                <th style='font-size: 20px;'>Name</th>
+                                <th style='font-size: 20px;'>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each allCategories}}
+                            <tr>
+                                <th scope='row'>1</th>
+                                <td>
+                                    <img style='width:70px ;height:70px;' src='{{this.image}}' />
+                                </td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.description}}</td>
+                                <td>
+                                    <button style='font-size: 15px;' id='buttonEdit' class='btn btn-link'
+                                        onclick="editCate('{{this._id}}')">Edit</button>
+                                </td>
+                                <td>
+                                    <button style='font-size: 15px;' onclick="goDelete('{{this._id}}')"
+                                        data-toggle='modal' data-target='#confirmModal' id='buttonEdit'
+                                        class='btn btn-link'>Delete</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div><!-- table-responsive -->
+
+                <div class='ht-40'></div>
+
+                <div class='az-footer mg-t-auto'>
+                    <div class='container'>
+                        <span class='text-muted d-block text-center text-sm-left d-sm-inline-block'>Copyright ©
+                            bootstrapdash.com 2020</span>
+                        <span class='float-none float-sm-right d-block mt-1 mt-sm-0 text-center'>
+                            Free
+                            <a href='https://www.bootstrapdash.com/bootstrap-admin-template/' target='_blank'>Bootstrap
+                                admin templates</a>
+                            from Bootstrapdash.com</span>
+                    </div><!-- container -->
+                </div><!-- az-footer -->
+            </div><!-- az-content-body -->
+        </div><!-- container -->
+    </div><!-- az-content -->
+
+    <script>
+        let deleted_id; const fetchAPI = async (url, option) => {
+            const res =
+                await fetch(url, option); return res.json();
+        } 
+        const editCate = (id) => { window.location.href = `/cpanel/categories/${id}/getDetailCategory` }
+        const goDelete = (id) => { deleted_id = id; onDelete(); } const onDelete
+            = async () => {
+                const url =
+                    `/api/categories/${deleted_id}/deletCategory`; const option = {
+                        method:
+                            'delete', headers: { 'Content-Type': 'application/json' }
+                    } try {
+                        await
+                            fetchAPI(url, option); window.location.href = 'getAllCategories';
+                    }
+                catch (e) { console.log('Delete error: ', e) }
+            }
+    </script>
+</body>

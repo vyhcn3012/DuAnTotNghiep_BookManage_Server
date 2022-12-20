@@ -1,0 +1,159 @@
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="az-header">
+            <div class="container">
+                <div class="az-header-left">
+                    <a href="index.html" class="az-logo"><span></span> Book World</a>
+                    <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+                </div><!-- az-header-left -->
+                <div class="az-header-menu">
+                    <div class="az-header-menu-header">
+                        <a href="index.html" class="az-logo"><span></span> Book World</a>
+                        <a href="" class="close">&times;</a>
+                    </div><!-- az-header-menu-header -->
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a href="/cpanel/books/allBook" class="nav-link"><i
+                                    class="typcn typcn-chart-area-outline"></i>Quản lý sách</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/cpanel/books/chart" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i>
+                                Thống kê</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/cpanel/categories/getAllCategories" class="nav-link"><i
+                                    class="typcn typcn-chart-bar-outline"></i>Quản lý thể loại sách</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/cpanel/users/1/allUser" class="nav-link"><i class="typcn typcn-book"></i>Quản lý
+                                user</a>
+                        </li>
+                        {{#if 99}}
+                        <li class="nav-item">
+                            <a class="nav-link"><i class="typcn typcn-chart-bar-outline"></i><button
+                                    style="visibility: hidden;" class="btn btn-indigo btn-rounded btn-block"
+                                    onclick="onWaitAccessAuthor()">Xin quyền làm tác giả</button></a>
+                        </li>
+                        {{/if}}
+                        <li class="nav-item">
+                            <a href="/api/auth/logoutWeb" class="nav-link"><i
+                                    class="typcn typcn-chart-bar-outline"></i><button
+                                    class="btn btn-indigo btn-rounded btn-block">logout</button></a>
+                        </li>
+                    </ul>
+                </div><!-- az-header-menu -->
+
+            </div><!-- container -->
+        </div><!-- az-header -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_sidebar.html -->
+            <!-- partial -->
+            <div class="container-fluid page-body-wrapper">
+                <!-- partial:../../partials/_sidebar.html -->
+                <!-- partial -->
+                <div class="main-panel">
+                    <div class="content-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Bordered table</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a class="btnThem" href="/cpanel/users/1/allUser">Thêm mới</a>
+                                            </div>
+                                        </div>
+                                        <table class="table datatable">
+                                            <thead>
+                                                <tr>
+                                                    {{!-- <th scope="col">account</th> --}}
+                                                    {{!-- <th scope="col">releasedDate</th> --}}
+                                                    <th scope="col">name</th>
+                                                    <th scope="col">image</th>
+                                                    <th scope="col">introduction</th>
+                                                    <th scope="col">overview</th>
+                                                    <th scope="col">numSumRead</th>
+                                                    <th scope="col">isPrice</th>
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+
+                                                {{#each datas }}
+                                                <tr>
+                                                    {{!-- <td>{{this.account}}</td> --}}
+                                                    {{!-- <td>{{this.releasedDate}}</td> --}}
+                                                    <td>{{this.name}}</td>
+                                                    <td>
+                                                        <img src="{{this.image}}" width="100" height="100">
+                                                    </td>
+                                                    <td>{{this.introduction}}</td>
+                                                    <td>{{this.overview}}</td>
+                                                    <td>{{this.numSumRead}}</td>
+                                                    <td>{{this.isPrice}}</td>
+                                                    <td>
+                                                        <button id="buttonEdit" class="btn btn-link"
+                                                            onclick="edit('{{this._id}}')">Edit</button>
+                                                        <button onclick="goDelete('{{this._id}}')" data-toggle="modal"
+                                                            data-target="#confirmModal" id="buttonEdit"
+                                                            class="btn btn-link">Delete</button>
+                                                    </td>
+
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:../../partials/_footer.html -->
+                <footer class="footer">
+                    <div class="container-fluid d-flex justify-content-between">
+                        <span class="text-muted d-block text-center text-sm-start d-sm-inline-block"></span>
+                        <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
+                                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank"></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <script>
+        const edit = (id) => {
+            window.location.href = `/cpanel/books/${id}/updatebook`
+        }
+        let deleted_id;
+
+        const goDelete = (id) => {
+            deleted_id = id;
+        }
+
+        const fetchAPI = async (url, option) => {
+            const res = await fetch(url, option);
+            return res.json();
+        }
+
+        const onDelete = async () => {
+            const url = `http://localhost:3000/san-pham/${deleted_id}/delete`;
+            const option = {
+                method: 'delete',
+                headers: { 'Content-Type': 'application/json' }
+            }
+            try {
+                await fetchAPI(url, option);
+                window.location.href = '/san-pham';
+            } catch (e) { console.log('Delete error: ', e) }
+        }
+</script>

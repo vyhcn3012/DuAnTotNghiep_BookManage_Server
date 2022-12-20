@@ -246,6 +246,22 @@ class AuthCotroller {
         }
     }
 
+    async isAuthor(req, res, next) {
+        try {
+            const { role } = req.account;
+            if (
+                role == config.ROLE_USER.AUTHOR ||
+                role == config.ROLE_USER.AUTHOR
+            ) {
+                next();
+            } else {
+                return res.redirect('/cpanel/home');
+            }
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async checkLogin(req, res, next) {
         try {
             const token = this.extractToken(req);
@@ -320,9 +336,9 @@ class AuthCotroller {
             } else if (id == 2) {
                 const response = await userService.findauthorAcess(id);
 
-                res.render('user/indexAccess', {
+                res.render('admin/manager-user/index.hbs', {
                     [role]: role,
-                    data: response.data,
+                    response: response,
                     idData: JSON.stringify(id),
                 });
             }
