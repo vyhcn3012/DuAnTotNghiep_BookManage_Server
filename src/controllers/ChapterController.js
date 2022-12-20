@@ -94,9 +94,6 @@ class ChapterController extends Controller {
         }
     }
 
-    async test(req, res, next) {
-        return res.render('test');
-    }
     async getChapterDetailsBook(req, res, next) {
         try {
             const { id } = req.params;

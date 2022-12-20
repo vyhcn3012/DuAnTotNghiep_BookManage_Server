@@ -1,13 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            padding: 50px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
 <body>
     <div class='az-header'>
         <div class='container'>
             <div class='az-header-left'>
                 <a href='index.html' class='az-logo'><span></span> BookWorld</a>
-                <a
-                    href=''
-                    id='azMenuShow'
-                    class='az-header-menu-icon d-lg-none'
-                ><span></span></a>
+                <a href='' id='azMenuShow' class='az-header-menu-icon d-lg-none'><span></span></a>
             </div><!-- az-header-left -->
             <div class='az-header-menu'>
                 <div class='az-header-menu-header'>
@@ -16,28 +43,31 @@
                     <a href='' class='close'>&times;</a>
                 </div><!-- az-header-menu-header -->
                 <ul class='nav'>
+                    <div class="dropdown">
+                        <li class='nav-item'>
+                            <a class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-area-outline'></i>Quản lý</a>
+                            <div class="dropdown-content">
+                                <a href='/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    người dùng</a>
+                                <a href='/cpanel/admins/quan-ly-danh-muc' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    danh mục</a>
+                                <a href='/cpanel/admins/quan-ly-sach' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    sách</a>
+                            </div>
+                        </li>
+                    </div>
                     <li class='nav-item'>
-                        <a
-                            href='/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10'
-                            class='nav-link'
-                            style='font-size: 15px;'
-                        ><i class='typcn typcn-chart-area-outline'></i>Quản lý
-                            người dùng</a>
-                    </li>
-                    <li class='nav-item'>
-                        <a
-                            href='chart-chartjs.html'
-                            class='nav-link'
-                            style='font-size: 15px;'
-                        ><i class='typcn typcn-chart-bar-outline'></i>
+                        <a href='chart-chartjs.html' class='nav-link' style='font-size: 15px;'><i
+                                class='typcn typcn-chart-bar-outline'></i>
                             Thống kê</a>
                     </li>
                     <li class='nav-item'>
-                        <a
-                            href='/cpanel/authors/them-sach'
-                            class='nav-link'
-                            style='font-size: 15px;'
-                        ><i class='typcn typcn-chart-area-outline'></i>Đăng sách</a>
+                        <a href='/cpanel/authors/them-sach' class='nav-link' style='font-size: 15px;'><i
+                                class='typcn typcn-chart-area-outline'></i>Đăng sách</a>
                     </li>
                 </ul>
             </div><!-- az-header-menu -->
@@ -45,8 +75,7 @@
 
                 <a href='' class='az-img-user'>
                     <img
-                        src='https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg'
-                    />
+                        src='https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg' />
                 </a>
             </div>
         </div><!-- az-header-right -->
@@ -57,12 +86,8 @@
 
             </div><!-- az-content-left -->
             <div class='az-content-body pd-lg-l-40 d-flex flex-column'>
-                <select
-                    id='selectChange'
-                    onchange='onChangeFindTable(this)'
-                    class='select-css'
-                    style='height: 30px; font-size: 14px; margin-bottom: 10px; margin-top: 10px;'
-                >
+                <select id='selectChange' onchange='onChangeFindTable(this)' class='select-css'
+                    style='height: 30px; font-size: 14px; margin-bottom: 10px; margin-top: 10px;'>
                     <option>Danh sách các người dùng</option>
                     <option>Danh sách đang xin làm tác giả</option>
                 </select>
@@ -79,58 +104,51 @@
                         </thead>
                         <tbody>
                             {{#each data}}
-                                <tr>
-                                    <th scope='row'>{{this.index}}</th>
-                                    <td>
-                                        <img
-                                            style='height:80px ; width:80px;'
-                                            src='{{this.image}}'
-                                        /></td>
-                                    <td>{{this.name}}</td>
-                                    <td>{{this.email}}</td>
-                                </tr>
+                            <tr>
+                                <th scope='row'>{{this.index}}</th>
+                                <td>
+                                    <img style='height:80px ; width:80px;' src='{{this.image}}' />
+                                </td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.email}}</td>
+                            </tr>
                             {{/each}}
                         </tbody>
                     </table>
                 </div><!-- table-responsive -->
-
-                <div class='ht-40'></div>
-
-                <div class='az-footer mg-t-auto'>
-                    <div class='container'>
-                        <span
-                            class='text-muted d-block text-center text-sm-left d-sm-inline-block'
-                        >Copyright © bootstrapdash.com 2020</span>
-                        <span
-                            class='float-none float-sm-right d-block mt-1 mt-sm-0 text-center'
-                        >
-                            Free
-                            <a
-                                href='https://www.bootstrapdash.com/bootstrap-admin-template/'
-                                target='_blank'
-                            >Bootstrap admin templates</a>
-                            from Bootstrapdash.com</span>
-                    </div><!-- container -->
-                </div><!-- az-footer -->
             </div><!-- az-content-body -->
         </div><!-- container -->
     </div><!-- az-content -->
-
-    <script>
-        let idData={{{idData}}}; const message =
-        document.getElementById('selectChange'); if(idData==2){
-        message.value="Danh sách đang xin làm tác giả"; }else if(idData==1){
-        message.value="Danh sách các người dùng"; } const onChangeFindTable =
-        (id) => { const value=id.value; if(value==="Danh sách các người dùng"){
-        onGetUser(1); }else if(value==="Danh sách đang xin làm tác giả"){
-        onGetUserAccess(2); } } const fetchAPI = async (url, option) => { const
-        res = await fetch(url, option); return res.json(); } const onGetUser =
-        async (id) => { window.location.href = `/cpanel/users/${id}/allUser` }
-        const onGetUserAccess = async (id) => { window.location.href =
-        `/cpanel/users/${id}/allUser` } const onWaitAccessAuthor = async () => {
-        const url = `/api/accounts/accessAuthor`; const option = { method:
-        'post', headers: {'Content-Type':'application/json'}, } try { const
-        result = await fetchAPI(url, option); window.location.href =
-        '/cpanel/users/1/allUser'; } catch (e) { console.log(e); } }
-    </script>
 </body>
+<script>
+
+        let idData = {{{ idData }}}; 
+        const message = document.getElementById('selectChange'); 
+
+        if (idData == 2) {
+            message.value = "Danh sách đang xin làm tác giả";
+        } else if (idData == 1) {
+            message.value = "Danh sách các người dùng";
+        } 
+
+        const onChangeFindTable = (id) => {
+            const value = id.value; 
+            if (value === "Danh sách các người dùng") {
+                onGetUser(1);
+            } else if (value === "Danh sách đang xin làm tác giả") {
+                onGetUser(2);
+            }
+        } 
+
+        const fetchAPI = async (url, option) => {
+            const res = await fetch(url, option); 
+            return res.json();
+        } 
+        
+        const onGetUser = async (id) => { 
+            console.log(id);
+            window.location.href = `/cpanel/admins/quan-ly-nguoi-dung/${id}?page=1&limit=10`
+        }
+
+</script>
+</html>
