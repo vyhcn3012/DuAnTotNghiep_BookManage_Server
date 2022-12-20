@@ -206,7 +206,7 @@ class ChapterService extends Service{
     async getChapterNumber(idBook) {
         try {
             const item = await this.model.find({idBook: idBook}).sort({chapterNumber: -1}).limit(1);
-            if (!item) {
+            if (item.length === 0) {
                 return null;
             }
 
