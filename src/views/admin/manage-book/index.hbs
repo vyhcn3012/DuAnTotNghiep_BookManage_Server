@@ -78,55 +78,6 @@
             </div>
         </div><!-- az-header-right -->
     </div><!-- container -->
-    <div class="container-scroller">
-        <!-- partial:../../partials/_navbar.html -->
-        <!-- partial -->
-        <div class="az-header">
-            <div class="container">
-                <div class="az-header-left">
-                    <a href="index.html" class="az-logo"><span></span> Book World</a>
-                    <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
-                </div><!-- az-header-left -->
-                <div class="az-header-menu">
-                    <div class="az-header-menu-header">
-                        <a href="index.html" class="az-logo"><span></span> Book World</a>
-                        <a href="" class="close">&times;</a>
-                    </div><!-- az-header-menu-header -->
-                    <ul class="nav">
-                        <li class="nav-item active">
-                            <a href="/cpanel/books/allBook" class="nav-link"><i
-                                    class="typcn typcn-chart-area-outline"></i>Quản lý sách</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="/cpanel/books/chart" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i>
-                                Thống kê</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/cpanel/categories/getAllCategories" class="nav-link"><i
-                                    class="typcn typcn-chart-bar-outline"></i>Quản lý thể loại sách</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/cpanel/users/1/allUser" class="nav-link"><i class="typcn typcn-book"></i>Quản lý
-                                user</a>
-                        </li>
-                        {{#if 99}}
-                        <li class="nav-item">
-                            <a class="nav-link"><i class="typcn typcn-chart-bar-outline"></i><button
-                                    style="visibility: hidden;" class="btn btn-indigo btn-rounded btn-block"
-                                    onclick="onWaitAccessAuthor()">Xin quyền làm tác giả</button></a>
-                        </li>
-                        {{/if}}
-                        <li class="nav-item">
-                            <a href="/api/auth/logoutWeb" class="nav-link"><i
-                                    class="typcn typcn-chart-bar-outline"></i><button
-                                    class="btn btn-indigo btn-rounded btn-block">logout</button></a>
-                        </li>
-                    </ul>
-                </div><!-- az-header-menu -->
-
-            </div><!-- container -->
-        </div><!-- az-header -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:../../partials/_sidebar.html -->
             <!-- partial -->
@@ -139,10 +90,9 @@
                             <div class="col-lg-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Bordered table</h4>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <a class="btnThem" href="/cpanel/users/1/allUser">Thêm mới</a>
+                                                <a class="btnThem" href="/cpanel/users/1/allUser" style="font-size: 18px;">Thêm mới</a>
                                             </div>
                                         </div>
                                         <table class="table datatable">
@@ -175,9 +125,9 @@
                                                     <td>{{this.numSumRead}}</td>
                                                     <td>{{this.isPrice}}</td>
                                                     <td>
-                                                        <button id="buttonEdit" class="btn btn-link"
+                                                        <button id="buttonEdit" class="btn btn-link" style="font-size: 15px;"
                                                             onclick="edit('{{this._id}}')">Edit</button>
-                                                        <button onclick="goDelete('{{this._id}}')" data-toggle="modal"
+                                                        <button onclick="goDelete('{{this._id}}')" data-toggle="modal" style="font-size: 15px;"
                                                             data-target="#confirmModal" id="buttonEdit"
                                                             class="btn btn-link">Delete</button>
                                                     </td>
