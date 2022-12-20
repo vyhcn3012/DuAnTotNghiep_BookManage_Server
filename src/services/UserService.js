@@ -803,7 +803,7 @@ class UserService extends Service {
                             populate: {
                                 path: 'chapters',
                                 populate: {
-                                    path: 'idChapter',select:'title idBook chapterNumber',
+                                    path: 'idChapter',select:'_id title idBook chapterNumber price',
                                     populate: {
                                         path: 'idBook',select:'name image introduction', 
                                     },
@@ -812,8 +812,36 @@ class UserService extends Service {
                         },
                     },
                 });
+                let response =[];
+                let data;
+                let historyCart;
+                item.purchaseHistory.map((item)=>{
+                    item.idCart.allPurchase.map((item2)=>{
+                        item2.chapters.map((item3)=>{
+                            data = {
+                                ...data,
+                                idBook:item3.idChapter.idBook._id,
+                                nameBook:item3.idChapter.idBook.image,
+                                ineBook:item3.idChapter.idBook.name,
+                                imtroductionBook:item3.idChapter.idBook.introduction,
+                                nameChapter:item3.idChapter.title,
+                                chapterNumber:item3.idChapter.chapterNumber,
+                                price:item3.idChapter.price,
+                            }
+                        })
+                        response.push(data);
+                        data = {};
+                    })
+                    historyCart = {
+                        ...historyCart,
+                        idCart:item.idCart._id,
+                        allProduct:response,
+                        purchaseDate:item.idCart.purchaseDate,
+                        totalPrice:item.idCart.totalPrice,
+                    }
+                });
             if (item) {
-                return new HttpResponse(item);
+                return new HttpResponse(historyCart);
             }
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {
