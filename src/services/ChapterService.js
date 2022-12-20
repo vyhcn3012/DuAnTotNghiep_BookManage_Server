@@ -202,6 +202,19 @@ class ChapterService extends Service{
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
         }
     }
+
+    async getChapterNumber(idBook) {
+        try {
+            const item = await this.model.find({idBook: idBook}).sort({chapterNumber: -1}).limit(1);
+            if (item.length === 0) {
+                return null;
+            }
+
+            return item[0].chapterNumber;
+        }catch(error) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
+        }
+    }
 }
 
 module.exports = { ChapterService };

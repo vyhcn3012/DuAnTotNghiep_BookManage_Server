@@ -16,7 +16,6 @@ const autoBind = require('auto-bind');
 const bcrypt = require('bcryptjs');
 const { MediaService } = require('../services/MediaService');
 
-
 const { OAuth2Client } = require('google-auth-library'),
     client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
 class AuthCotroller {
@@ -153,14 +152,14 @@ class AuthCotroller {
 
     async postChapterBought(req, res, next) {
         try {
-            const { idChapter,totalPrice } = req.body;
+            const { idChapter, totalPrice } = req.body;
             const { _id } = req.account;
             const response = await userService.postChapterBought(
                 _id,
                 idChapter,
                 totalPrice,
             );
-          
+
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
@@ -293,9 +292,9 @@ class AuthCotroller {
         try {
             const { id } = req.params;
             const { role } = req.account;
-            
+
             const { page, limit } = req.query;
-           
+
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
 
@@ -313,7 +312,7 @@ class AuthCotroller {
                     };
                 });
 
-                res.render('user/index', {
+                res.render('admin/manager-user/index.hbs', {
                     [role]: role,
                     data: data,
                     idData: JSON.stringify(id),
@@ -371,8 +370,11 @@ class AuthCotroller {
 
     async resetPassword(req, res, next) {
         try {
-            const { phoneUser,passwordUser } = req.body;
-            const response = await userService.resetPassword(phoneUser,passwordUser);
+            const { phoneUser, passwordUser } = req.body;
+            const response = await userService.resetPassword(
+                phoneUser,
+                passwordUser,
+            );
             return res.status(response.statusCode).json(response);
         } catch (e) {
             console.log(e);
@@ -382,9 +384,9 @@ class AuthCotroller {
         try {
             const { body } = req;
             const { passwordUser } = req.body;
-           
+
             const response = await authService.loginNumberphone(body);
-            if(response.data === 'Số điện thoại này chưa đăng ký'){
+            if (response.data === 'Số điện thoại này chưa đăng ký') {
                 return res.status(response.statusCode).json(response);
             }
             const checkPassword = await bcrypt.compare(
@@ -393,7 +395,7 @@ class AuthCotroller {
             );
             if (checkPassword) {
                 return res.status(response.statusCode).json(response);
-            }else{
+            } else {
                 return res.status(response.statusCode).json({
                     message: 'Mật khẩu không đúng',
                 });
@@ -422,7 +424,7 @@ class AuthCotroller {
             next(e);
         }
     }
-    
+
     async getpurchaseCart(req, res, next) {
         try {
             const idUser = req.account._id;
@@ -477,24 +479,22 @@ class AuthCotroller {
     }
 
     async getProfile(req, res, next) {
-        try{
+        try {
             const { _id } = req.account;
             const response = await userService.getProfile(_id);
             const token = await authService.findtoken(_id);
 
-            const data = 
-            {
+            const data = {
                 ...response,
                 token: token,
             };
             return res.status(response.statusCode).json(data);
-        }catch(e){
+        } catch (e) {
             return res.status(500).json({
                 message: 'Lỗi server',
             });
         }
     }
 }
-
 
 module.exports = new AuthCotroller(authService);

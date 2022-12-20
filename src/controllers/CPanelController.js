@@ -63,7 +63,6 @@ class CPanelController {
                                 audience: config.GOOGLE_CLIENT_ID,
                             });
 
-                          
                             const { name, email, picture } =
                                 ticket.getPayload();
 
@@ -79,7 +78,6 @@ class CPanelController {
                                 favoritebooks: '',
                             };
                             const account = await authService.login(body);
-                        
 
                             res.cookie('token', account.data.token, {
                                 expires: new Date(
@@ -87,7 +85,23 @@ class CPanelController {
                                 ),
                                 httpOnly: true,
                             });
-                            res.redirect('/cpanel/authors/quan-ly-sach');
+                            if (
+                                account.data.account.role ===
+                                config.ROLE_USER.AUTHOR
+                            ) {
+                                return res.redirect(
+                                    '/cpanel/authors/quan-ly-sach',
+                                );
+                            } else if (
+                                account.data.account.role ===
+                                    config.ROLE_USER.ADMIN ||
+                                account.data.account.role ===
+                                    config.ROLE_USER.SUPER_ADMIN
+                            ) {
+                                return res.redirect(
+                                    '/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10',
+                                );
+                            }
                         }
                     },
                 );

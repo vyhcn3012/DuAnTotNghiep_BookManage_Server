@@ -176,17 +176,18 @@ input {
 	<!-- code here -->
 	<div class="card">
 		<img src="{{data.image}}" class="card-image">
-		<form class="card-form">
+		<form class="card-form" method="post" action="/api/books/update-book/{{data._id}}">
+			<input type="text" name="image" class="input-field" value="{{data.image}}" hidden/>
 			<div class="input">
 				<input type="text" name="name" class="input-field" value="{{data.name}}" required/>
 				<label class="input-label">Tên sách</label>
 			</div>
 			<div class="input">
-				<input type="text" class="input-field" value="{{data.overview}}" required/>
+				<input type="text" name="overview" class="input-field" value="{{data.overview}}" required/>
 				<label class="input-label">Giới thiệu</label>
 			</div>
 			<div class="input">
-				<input type="text" class="input-field" value="Đời sống" required/>
+				<input type="text" class="input-field" name = "" value="{{category.name}}" required/>
 				<label class="input-label">Thể loại</label>
 			</div>
 			<div class="action">
