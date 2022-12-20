@@ -161,9 +161,10 @@ class UserService extends Service {
             throw errors;
         }
     }
-    async findauthorAcess(authorAcess) {
+    async findauthorAcess(authorAcess, page, limit) {
         try {
-            const author = await this.model.find({ authorAcess: authorAcess });
+            const author = await this.model.find({ authorAcess: authorAcess }).skip((page - 1) * limit)
+            .limit(limit);;
             if (!author) {
                 const error = new Error('Không tìm thấy này');
                 error.statusCode = 404;

@@ -101,6 +101,8 @@ class CPanelController {
                                 return res.redirect(
                                     '/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10',
                                 );
+                            } else if(account.data.account.role === config.ROLE_USER.USER){
+                                return res.redirect('/cpanel/home/man-hinh-chinh');
                             }
                         }
                     },
@@ -125,6 +127,26 @@ class CPanelController {
             await authService.logout(token);
             res.clearCookie('token');
             res.redirect('/auth');
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async cpanel_home(req, res, next) {
+        try {
+            const { authorAcess, _id } = req.account;
+            let txtAccessRole = '';
+            if(authorAcess == config.AUTHOR_ACCOUNT_STATUS.CLOSE){
+                txtAccessRole = "Xin quyền tác giả";
+                res.render('non-role/index', { txtAccessRole: txtAccessRole, _id: _id, status: config.AUTHOR_ACCOUNT_STATUS.CLOSE});
+            }else if(authorAcess == config.AUTHOR_ACCOUNT_STATUS.PENDING){
+                txtAccessRole = "Đang chờ duyệt";
+                res.render('non-role/index', { txtAccessRole: txtAccessRole, _id: _id, status: config.AUTHOR_ACCOUNT_STATUS.PENDING });
+            }else if(authorAcess == config.AUTHOR_ACCOUNT_STATUS.ACTIVE){
+                txtAccessRole = "Đã được duyệt";
+                res.render('non-role/index', { txtAccessRole: txtAccessRole, _id: _id, status: config.AUTHOR_ACCOUNT_STATUS.ACTIVE });
+            }
+            
         } catch (e) {
             console.log(e);
         }
