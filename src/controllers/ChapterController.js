@@ -33,15 +33,18 @@ class ChapterController extends Controller {
 
     async insertChapterBook(req, res, next) {
         try {
-            const { idBook, title, htmlChapter, permission } = req.body;
+            const { idBook, title, htmlChapter, permission, price } = req.body;
             const { _id } = req.account;
-
+            const chapterNumberMost = await chapterService.getChapterNumber(idBook);
+    
             const data = {
                 idBook: idBook,
                 title: title,
                 htmlChapter: htmlChapter,
                 permission: permission,
+                price: price,
                 releasedDate: new Date(),
+                chapterNumber: chapterNumberMost + 1,
             };
             const chapter = await chapterService.insertChapterBook(data);
 

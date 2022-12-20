@@ -52,6 +52,10 @@
         <div class="form-group">
             <label style="font-size: 15px; margin-left: 30px;">Chú thích</label>
             <input style="width: 300px; height: 30px; font-size: 15px; margin-left: 10px;" type="permission" name="permission" class="file-upload-default">
+        </div>     
+        <div class="form-group">
+            <label style="font-size: 15px; margin-left: 30px;">Giá tiền</label>
+            <input style="width: 300px; height: 30px; font-size: 15px; margin-left: 10px;" type="price" name="price" class="file-upload-default">
         </div>        
     </form>
      <div id="editor"></div>
@@ -85,6 +89,7 @@
         const data = editorinstance.getData(); 
         const title = document.querySelector('input[name="title"]').value;
         const permission = document.querySelector('input[name="permission"]').value;
+        const price = document.querySelector('input[name="price"]').value;
         swal("Xác nhận thêm mới ngành học?", {
             buttons: {
                 cancel: "Hủy",
@@ -97,7 +102,8 @@
                     idBook: _id,
                     title: title,
                     permission: permission,
-                    htmlChapter: data
+                    htmlChapter: data,
+                    price: price
                 }
 
                 const option = {
