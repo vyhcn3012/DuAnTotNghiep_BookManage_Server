@@ -201,9 +201,28 @@ class BookController extends Controller {
             const { id } = req.params;
             const { _id } = req.account;
             const book = await this.service.findOneBookAuthor(id, _id);
-            return res.render('author/detailBook', {data: book});
+            const category = await categoryService.findOne(book.categoryId);
+            return res.render('author/detailBook', {data: book, category: category});
         } catch (e){
             console.log(e);
+        }
+    }
+
+    async updateBook(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { _id } = req.account;
+            let { image, name, overview } = req.body;
+
+            const data = {
+                image: image,
+                name: name,
+                overview: overview,
+            };
+            const response = await this.service.updateBook(id, data);
+            return res.redirect('/cpanel/authors/quan-ly-sach/' + id);
+        } catch (e) {
+            next(e);
         }
     }
 }

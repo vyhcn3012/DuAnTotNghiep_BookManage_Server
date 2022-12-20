@@ -52,7 +52,11 @@
                             <form>
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
-                                    <input type="file" name="image" class="file-upload-default">
+                                    <input onchange="onChangeFile();" name="image" type="file" accept="image/*"
+                                    class="form-control-file border" id="image-file" />
+                                    <img style="display: none; object-fit:cover;" src="" width="200" height="200"
+                                    id="image-view" />
+                                    <label id="textWAIT" style="font-size: 13px;" class="control-label"></label>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputUsername1">Tên sản phẩm</label>
@@ -93,6 +97,33 @@
         return res.json();
     }
 
+    let linkHinh = ""; 
+
+    const onChangeFile = async () => {
+        const imagefile = document.getElementById('image-file'); 
+        let file = imagefile.files[0]; 
+        const reader = new FileReader(); 
+        reader.onload = e => {
+            document.getElementById('image-view').src = e.target.result;
+            document.getElementById('image-view').style.display = 'block';
+        }
+        reader.readAsDataURL(file); 
+        var fd = new FormData();
+        fd.append("file", file); 
+        const url = `/api/media/uploadImage`; 
+
+        const option = { method: 'post', body: fd } 
+            try {
+                textWAIT.innerHTML="Đang tải hình lên...";
+                const result = await fetchAPI(url, option);                           
+                linkHinh =result.url; 
+                textWAIT.innerHTML="Đã tải xong";
+                return linkHinh;
+            } catch (e) { 
+                console.log(e); 
+            }
+        } 
+
     const onSave = async () => {
 
         const image = document.getElementById('image');
@@ -100,6 +131,7 @@
         const introduction = document.getElementById('introduction');
         const isPrice = document.getElementById('isPrice');
         const categoryId = document.getElementById('categoryId');
+        const textWAIT =document.getElementById('textWAIT'); 
 
         console.log(introduction.value);
             
@@ -112,7 +144,7 @@
             .then(async (value) => {
                 const url = `/api/books/insertBook`;
                 const body = {
-                    image: 'https://cdn.tgdd.vn/2020/08/campaign/cach-tim-kiem-bang-hinh-anh-tren-google-dien-thoai-may-tinhthumb-640x360.jpg',
+                    image: linkHinh,
                     name: name.value,
                     introduction: introduction.value,
                     isPrice: isPrice.value,
