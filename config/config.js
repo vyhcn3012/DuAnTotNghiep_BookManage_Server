@@ -52,7 +52,7 @@ module.exports.getConfig = () => {
         config.HOST = `https://bookworlddasboard.herokuapp.com`;
     } else {
         // local
-        config.HOST = `https://www.bookworlddashboard.shop:${process.env.PORT || 80}`;
+        config.HOST = `http://localhost:${process.env.PORT || 80}`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 
