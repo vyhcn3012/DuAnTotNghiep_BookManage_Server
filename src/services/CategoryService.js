@@ -108,6 +108,15 @@ class CategoryService extends Service{
         }
     }
 
+    async findOne(categoryId) {
+        try {
+            const item = await this.model.findById(categoryId);
+            return item;
+        } catch ( error ) {
+            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
+        }
+    }
+
  
 }
 
