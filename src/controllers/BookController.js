@@ -199,8 +199,8 @@ class BookController extends Controller {
     async cpanel_updateBook(req, res, next) {
         try {
             const { id } = req.params;
-            const { _id } = req.account;
-            const book = await this.service.findOneBookAuthor(id, _id);
+            const { _id, role } = req.account;
+            const book = await this.service.findOneBookAuthor(id, _id, role);
             const category = await categoryService.findOne(book.categoryId);
             return res.render('author/detailBook', {data: book, category: category});
         } catch (e){

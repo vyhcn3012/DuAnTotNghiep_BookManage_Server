@@ -84,7 +84,6 @@
 
             </div><!-- az-content-left -->
             <div class='az-content-body pd-lg-l-40 d-flex flex-column'>
-                <h2 class='az-content-title'>Basic Tables</h2>
                 <p style='color: red' id='show_message'></p>
                 <div class='table-responsive'>
                     <table class='table mg-b-0'>
@@ -99,20 +98,20 @@
                         <tbody>
                             {{#each allCategories}}
                             <tr>
-                                <th scope='row'>1</th>
+                                <th scope='row'>{{this.index}}</th>
                                 <td>
                                     <img style='width:70px ;height:70px;' src='{{this.image}}' />
                                 </td>
                                 <td>{{this.name}}</td>
                                 <td>{{this.description}}</td>
                                 <td>
-                                    <button style='font-size: 15px;' id='buttonEdit' class='btn btn-link'
-                                        onclick="editCate('{{this._id}}')">Edit</button>
+                                    <a style='font-size: 15px;' id='buttonEdit' class='btn btn-link'
+                                        href="/cpanel/admins/quan-ly-danh-muc/{{this._id}}">Edit</a>
                                 </td>
                                 <td>
-                                    <button style='font-size: 15px;' onclick="goDelete('{{this._id}}')"
-                                        data-toggle='modal' data-target='#confirmModal' id='buttonEdit'
-                                        class='btn btn-link'>Delete</button>
+                                    <a style='font-size: 15px;' href= "/api/categories/{{this._id}}/deleteCategory"
+                                        data-toggle='modal' id='buttonEdit'
+                                        class='btn btn-link'>Delete</a>
                                 </td>
                             </tr>
                             {{/each}}

@@ -1,10 +1,12 @@
 const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
+const { Account } = require('../models/Account');
 const { Room } = require('../models/Room');
 const { RoomService } = require('../services/RoomService');
 const { UserService } = require('../services/UserService');
-const roomService = new RoomService(new Room().getInstance());
 
+const roomService = new RoomService(new Room().getInstance());
+const userService = new UserService(new Account().getInstance());
 class RoomController extends Controller {
     constructor(service) {
         super(service);
@@ -13,12 +15,19 @@ class RoomController extends Controller {
 
     async createRoom(req, res, next) {
         try {
-            const { name, image, users } = req.body;
+            const { name, file, users } = req.body;
             const createdBy = req.account._id;
             users.push(createdBy);
+            let urlImage;
+            if(file){
+                urlImage = await userService.createImage(
+                    'data:image/jpeg;base64,' + file,
+                );
+            }
+           
             const response = await this.service.insert({
                 name,
-                image,
+                image: urlImage ? urlImage.data.url : '',
                 users,
                 createdBy,
                 createdAt: new Date(),

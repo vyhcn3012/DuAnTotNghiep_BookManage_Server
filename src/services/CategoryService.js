@@ -4,7 +4,7 @@ const autoBind = require('auto-bind');
 const config = require('../../config/config').getConfig();
 const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const request = require('request');
-
+var ObjectId = require('mongodb').ObjectId;
 class CategoryService extends Service{
     constructor(model) {
         super(model);
@@ -77,19 +77,19 @@ class CategoryService extends Service{
             throw errors;
         }
     }
-    async getDetailCategory(id) {
+    async getDetailCategory(idCategory) {
         try {
-            const item = await this.model.findById(id);
-           
+            const _id = new ObjectId(idCategory);
+            const item = await this.model.findById(_id);
             if (!item) {
                 const error = new Error("Không tìm thấy thể loại này");
                 error.statusCode = 404;
                 throw error;
               }
            
-            return new HttpResponse( item );
+            return item;
         } catch ( error ) {
-            throw new Error('Có lỗi, bạn có thể thử lại sau nhen');
+            console.log(error);
         }
     }
     async deletCategory(id) {

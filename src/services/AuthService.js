@@ -157,7 +157,6 @@ class AuthService {
         try {
             // Check if the token is in the Database
             const tokenInDB = await this.model.countDocuments({ token });
-            console.log('tokendb', token);
             if (!tokenInDB) {
                 const error = new Error('Invalid Token');
 
