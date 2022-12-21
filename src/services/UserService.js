@@ -393,21 +393,23 @@ class UserService extends Service {
                         });
                     }
                 }
+                if(chapters.length !== 0){
                     allPurchase.push({
                         idBook: element.idBook,
                         chapters: chapters,
                     });
                     chapters = [];
+                }
             }
-            const body = {
-                allPurchase,
-                purchaseDate: new Date(),
-                totalPrice: totalPrice,
+            if(allPurchase.length !== 0){
+                const body = {
+                    allPurchase,
+                    purchaseDate: new Date(),
+                    totalPrice: totalPrice,
+                }
+                const idcart = await cartService.createCart(body);
+                await this.purchaseCart(idUser,idcart.data._id);
             }
-            const idcart = await cartService.createCart(body);
-            await this.purchaseCart(idUser,idcart.data._id);
-            chapters = [];
-
             return new HttpResponse('Success');
         } catch (e) {
             throw e;
@@ -814,23 +816,29 @@ class UserService extends Service {
                 });
                 let details =[];
                 let response =[];
-                let data;
+                let dataChapter;
+                let dataBook;
+                let chapters = [];
                 item.purchaseHistory.map((item)=>{
                     item.idCart.allPurchase.map((item2)=>{
-                        item2.chapters.map((item3)=>{
-                            data = {
-                                ...data,
-                                idBook:item3.idChapter.idBook._id,
-                                nameBook:item3.idChapter.idBook.image,
-                                ineBook:item3.idChapter.idBook.name,
-                                imtroductionBook:item3.idChapter.idBook.introduction,
+                        item2.chapters.map((item3,index)=>{
+                            dataChapter = {
                                 nameChapter:item3.idChapter.title,
                                 chapterNumber:item3.idChapter.chapterNumber,
                                 price:item3.idChapter.price,
                             }
+                            if(index==0){
+                                dataBook = {
+                                    idBook:item3.idChapter.idBook._id,
+                                    imageBook:item3.idChapter.idBook.image,
+                                    nameBook:item3.idChapter.idBook.name,
+                                    introductionBook:item3.idChapter.idBook.introduction,
+                                }
+                            }
+                            chapters.push(dataChapter);
                         })
-                        details.push(data);
-                        data = {};
+                        details.push({...dataBook,chapters});
+                        chapters = [];
                     })
                     response.push({
                         idCart:item.idCart._id,
@@ -838,6 +846,7 @@ class UserService extends Service {
                         purchaseDate:item.idCart.purchaseDate,
                         totalPrice:item.idCart.totalPrice,
                     });
+                    details = [];
                 });
             if (item) {
                 return new HttpResponse(response);
