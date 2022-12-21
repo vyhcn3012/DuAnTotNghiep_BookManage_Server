@@ -34,7 +34,6 @@ class CategoryController extends Controller {
             };
         });
         res.render('admin/manage-category/index.hbs', {allCategories: data});
-        
     }
     async insertCategories_Cpanel(req, res, next){
         res.render('category/insert');     
@@ -56,9 +55,10 @@ class CategoryController extends Controller {
     }
     async updateCategory(req, res, next) {
         try {
-            const {body} = req;
-            const response = await this.service.updateCategory(body);
-            return res.status(response.statusCode).json(response);
+            const { name, image, description } = req.body;
+            const { id } = req.params;
+            const response = await this.service.updateCategory(id, name, image, description);
+            return res.redirect('/cpanel/admins/quan-ly-danh-muc/' + id)
         } catch (e) {
             next(e);
         }

@@ -7,6 +7,6 @@ router.get('/', (req, res) => {
 });
 router.get('/getAllCategories',categoryController.getCategories);
 router.post('/insertCategory',categoryController.insertCategory);
-router.post('/updateCategory',categoryController.updateCategory);
+router.post('/:id',categoryController.updateCategory);
 router.get('/:id/deleteCategory',categoryController.deletCategory);
 module.exports = router;

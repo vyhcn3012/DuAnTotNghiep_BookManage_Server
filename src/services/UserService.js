@@ -947,8 +947,14 @@ class UserService extends Service {
                 .find({})
                 .skip((page - 1) * limit)
                 .limit(limit);
+            const count = await this.model.countDocuments();
+
+            const result = {
+                users: item,
+                total: count,
+            }
             if (item) {
-                return new HttpResponse(item);
+                return new HttpResponse(result);
             }
             throw new Error('Có lỗi, bạn có thể thử lại sau');
         } catch (errors) {

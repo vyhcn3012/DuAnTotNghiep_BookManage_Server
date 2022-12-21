@@ -37,6 +37,6 @@ router.get(
 router.get('/quan-ly-sach/:id', 
     AuthCotroller.checkLogin,
     AuthCotroller.isAdmin,
-    BookController.cpanel_updateBook);
+    BookController.cpanel_updateBookForAdmin);
     
 module.exports = router;
