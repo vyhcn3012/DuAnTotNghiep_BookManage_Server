@@ -3,6 +3,7 @@ const autoBind = require("auto-bind");
 const { HttpResponse } = require("../../system/helpers/HttpResponse");
 const mongoose = require("mongoose");
 const { Service } = require("../../system/services/Service");
+const config = require('../../config/config').getConfig();
 
 class BookService extends Service {
   constructor(model) {
@@ -87,15 +88,17 @@ class BookService extends Service {
             }
     }
 
-    async findOneBookAuthor(idBook, idUser) {
+    async findOneBookAuthor(idBook, idUser, role) {
       try {
         const book = await this.model.findById(idBook);
+
         if (!book) {
           const error = new Error("Không tìm thấy cuốn sách này");
           error.statusCode = 404;
           throw error;
         }
-        if (book.account != idUser) {
+
+        if (book.account != idUser && role <config.ROLE_USER.AUTHOR) {
           const error = new Error("Bạn không có quyền truy cập");
           error.statusCode = 404;
           throw error;

@@ -19,11 +19,24 @@ router.get(
     AuthCotroller.isAdmin,
     CategoryController.getAllCategories_Cpanel,
 );
+router.get(
+    '/quan-ly-danh-muc/:id',
+    AuthCotroller.checkLogin,
+    AuthCotroller.isAdmin,
+    CategoryController.updateCategories_Cpanel,
+);
 
+
+//Manage Book
 router.get(
     '/quan-ly-sach',
     AuthCotroller.checkLogin,
     AuthCotroller.isAdmin,
     BookController.cpanel_getAllBook,
 );
+router.get('/quan-ly-sach/:id', 
+    AuthCotroller.checkLogin,
+    AuthCotroller.isAdmin,
+    BookController.cpanel_updateBook);
+    
 module.exports = router;

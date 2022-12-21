@@ -27,7 +27,13 @@ class CategoryController extends Controller {
     }
     async getAllCategories_Cpanel(req, res, next){
         const allCategories = await this.service.cpanel_GetAll({ limit: 1000 });
-        res.render('admin/manage-category/index.hbs', {allCategories: allCategories});
+        const data = allCategories.map((item, index) => {
+            return {
+                ...item.toObject(),
+                index: index + 1,
+            };
+        });
+        res.render('admin/manage-category/index.hbs', {allCategories: data});
         
     }
     async insertCategories_Cpanel(req, res, next){
@@ -35,11 +41,10 @@ class CategoryController extends Controller {
     }
     async updateCategories_Cpanel(req, res, next){
         const { id } = req.params;
-      
         const response = await this.service.getDetailCategory(id);
-        let data=response.data;
-        res.render('category/update',{data:data,idCate:JSON.stringify(id)});     
+        res.render('admin/manage-category/detail-category.hbs', {data: response});     
     }
+
     async insertCategory(req, res, next) {
         try {
             const {body} = req;
@@ -61,8 +66,9 @@ class CategoryController extends Controller {
     async deletCategory(req, res, next) {
         try {
           const { id } = req.params;
+          console.log(id);
           const response = await this.service.deletCategory(id);
-          return res.status(response.statusCode).json(response);
+          return res.redirect('/cpanel/admins/quan-ly-danh-muc');
         } catch (e) {
           console.log(e);
         }
