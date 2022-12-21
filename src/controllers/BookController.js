@@ -23,7 +23,15 @@ class BookController extends Controller {
     async getBooks(req, res, next) {
         try {
             const response = await this.service.getAll({ limit: 1000 });
-            await res.status(response.statusCode).json(response);
+            let data = response.data;
+            data = data.map((item) => {
+                return {
+                    ...item,
+                    view: Math.floor(Math.random() * 100) + 1,
+                    evaluate: Math.floor(Math.random() * 5) + 1,
+                };
+            });
+            await res.status(response.statusCode).json(data);
         } catch (e) {
             // next(e);
         }
