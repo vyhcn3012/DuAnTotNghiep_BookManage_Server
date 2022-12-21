@@ -44,6 +44,15 @@ module.exports.getConfig = () => {
             PENDING: 2, // Đang chờ kiểm duyệt nội dung sách
             ACTIVE: 3, // Sách đã được kiểm duyệt
         },
+        MANAGER_ACCOUNT_STATUS: {
+            ALL_USER: 1, // Show tất cả người dùng
+            ALL_PEDDING_AUTHOR: 2, // Show tất cả tác giả đang chờ duyệt
+            ALL_AUTHOR: 3, // Show tất cả tác giả đã được duyệt
+        },
+        USER_STATUS: {
+            NON_BLOCK: 1, // Không bị khóa
+            BLOCK: 2, // Bị khóa
+        }
     };
 
     // Modify for Production

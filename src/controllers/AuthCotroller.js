@@ -316,7 +316,7 @@ class AuthCotroller {
                 const data = response.data.map((item, index) => {
                     return {
                         index: index + 1,
-                        id: item._id,
+                        _id: item._id,
                         name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
                         email:  item.email.trim() == '' ? item.phone : item.email,
                         phone: item.phone,
@@ -324,6 +324,8 @@ class AuthCotroller {
                         image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
+                        authorAcess: item.authorAcess,
+                        statusPage: 1
                     };
                 });
 
@@ -338,7 +340,7 @@ class AuthCotroller {
                 const data = response.data.map((item, index) => {
                     return {
                         index: index + 1,
-                        id: item._id,
+                        _id: item._id,
                         name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
                         email:  item.email.trim() == '' ? item.phone : item.email,
                         phone: item.phone,
@@ -346,6 +348,8 @@ class AuthCotroller {
                         image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
+                        authorAcess: item.authorAcess,
+                        statusPage: 2
                     };
                 });
 
@@ -383,6 +387,17 @@ class AuthCotroller {
             console.log(e);
         }
     }
+
+    async adminAccessAuthor(req, res, next) {
+        try{
+            const { id, status } = req.params;
+            await userService.adminAccessAuthor(id, status);
+            return res.redirect('/cpanel/admins/quan-ly-nguoi-dung/2?page=1&limit=10');
+        }catch(e){
+            next(e);
+        }
+    }
+
     async refuseAccess(req, res, next) {
         try {
             const { idUser } = req.body;
@@ -528,6 +543,16 @@ class AuthCotroller {
             return res.status(500).json({
                 message: 'Lỗi server',
             });
+        }
+    }
+
+    async adminChangeStatus(req, res, next) {
+        try{
+            const { id, status } = req.params;
+            await userService.adminChangeStatus(id, status);
+            return res.redirect('/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10');
+        }catch(e){
+            next(e);
         }
     }
 }

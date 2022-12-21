@@ -71,8 +71,9 @@ class Account {
                 'required': false,
             },
             'status':{
-                'type': String,
+                'type': Number,
                 'required': false,
+                'default': 1
             },
             'birthday':{
                 'type': Date,

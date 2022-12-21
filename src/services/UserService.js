@@ -972,6 +972,29 @@ class UserService extends Service {
             throw errors;
         }
     }
+
+    async adminAccessAuthor(idUser, authorAcess){
+        try {
+            if(authorAcess == config.AUTHOR_ACCOUNT_STATUS.ACTIVE){
+                await this.model.findByIdAndUpdate(idUser, {authorAcess:authorAcess, role: config.ROLE_USER.AUTHOR});
+                return true;
+            }else if(authorAcess == config.AUTHOR_ACCOUNT_STATUS.CLOSE){
+                await this.model.findByIdAndUpdate(idUser, {authorAcess:authorAcess, role: config.ROLE_USER.USER});
+                return true;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async adminChangeStatus(idUser, status){
+        try {
+            await this.model.findByIdAndUpdate(idUser, {status:status});
+            return true;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = { UserService };

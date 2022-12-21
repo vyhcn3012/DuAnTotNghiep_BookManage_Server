@@ -111,6 +111,14 @@
                                 </td>
                                 <td>{{this.name}}</td>
                                 <td>{{this.email}}</td>
+                                <td class="action" {{hiddenButton this.authorAcess this.statusPage}}>
+                                    <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/2" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chặn</a>
+                                    <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 20px;"> Bỏ chặn</a>
+                                </td>
+                                <td class="action" {{hiddenAccessAuthorButton this.statusPage}}>
+                                    <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/3" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chấp nhận</a> 
+                                    <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 20px;"> Từ chối</a>
+                                </td>
                             </tr>
                             {{/each}}
                         </tbody>
