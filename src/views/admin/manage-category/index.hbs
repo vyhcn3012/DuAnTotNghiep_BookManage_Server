@@ -138,9 +138,9 @@
     </div><!-- az-content -->
 
     <script>
-        let deleted_id; const fetchAPI = async (url, option) => {
-            const res =
-                await fetch(url, option); return res.json();
+        let deleted_id; 
+        const fetchAPI = async (url, option) => {
+            const res = await fetch(url, option); return res.json();
         } 
         const editCate = (id) => { window.location.href = `/cpanel/categories/${id}/getDetailCategory` }
         const goDelete = (id) => { deleted_id = id; onDelete(); } const onDelete
