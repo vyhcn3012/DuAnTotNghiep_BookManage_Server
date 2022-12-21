@@ -26,6 +26,37 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .previous {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .next {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+
+        .buttonNextBack{
+            padding: 30px;
+            text-align: center;
+            
+        }
     </style>
 </head>
 
@@ -123,6 +154,13 @@
                             {{/each}}
                         </tbody>
                     </table>
+                    <div class="buttonNextBack">
+                        <a href= "/cpanel/admins/quan-ly-nguoi-dung/{{statusPage}}?page={{back}}&limit=10" class="previous">&laquo; Previous</a>
+                        {{#each count}}
+                            <a href= "/cpanel/admins/quan-ly-nguoi-dung/1?page={{this}}&limit=10" class="page">{{this}}</a>
+                        {{/each}}
+                        <a href= "/cpanel/admins/quan-ly-nguoi-dung/{{statusPage}}?page={{next}}&limit=10" class="next">Next &raquo;</a>
+                    </div>
                 </div><!-- table-responsive -->
             </div><!-- az-content-body -->
         </div><!-- container -->

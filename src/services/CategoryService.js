@@ -53,16 +53,15 @@ class CategoryService extends Service{
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;
         }
     }
-    async updateCategory(body) {
+    async updateCategory(idBook, name, image, description) {
         try {
-            const {id,tentheloai,hinhAnh,moTa} = body;
             const data = {
-                name:tentheloai, 
-                image:hinhAnh,
-                description:moTa,
+                name: name, 
+                image: image,
+                description: description,
             }       
            
-            const item = await this.model.findByIdAndUpdate( id,data );
+            const item = await this.model.findByIdAndUpdate(idBook, data);
             return new HttpResponse( item );          
         } catch ( error ) {
             throw new Error('Có lỗi, bạn có thể thử lại sau nhen');;

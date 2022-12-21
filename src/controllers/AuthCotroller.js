@@ -309,11 +309,16 @@ class AuthCotroller {
             const { id } = req.params;
             const { role } = req.account;
 
-            const { page, limit } = req.query;
+            const { page = 1, limit = 10 } = req.query;
 
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
-                const data = response.data.map((item, index) => {
+                const countDocument = Math.round(response.data.total / limit) + 1;
+                const arr = [];
+                for(let i = 1; i <= countDocument; i++) {
+                    arr.push(i);
+                }
+                const data = response.data.users.map((item, index) => {
                     return {
                         index: index + 1,
                         _id: item._id,
@@ -325,7 +330,7 @@ class AuthCotroller {
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
-                        statusPage: 1
+                        statusPage: 1,
                     };
                 });
 
@@ -334,6 +339,10 @@ class AuthCotroller {
                     [role]: role,
                     data: data,
                     idData: JSON.stringify(id),
+                    statusPage: 1,
+                    next: parseInt(page) + 1,
+                    back: parseInt(page) == 1 ? 1 : parseInt(page) - 1,
+                    count: arr,
                 });
             } else if (id == 2) {
                 const response = await userService.findauthorAcess(config.AUTHOR_ACCOUNT_STATUS.PENDING, page, limit);
@@ -349,7 +358,7 @@ class AuthCotroller {
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
-                        statusPage: 2
+                        statusPage: 2,
                     };
                 });
 
@@ -357,6 +366,9 @@ class AuthCotroller {
                     [role]: role,
                     data: data,
                     idData: JSON.stringify(id),
+                    statusPage: 2,
+                    next: parseInt(page) + 1,
+                    back: parseInt(page) == 1 ? 1 : parseInt(page) - 1,
                 });
             }
         } catch (e) {

@@ -208,6 +208,18 @@ class BookController extends Controller {
         }
     }
 
+    async cpanel_updateBookForAdmin(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { _id, role } = req.account;
+            const book = await this.service.findOneBookAuthor(id, _id, role);
+            const category = await categoryService.findOne(book.categoryId);
+            return res.render('admin/manage-book/detail-book.hbs', {data: book, category: category});
+        } catch (e){
+            console.log(e);
+        }
+    }
+
     async updateBook(req, res, next) {
         try {
             const { id } = req.params;
@@ -225,6 +237,7 @@ class BookController extends Controller {
             next(e);
         }
     }
+    
 }
 
 module.exports = new BookController(bookService);
