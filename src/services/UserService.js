@@ -820,33 +820,35 @@ class UserService extends Service {
                 let dataBook;
                 let chapters = [];
                 item.purchaseHistory.map((item)=>{
-                    item.idCart.allPurchase.map((item2)=>{
-                        item2.chapters.map((item3,index)=>{
-                            dataChapter = {
-                                nameChapter:item3.idChapter.title,
-                                chapterNumber:item3.idChapter.chapterNumber,
-                                price:item3.idChapter.price,
-                            }
-                            if(index==0){
-                                dataBook = {
-                                    idBook:item3.idChapter.idBook._id,
-                                    imageBook:item3.idChapter.idBook.image,
-                                    nameBook:item3.idChapter.idBook.name,
-                                    introductionBook:item3.idChapter.idBook.introduction,
+                    if(item.idCart !==null){
+                        item.idCart.allPurchase.map((item2)=>{
+                            item2.chapters.map((item3,index)=>{
+                                dataChapter = {
+                                    nameChapter:item3.idChapter.title,
+                                    chapterNumber:item3.idChapter.chapterNumber,
+                                    price:item3.idChapter.price,
                                 }
-                            }
-                            chapters.push(dataChapter);
+                                if(index==0){
+                                    dataBook = {
+                                        idBook:item3.idChapter.idBook._id,
+                                        imageBook:item3.idChapter.idBook.image,
+                                        nameBook:item3.idChapter.idBook.name,
+                                        introductionBook:item3.idChapter.idBook.introduction,
+                                    }
+                                }
+                                chapters.push(dataChapter);
+                            })
+                            details.push({...dataBook,chapters});
+                            chapters = [];
                         })
-                        details.push({...dataBook,chapters});
-                        chapters = [];
-                    })
-                    response.push({
-                        idCart:item.idCart._id,
-                        allProduct:details,
-                        purchaseDate:item.idCart.purchaseDate,
-                        totalPrice:item.idCart.totalPrice,
-                    });
-                    details = [];
+                        response.push({
+                            idCart:item.idCart._id,
+                            allProduct:details,
+                            purchaseDate:item.idCart.purchaseDate,
+                            totalPrice:item.idCart.totalPrice,
+                        });
+                        details = [];
+                    }
                 });
             if (item) {
                 return new HttpResponse(response);
