@@ -39,4 +39,12 @@ router.get('/quan-ly-sach/:id',
     AuthCotroller.isAdmin,
     BookController.cpanel_updateBookForAdmin);
     
+//Manage Charts
+router.get(
+    '/quan-ly-thong-ke',
+    AuthCotroller.checkLogin,
+    AuthCotroller.isAdmin,
+    AuthCotroller.indexCharts_Cpanel,
+);
+
 module.exports = router;

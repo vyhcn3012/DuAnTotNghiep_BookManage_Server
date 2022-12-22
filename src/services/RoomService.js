@@ -12,6 +12,18 @@ class RoomService extends Service {
         autoBind(this);
     }
 
+    async createRoom(data){
+        try {
+            const item = await this.model.create(data);
+            if (item) {
+                return new HttpResponse(item);
+            }
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (error) {
+            throw new Error(error.message || 'Có lỗi, bạn có thể thử lại sau');
+        }
+    }
+
     async getRooms(_id) {
         try {
             const item = await this.model.find({ users: { $in: [_id] } });

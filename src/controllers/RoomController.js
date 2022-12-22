@@ -24,8 +24,9 @@ class RoomController extends Controller {
                     'data:image/jpeg;base64,' + file,
                 );
             }
+            console.log(urlImage);
            
-            const response = await this.service.insert({
+            const response = await roomService.createRoom({
                 name,
                 image: urlImage ? urlImage.data.url : '',
                 users,
