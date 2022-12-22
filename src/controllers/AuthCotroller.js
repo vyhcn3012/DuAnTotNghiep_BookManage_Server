@@ -567,6 +567,14 @@ class AuthCotroller {
             next(e);
         }
     }
+
+    async indexCharts_Cpanel(req, res, next) {
+        try{
+            return res.render('admin/charts/chart_total_12_month.hbs');
+        }catch(e){
+            next(e);
+        }
+    }
 }
 
 module.exports = new AuthCotroller(authService);

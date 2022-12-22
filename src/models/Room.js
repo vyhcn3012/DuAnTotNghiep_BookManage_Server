@@ -9,8 +9,7 @@ class Room {
             {
                 name: {
                     type: String,
-                    required: true,
-                    unique: false,
+                    required: false,
                 },
                 image: {
                     type: String,
