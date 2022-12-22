@@ -1012,6 +1012,19 @@ class UserService extends Service {
             console.log(error);
         }
     }
+
+    async findById(id) {
+        try {
+            const item = await this.model.findOne({ _id: id });
+            if (item) {
+                return item;
+            }
+
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
 }
 
 module.exports = { UserService };

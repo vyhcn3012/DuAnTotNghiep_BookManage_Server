@@ -92,7 +92,7 @@
                         </li>
                     </div>
                     <li class='nav-item'>
-                        <a href='chart-chartjs.html' class='nav-link' style='font-size: 15px;'><i
+                        <a href='/cpanel/admins/quan-ly-thong-ke' class='nav-link' style='font-size: 15px;'><i
                                 class='typcn typcn-chart-bar-outline'></i>
                             Thống kê</a>
                     </li>
@@ -144,11 +144,13 @@
                                 <td>{{this.email}}</td>
                                 <td class="action" {{hiddenButton this.authorAcess this.statusPage}}>
                                     <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/2" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chặn</a>
-                                    <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 20px;"> Bỏ chặn</a>
+                                    <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/1" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Bỏ chặn</a>
+                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this._id}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
                                 </td>
                                 <td class="action" {{hiddenAccessAuthorButton this.statusPage}}>
                                     <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/3" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chấp nhận</a> 
-                                    <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 20px;"> Từ chối</a>
+                                    <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Từ chối</a>
+                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this._id}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
                                 </td>
                             </tr>
                             {{/each}}
