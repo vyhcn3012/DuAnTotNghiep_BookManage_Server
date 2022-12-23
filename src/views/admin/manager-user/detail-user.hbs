@@ -161,6 +161,8 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -249,12 +251,31 @@
             </form>
         </div>
     </div>
+    <div>
+        <label style="font-size: 16px; padding: 10px;">Thời gian:</label>
+        <select style="font-size: 16px;" onchange='onChangeFilter(this)'>
+            <option style="background: #dfe7ff;color:#4e46e5;">{{optionSelected}}</option>
+            <option style="background: #dfe7ff;color:#4e46e5;">{{defautlOption}}</option>
+        </select>
+        <label style="font-size: 16px; padding: 10px; margin-left: 15px;">Năm:</label>
+        <select style="font-size: 16px;">
+            <option selected="selected">2022</option>
+        </select>
+        <label {{hiddenChart timeOf}} style="font-size: 16px; padding: 10px; margin-left: 15px;">Tháng:</label>
+        <select {{hiddenChart timeOf}} style="font-size: 16px;" onchange='onChangeDay(this)'>
+            <option selected="selected">{{monthQuery}}</option>
+            {{#each monthsArr}}
+                <option style="background: #dfe7ff;color:#4e46e5;">{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
     <canvas id="myChart"></canvas>
 </body>
 </html>
 <script>
     const chartData = {{{_chartData}}};
     const labels = {{{ _labelsData }}};
+    const idUser = {{{ _id }}}
     const ctx = document.getElementById('myChart');
     new Chart(ctx, {
         type: 'bar',
@@ -274,4 +295,19 @@
             }
         }
     });
+
+    function onChangeFilter(select) {
+        const value = select.value;
+        if (value === 'Theo năm') {
+            window.location.href = '/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/' + idUser;
+        } else {
+            window.location.href = '/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/' + idUser + '?timeOf=month';
+        }
+    }
+
+    function onChangeDay(select) {
+        const value = select.value
+        const month = value.slice(6);
+        window.location.href = '/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/' + idUser + '?timeOf=month&monthQuery=' + month;
+    }
 </script>
