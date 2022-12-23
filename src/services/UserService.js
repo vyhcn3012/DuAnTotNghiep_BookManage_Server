@@ -1023,9 +1023,9 @@ class UserService extends Service {
         }
     }
 
-    async findById(email) {
+    async findById(id) {
         try {
-            const item = await this.model.findOne({ email: email });
+            const item = await this.model.findOne({ _id: id });
             if (!item) {
                 console.log('User not found');
             }

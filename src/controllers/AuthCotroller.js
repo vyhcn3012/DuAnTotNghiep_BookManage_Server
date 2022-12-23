@@ -619,9 +619,9 @@ class AuthCotroller {
 
     async detailUser_Cpanel(req, res, next) {
         try{
-            const { email } = req.params;
+            const { id } = req.params;
             const { timeOf = 'year', time = '2022', monthQuery = '12' } = req.query;
-            const result = await userService.findById(email);
+            const result = await userService.findById(id);
             const checkRole = { 1: 'Nguời dùng', 2: 'Tác giả', 99: 'Quản trị viên', 100: 'Thần'};
             const checkStatus = { 1: 'Hoạt động', 2: 'Chặn' };
 
@@ -681,6 +681,7 @@ class AuthCotroller {
                 _chartData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(month12Arr) : JSON.stringify(daysArr),
                 timeOf: timeOf,
                 _labelsData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(defautlMonths) : JSON.stringify(defautlDays),
+                _id: JSON.stringify(id),
             });
         }catch (e) {
             next(e);
