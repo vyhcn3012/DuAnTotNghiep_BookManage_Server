@@ -162,6 +162,7 @@
             display: block;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -230,16 +231,47 @@
                     <label class="input-label">Email</label>
                 </div>
                 <div class="input">
-                    <input type="text" class="input-field" name="" value="{{category.phone}}" required />
+                    <input type="text" class="input-field" name="" value="{{data.phone}}" required />
                     <label class="input-label">Số điện thoại</label>
                 </div>
-                <div class="action">
-                    <button class="action-button">Thay đổi</button>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{data.role}}" required />
+                    <label class="input-label">Vai trò</label>
+                </div>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{data.wallet}}" required />
+                    <label class="input-label">Ví</label>
+                </div>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{data.status}}" required />
+                    <label class="input-label">Trạng thái</label>
                 </div>
             </form>
-
         </div>
     </div>
+    <canvas id="myChart"></canvas>
 </body>
-
 </html>
+<script>
+    const chartData = {{{_chartData}}};
+    const labels = {{{ _labelsData }}};
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# Thời gian đọc sách',
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

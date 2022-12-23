@@ -52,6 +52,10 @@ module.exports.getConfig = () => {
         USER_STATUS: {
             NON_BLOCK: 1, // Không bị khóa
             BLOCK: 2, // Bị khóa
+        },
+        CHART_STATUS: {
+            FOR_YEAR: 'year',
+            FOR_MONTH: 'month',
         }
     };
 
@@ -61,7 +65,7 @@ module.exports.getConfig = () => {
         config.HOST = `https://bookworlddasboard.herokuapp.com`;
     } else {
         // local
-        config.HOST = `https://www.bookworlddashboard.shop`;
+        config.HOST = `http://localhost:80`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 

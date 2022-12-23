@@ -1023,14 +1023,13 @@ class UserService extends Service {
         }
     }
 
-    async findById(id) {
+    async findById(email) {
         try {
-            const item = await this.model.findOne({ _id: id });
-            if (item) {
-                return item;
+            const item = await this.model.findOne({ email: email });
+            if (!item) {
+                console.log('User not found');
             }
-
-            throw new Error('Có lỗi, bạn có thể thử lại sau');
+            return item;
         } catch (errors) {
             throw errors;
         }

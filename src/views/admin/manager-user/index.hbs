@@ -114,9 +114,8 @@
     <div class=''>
         <div class='container'>
             <div class='az-content-left az-content-left-components'>
-
             </div><!-- az-content-left -->
-            <div class='az-content-body pd-lg-l-40 d-flex flex-column'>
+            <div class='az-content-body pd-lg-l-10 d-flex flex-column'>
                 <select id='selectChange' onchange='onChangeFindTable(this)' class='select-css'
                     style='height: 30px; font-size: 14px; margin-bottom: 10px; margin-top: 10px;'>
                     <option>Danh sách các người dùng</option>
@@ -127,10 +126,12 @@
                     <table class='table mg-b-0'>
                         <thead>
                             <tr>
-                                <th style='font-size: 20px;'>ID</th>
-                                <th style='font-size: 20px;'>Image</th>
-                                <th style='font-size: 20px;'>Name</th>
+                                <th style='font-size: 20px;'>STT</th>
+                                <th style='font-size: 20px;'>Ảnh</th>
+                                <th style='font-size: 20px;'>Tên</th>
                                 <th style='font-size: 20px;'>Email</th>
+                                <th style='font-size: 20px;'>Trạng thái</th>
+                                <th style='font-size: 20px;'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,15 +143,16 @@
                                 </td>
                                 <td>{{this.name}}</td>
                                 <td>{{this.email}}</td>
+                                <td>{{this.status}}</td>
                                 <td class="action" {{hiddenButton this.authorAcess this.statusPage}}>
                                     <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/2" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chặn</a>
                                     <a href="/api/accounts/thay-doi-trang-thai/{{this._id}}/1" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Bỏ chặn</a>
-                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this._id}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
+                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this.email}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
                                 </td>
                                 <td class="action" {{hiddenAccessAuthorButton this.statusPage}}>
                                     <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/3" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold;"> Chấp nhận</a> 
                                     <a href="/api/accounts/cap-quyen-tac-gia/{{this._id}}/1" class="fa fa-info-circle" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Từ chối</a>
-                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this._id}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
+                                    <a href="/cpanel/admins/quan-ly-nguoi-dung/chi-tiet/{{this.email}}" style="font-size: 15px; font-weight: bold; margin-left: 5px;"> Chi tiết</a>
                                 </td>
                             </tr>
                             {{/each}}

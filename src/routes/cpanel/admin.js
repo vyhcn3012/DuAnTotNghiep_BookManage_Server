@@ -11,7 +11,7 @@ router.get(
     AuthCotroller.isAdmin,
     AuthCotroller.indexUser_Cpanel,
 );
-router.get('/quan-ly-nguoi-dung/chi-tiet/:id',
+router.get('/quan-ly-nguoi-dung/chi-tiet/:email',
     AuthCotroller.checkLogin,
     AuthCotroller.isAdmin,
     AuthCotroller.detailUser_Cpanel);

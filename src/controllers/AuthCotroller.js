@@ -313,8 +313,8 @@ class AuthCotroller {
         try {
             const { id } = req.params;
             const { role } = req.account;
-
             const { page = 1, limit = 10 } = req.query;
+            const checkStatus = { 1: 'Hoạt động', 2: 'Chặn' };
 
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
@@ -344,6 +344,7 @@ class AuthCotroller {
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
                         statusPage: 1,
+                        status: checkStatus[item.status],
                     };
                 });
 
@@ -381,6 +382,7 @@ class AuthCotroller {
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
+                        status: checkStatus[item.status],
                         statusPage: 2,
                     };
                 });
@@ -617,11 +619,68 @@ class AuthCotroller {
 
     async detailUser_Cpanel(req, res, next) {
         try{
-            const { id } = req.params;
-            const result = await userService.findById(id);
-            console.log(result);
+            const { email } = req.params;
+            const { timeOf = 'year', time = '2022', monthQuery = '12' } = req.query;
+            const result = await userService.findById(email);
+            const checkRole = { 1: 'Nguời dùng', 2: 'Tác giả', 99: 'Quản trị viên', 100: 'Thần'};
+            const checkStatus = { 1: 'Hoạt động', 2: 'Chặn' };
+
+            const defautlMonths = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
+            const defautlDays = [];
+
+            for(let i = 1; i <= 31; i++){
+                defautlDays.push(i);
+            }
+
+            const data = {
+                ...result.toObject(),
+                phone: result.phone.trim() === '' ? 'Chưa cập nhật' : result.phone,
+                role: checkRole[result.role],
+                status: checkStatus[result.status],
+            }
+            const month12Arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            const daysArr = [];
+            const checkMonth = { 'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12};
+            const yearReadingBooks = data.timeReadBook;
+
+            if(timeOf == config.CHART_STATUS.FOR_YEAR){
+                for(const yearReadingBook of yearReadingBooks){
+                    const monthReadingBooks = yearReadingBook.detailsyear;
+                    if(yearReadingBook.createYear == time){
+                        for(const monthReadingBook of monthReadingBooks){
+                            const month = checkMonth[monthReadingBook.month];
+                            for(const book of monthReadingBook.detailsmonth){
+                                if(book.time){
+                                    month12Arr[month - 1] += parseInt(book.time) / 60;
+                                }
+                            }
+                        }
+                    }
+                }
+            }else if(timeOf == config.CHART_STATUS.FOR_MONTH){
+                for(const yearReadingBook of yearReadingBooks){
+                    const monthReadingBooks = yearReadingBook.detailsyear;
+                    if(yearReadingBook.createYear == time){
+                        for(const monthReadingBook of monthReadingBooks){
+                            const month = checkMonth[monthReadingBook.month];
+                            if(month == monthQuery){
+                                for(const book of monthReadingBook.detailsmonth){
+                                    if(book.time){
+                                        daysArr[book.day - 1] = parseInt(book.time) / 60;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            console.log(daysArr);
             return res.render('admin/manager-user/detail-user.hbs', {
-                data: result,
+                data: data,
+                _chartData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(month12Arr) : JSON.stringify(daysArr),
+                timeOf: timeOf,
+                _labelsData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(defautlMonths) : JSON.stringify(defautlDays),
             });
         }catch (e) {
             next(e);
