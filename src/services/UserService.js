@@ -125,6 +125,16 @@ class UserService extends Service {
         }
     }
 
+    async getAllUsers() {
+        try {
+            const accounts = await this.model
+                .find({ role: { $nin: [config.ROLE_USER.ADMIN, config.ROLE_USER.SUPER_ADMIN] } })
+            return new HttpResponse(accounts);
+        } catch (e) {
+            throw e;
+        }
+    }
+
     async findByEmail(email) {
         return this.model
             .findByEmail(email)

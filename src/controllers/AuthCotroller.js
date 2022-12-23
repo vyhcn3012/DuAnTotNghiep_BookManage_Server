@@ -444,6 +444,15 @@ class AuthCotroller {
             console.log(e);
         }
     }
+    async getAllUsers(req, res, next) {
+        try {
+            const response = await userService.getAllUsers();
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
     async insertNumberphone(req, res, next) {
         try {
             const { body } = req;
