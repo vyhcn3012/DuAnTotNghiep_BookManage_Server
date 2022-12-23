@@ -626,7 +626,9 @@ class AuthCotroller {
             const checkStatus = { 1: 'Hoạt động', 2: 'Chặn' };
 
             const defautlMonths = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
+            const monthsArr = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
             const defautlDays = [];
+            const defautlOptions = ["Theo năm", "Theo tháng"];
 
             for(let i = 1; i <= 31; i++){
                 defautlDays.push(i);
@@ -674,14 +676,17 @@ class AuthCotroller {
                     }
                 }
             }
-
-            console.log(daysArr);
+            delete monthsArr[monthQuery - 1];
             return res.render('admin/manager-user/detail-user.hbs', {
                 data: data,
                 _chartData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(month12Arr) : JSON.stringify(daysArr),
                 timeOf: timeOf,
                 _labelsData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(defautlMonths) : JSON.stringify(defautlDays),
                 _id: JSON.stringify(id),
+                monthsArr: monthsArr,
+                monthQuery: "Tháng " + monthQuery,
+                defautlOption: timeOf == config.CHART_STATUS.FOR_YEAR ? defautlOptions[1] : defautlOptions[0],
+                optionSelected: timeOf == config.CHART_STATUS.FOR_YEAR ? defautlOptions[0] : defautlOptions[1],
             });
         }catch (e) {
             next(e);

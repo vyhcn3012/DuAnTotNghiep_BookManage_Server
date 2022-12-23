@@ -14,7 +14,7 @@ module.exports.hiddenAccessAuthorButton = (a) => {
 }
 
 module.exports.hiddenChart = (a) => {
-    if(a.trim() === config.CHART_STATUS.FOR_MONTH){
+    if(a.trim() === config.CHART_STATUS.FOR_YEAR){
         return 'hidden';
     }
 }
