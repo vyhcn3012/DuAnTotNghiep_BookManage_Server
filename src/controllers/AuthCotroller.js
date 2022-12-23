@@ -608,9 +608,41 @@ class AuthCotroller {
 
     async indexCharts_Cpanel(req, res, next) {
         try {
-            const result = await cartService.getAllTotalPrice12Month();
+            const carts = await cartService.getAllTotalPrice12Month();
+            const { timeOf = 'month', time = '2022', monthQuery = '12' } = req.query;
+            
+            const totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            const daysArr = [0];
+
+            const defautlMonths = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
+            const defautlDays = [];
+
+            for(let i = 1; i <= 31; i++){
+                defautlDays.push(i);
+            }
+            if(timeOf == config.CHART_STATUS.FOR_YEAR){
+                for (const cart of carts) {
+                    const month = new Date(cart.purchaseDate).getMonth();
+                    totals[month] += parseInt(cart.totalPrice);
+                }
+            }else if(timeOf == config.CHART_STATUS.FOR_MONTH){
+                for (const cart of carts) {
+                    const month = new Date(cart.purchaseDate).getMonth() + 1;
+                    const day = new Date(cart.purchaseDate).getDate();
+                    if(month == monthQuery){
+                        if(cart.totalPrice){
+                            console.log(parseInt(cart.totalPrice));
+                            daysArr[day - 1] += parseFloat(cart.totalPrice);
+                        }
+                    }
+                }
+            }
+
+            console.log(daysArr);
+
             return res.render('admin/charts/chart_total_12_month.hbs', {
-                _totalPrice12Month: JSON.stringify(result),
+                _chartData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(totals) : JSON.stringify(daysArr),
+                _labelsData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(defautlMonths) : JSON.stringify(defautlDays),
             });
         } catch (e) {
             next(e);

@@ -77,12 +77,7 @@ class CartService extends Service {
 
     async getAllTotalPrice12Month() {
         const carts = await this.model.find();
-        const totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        for (const cart of carts) {
-            const month = new Date(cart.purchaseDate).getMonth();
-            totals[month] += parseInt(cart.totalPrice);
-        }
-        return totals;
+        return carts;
     }
 }
 module.exports = { CartService };
