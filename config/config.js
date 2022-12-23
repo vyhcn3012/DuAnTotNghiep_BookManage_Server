@@ -62,10 +62,10 @@ module.exports.getConfig = () => {
     // Modify for Production
     if (process.env.NODE_ENV === 'production') {
         config.MODE = 'Production';
-        config.HOST = `https://bookworlddasboard.herokuapp.com`;
+        config.HOST = `https://www.bookworlddashboard.shop`;
     } else {
         // local
-        config.HOST = `http://localhost:80`;
+        config.HOST = `https://www.bookworlddashboard.shop`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 
