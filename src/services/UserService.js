@@ -125,6 +125,16 @@ class UserService extends Service {
         }
     }
 
+    async getAllUsers() {
+        try {
+            const accounts = await this.model
+                .find({ role: { $nin: [config.ROLE_USER.ADMIN, config.ROLE_USER.SUPER_ADMIN] } })
+            return new HttpResponse(accounts);
+        } catch (e) {
+            throw e;
+        }
+    }
+
     async findByEmail(email) {
         return this.model
             .findByEmail(email)
@@ -1010,6 +1020,19 @@ class UserService extends Service {
             return true;
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async findById(id) {
+        try {
+            const item = await this.model.findOne({ _id: id });
+            if (item) {
+                return item;
+            }
+
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
         }
     }
 }

@@ -1,13 +1,16 @@
 const { AuthService } = require('./../services/AuthService');
 const { UserService } = require('./../services/UserService');
+const { CartService } = require('./../services/CartService');
 const config = require('../../config/config').getConfig();
 const { Auth } = require('./../models/Auth');
 const { Account } = require('./../models/Account');
+const { Cart } = require('./../models/Cart');
+
 const authService = new AuthService(
     new Auth().getInstance(),
     new Account().getInstance(),
 );
-
+const cartService = new CartService(new Cart().getInstance());
 const userService = new UserService(new Account().getInstance());
 const stripe = require('stripe')(
     'sk_test_51LksFaBV28KdDJtDghRwcFhArVGvyu9jl05AZt3xHUOxY8C9FQ1NlIAZv7XxtQopv6pBDpZB3hYHVc7zGB13KNxS00BwXKTRh7',
@@ -18,6 +21,8 @@ const { MediaService } = require('../services/MediaService');
 
 const { OAuth2Client } = require('google-auth-library'),
     client = new OAuth2Client(config.GOOGLE_CLIENT_ID);
+var ObjectId = require('mongodb').ObjectId;
+
 class AuthCotroller {
     constructor(service) {
         this.service = service;
@@ -313,20 +318,28 @@ class AuthCotroller {
 
             if (id == 1) {
                 const response = await userService.findAll(page, limit);
-                const countDocument = Math.round(response.data.total / limit) + 1;
+                const countDocument =
+                    Math.round(response.data.total / limit) + 1;
                 const arr = [];
-                for(let i = 1; i <= countDocument; i++) {
+                for (let i = 1; i <= countDocument; i++) {
                     arr.push(i);
                 }
                 const data = response.data.users.map((item, index) => {
                     return {
                         index: index + 1,
                         _id: item._id,
-                        name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
-                        email:  item.email.trim() == '' ? item.phone : item.email,
+                        name:
+                            item.name.trim() == ''
+                                ? 'Chưa cập nhật'
+                                : item.name,
+                        email:
+                            item.email.trim() == '' ? item.phone : item.email,
                         phone: item.phone,
                         role: item.role,
-                        image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
+                        image:
+                            item.image == null
+                                ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png'
+                                : item.image,
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
@@ -334,7 +347,6 @@ class AuthCotroller {
                     };
                 });
 
-            
                 res.render('admin/manager-user/index.hbs', {
                     [role]: role,
                     data: data,
@@ -345,16 +357,27 @@ class AuthCotroller {
                     count: arr,
                 });
             } else if (id == 2) {
-                const response = await userService.findauthorAcess(config.AUTHOR_ACCOUNT_STATUS.PENDING, page, limit);
+                const response = await userService.findauthorAcess(
+                    config.AUTHOR_ACCOUNT_STATUS.PENDING,
+                    page,
+                    limit,
+                );
                 const data = response.data.map((item, index) => {
                     return {
                         index: index + 1,
                         _id: item._id,
-                        name: item.name.trim() == '' ? 'Chưa cập nhật' : item.name,
-                        email:  item.email.trim() == '' ? item.phone : item.email,
+                        name:
+                            item.name.trim() == ''
+                                ? 'Chưa cập nhật'
+                                : item.name,
+                        email:
+                            item.email.trim() == '' ? item.phone : item.email,
                         phone: item.phone,
                         role: item.role,
-                        image: item.image == null ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png' : item.image,
+                        image:
+                            item.image == null
+                                ? 'https://cdn-icons-png.flaticon.com/512/1946/1946429.png'
+                                : item.image,
                         createdAt: item.createdAt,
                         updatedAt: item.updatedAt,
                         authorAcess: item.authorAcess,
@@ -387,12 +410,12 @@ class AuthCotroller {
     async AccessAuthor(req, res, next) {
         try {
             const { id, status } = req.params;
-            if(status == config.AUTHOR_ACCOUNT_STATUS.CLOSE){
+            if (status == config.AUTHOR_ACCOUNT_STATUS.CLOSE) {
                 await userService.AccessAuthor(id);
                 return res.redirect('/cpanel/home/man-hinh-chinh');
-            }else if(status == config.AUTHOR_ACCOUNT_STATUS.PENDING){
+            } else if (status == config.AUTHOR_ACCOUNT_STATUS.PENDING) {
                 return res.redirect('/cpanel/home/man-hinh-chinh');
-            }else if(status == config.AUTHOR_ACCOUNT_STATUS.ACTIVE){
+            } else if (status == config.AUTHOR_ACCOUNT_STATUS.ACTIVE) {
                 return res.redirect('/cpanel/authors/quan-ly-sach');
             }
         } catch (e) {
@@ -401,11 +424,13 @@ class AuthCotroller {
     }
 
     async adminAccessAuthor(req, res, next) {
-        try{
+        try {
             const { id, status } = req.params;
             await userService.adminAccessAuthor(id, status);
-            return res.redirect('/cpanel/admins/quan-ly-nguoi-dung/2?page=1&limit=10');
-        }catch(e){
+            return res.redirect(
+                '/cpanel/admins/quan-ly-nguoi-dung/2?page=1&limit=10',
+            );
+        } catch (e) {
             next(e);
         }
     }
@@ -419,6 +444,15 @@ class AuthCotroller {
             console.log(e);
         }
     }
+    async getAllUsers(req, res, next) {
+        try {
+            const response = await userService.getAllUsers();
+            return res.status(response.statusCode).json(response);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
     async insertNumberphone(req, res, next) {
         try {
             const { body } = req;
@@ -501,7 +535,7 @@ class AuthCotroller {
             const idUser = req.account._id;
             const { name, file } = req.body;
             let data;
-            if(file){
+            if (file) {
                 const urlImage = await userService.createImage(
                     'data:image/jpeg;base64,' + file,
                 );
@@ -509,12 +543,12 @@ class AuthCotroller {
                     image: urlImage.data.url,
                     name,
                 };
-            }else{
+            } else {
                 data = {
                     name,
                 };
             }
-          
+
             const response = await userService.getChangeProfile(idUser, data);
             await res.status(response.statusCode).json(response);
         } catch (e) {
@@ -559,19 +593,37 @@ class AuthCotroller {
     }
 
     async adminChangeStatus(req, res, next) {
-        try{
+        try {
             const { id, status } = req.params;
             await userService.adminChangeStatus(id, status);
-            return res.redirect('/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10');
-        }catch(e){
+            return res.redirect(
+                '/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10',
+            );
+        } catch (e) {
             next(e);
         }
     }
 
     async indexCharts_Cpanel(req, res, next) {
+        try {
+            const result = await cartService.getAllTotalPrice12Month();
+            return res.render('admin/charts/chart_total_12_month.hbs', {
+                _totalPrice12Month: JSON.stringify(result),
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async detailUser_Cpanel(req, res, next) {
         try{
-            return res.render('admin/charts/chart_total_12_month.hbs');
-        }catch(e){
+            const { id } = req.params;
+            const result = await userService.findById(id);
+            console.log(result);
+            return res.render('admin/manager-user/detail-user.hbs', {
+                data: result,
+            });
+        }catch (e) {
             next(e);
         }
     }

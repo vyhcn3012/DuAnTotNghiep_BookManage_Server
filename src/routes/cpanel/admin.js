@@ -2,7 +2,7 @@ const express = require('express');
 const AuthCotroller = require('../../controllers/AuthCotroller');
 const CategoryController = require('../../controllers/CategoryController');
 const BookController = require('../../controllers/BookController');
-router = express.Router();
+const router = require('./home');
 
 //Manager User
 router.get(
@@ -11,6 +11,11 @@ router.get(
     AuthCotroller.isAdmin,
     AuthCotroller.indexUser_Cpanel,
 );
+router.get('/quan-ly-nguoi-dung/chi-tiet/:id',
+    AuthCotroller.checkLogin,
+    AuthCotroller.isAdmin,
+    AuthCotroller.detailUser_Cpanel);
+
 
 //Manage Category
 router.get(
@@ -39,6 +44,7 @@ router.get('/quan-ly-sach/:id',
     AuthCotroller.isAdmin,
     BookController.cpanel_updateBookForAdmin);
     
+
 //Manage Charts
 router.get(
     '/quan-ly-thong-ke',
