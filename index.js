@@ -39,14 +39,18 @@ io.on('connection', (socket) => {
     console.log('New client connected');
     global.chatSocket = socket;
     socket.on('add-user', (userId) => {
-        console.log(userId);
+        socket.join(userId);
+        console.log("idRoom",userId);
         onlineUsers.set(userId, socket.id);
     });
+   
 
     socket.on('send-msg', (data) => {
+        console.log("data",data);
         const sendUserSocket = onlineUsers.get(data.to);
+        socket.to(data.to).emit('msg-recieve', data.msg);
         if (sendUserSocket) {
-            socket.to(sendUserSocket).emit('msg-recieve', data.msg);
+            
         }
     });
 });
