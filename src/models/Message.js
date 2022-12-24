@@ -24,6 +24,14 @@ class Message {
                     type: Date,
                     required: true,
                 },
+                avatar: {
+                    type: String,
+                    required: true,
+                },
+                image: {
+                    type: String,
+                    required: false,
+                },
             },
             { timestamps: true },
         );

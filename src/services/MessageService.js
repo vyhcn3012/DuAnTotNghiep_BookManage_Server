@@ -18,7 +18,6 @@ class MessageService extends Service {
                 .find({ room: room })
                 .populate('user')
                 .sort({ updatedAt: 1 });
-            console.log(messages);
             const projectedMessages = messages.map((msg) => {
                 return {
                     fromSelf: msg.user._id.toString() === _idUser,
@@ -26,6 +25,7 @@ class MessageService extends Service {
                     createdAt: msg.createdAt,
                     name: msg.user.name,
                     avatar: msg.user.image,
+                    image: msg.image,
                 };
             });
 
@@ -35,13 +35,16 @@ class MessageService extends Service {
         }
     }
 
-    async sendMessage(message, room, _idUser) {
+    async sendMessage(message, room, _idUser, image, dataImage) {
         try {
             const data = await this.model.create({
                 message: { text: message },
                 room: room,
                 user: _idUser,
+                avatar: image,
                 createdAt: new Date(),
+                image: dataImage?.image,
+                
             });
 
             return new HttpResponse(data);

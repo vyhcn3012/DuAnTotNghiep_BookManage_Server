@@ -10,8 +10,8 @@ const helmet = require('helmet'),
 const { setRoutes } = require('./routes');
 
 server.use(logger('dev'));
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+server.use(express.json({ limit: '50mb'}));
+server.use(express.urlencoded({ extended: true, limit: '50mb' }));
 server.set('views', path.join(__dirname, '../src/views'));
 server.set('view engine', 'hbs');
 server.use(cookieParser());
