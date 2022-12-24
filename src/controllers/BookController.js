@@ -107,6 +107,8 @@ class BookController extends Controller {
                 introduction: introduction,
                 isPrice: isPrice,
                 account: _id,
+                view:Math.floor(Math.random() * 100+1),
+                evalute:Math.floor(Math.random() * 5 +1),
                 releasedDate: new Date(),
             };
             const response = await this.service.createBook(data);

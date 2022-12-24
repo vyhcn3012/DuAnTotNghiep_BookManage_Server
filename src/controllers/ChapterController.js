@@ -44,6 +44,8 @@ class ChapterController extends Controller {
                 permission: permission,
                 price: price,
                 releasedDate: new Date(),
+                linkAudio : "https://res.cloudinary.com/cao-ng-fpt-polytechnic/video/upload/v1665489148/y2mate.com_-_Ch%C6%B0%C6%A1ng_1_%C4%90%E1%BA%AFc_Nh%C3%A2n_T%C3%A2m_Mu%E1%BB%91n_l%E1%BA%A5y_m%E1%BA%ADt_%C4%91%E1%BB%ABng_ph%C3%A1_t%E1%BB%95_ong_S%C3%A1ch_n%C3%B3i_kinh_doanh_hay_jppygs.mp3",
+                // image:"https://res.cloudinary.com/cao-ng-fpt-polytechnic/image/upload/v1671889140/xyhhgg7cmgmm5hieqflo.webp",
                 chapterNumber: chapterNumberMost ? chapterNumberMost + 1 : 1,
             };
             const chapter = await chapterService.insertChapterBook(data);
