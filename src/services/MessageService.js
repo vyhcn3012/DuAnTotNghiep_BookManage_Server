@@ -25,6 +25,7 @@ class MessageService extends Service {
                     createdAt: msg.createdAt,
                     name: msg.user.name,
                     avatar: msg.user.image,
+                    image: msg.image,
                 };
             });
 
@@ -34,7 +35,7 @@ class MessageService extends Service {
         }
     }
 
-    async sendMessage(message, room, _idUser,image) {
+    async sendMessage(message, room, _idUser, image, dataImage) {
         try {
             const data = await this.model.create({
                 message: { text: message },
@@ -42,6 +43,7 @@ class MessageService extends Service {
                 user: _idUser,
                 avatar: image,
                 createdAt: new Date(),
+                image: dataImage?.image,
                 
             });
 

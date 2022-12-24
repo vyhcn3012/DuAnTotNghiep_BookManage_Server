@@ -2,8 +2,10 @@ const autoBind = require('auto-bind');
 const { Controller } = require('../../system/controllers/Controller');
 const { Message } = require('../models/Message');
 const { MessageService } = require('../services/MessageService');
+const { UserService } = require('./../services/UserService');
+const { Account } = require('./../models/Account');
 const messageService = new MessageService(new Message().getInstance());
-
+const userService = new UserService(new Account().getInstance());
 class MessageController extends Controller {
     constructor(service) {
         super(service);
@@ -23,10 +25,20 @@ class MessageController extends Controller {
 
     async sendMessage(req, res, next) {
         try {
-            const { _id,image } = req.account;
-            console.log(req.account);
-            const { room, message, avatar } = req.body;
-            const response = await this.service.sendMessage(message, room, _id,image);
+            const { _id, image } = req.account;
+            const { room, message, file } = req.body;
+            let dataImage;
+            if (file) {
+                const urlImage = await userService.createImage(
+                    'data:image/jpeg;base64,' + file,
+                );
+                dataImage = {
+                    image: urlImage.data.url,
+                };
+            } else {
+               dataImage = '';
+            }
+            const response = await this.service.sendMessage(message, room, _id, image,dataImage);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
