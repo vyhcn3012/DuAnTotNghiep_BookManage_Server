@@ -16,8 +16,10 @@ class RoomController extends Controller {
     async createRoom(req, res, next) {
         try {
             const { name, file, users } = req.body;
+            const dataUsers =  JSON.parse(users)
+            console.log(dataUsers);
             const createdBy = req.account._id;
-            users.push(createdBy);
+            // users.push(createdBy);
             let urlImage;
             if(file){
                 urlImage = await userService.createImage(
@@ -27,7 +29,7 @@ class RoomController extends Controller {
             const response = await roomService.createRoom({
                 name,
                 image: urlImage.data ? urlImage.data.url : '',
-                users,
+                users: dataUsers,
                 createdBy,
                 createdAt: new Date(),
             });

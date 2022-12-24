@@ -60,8 +60,8 @@ router.use((err, req, res, next) => {
     // res.status( error.statusCode );
     // res.json( error );
     // next();
-    res.clearCookie('token');
-    console.log('>>>>>>>> server error: ', err.message);
+    // res.clearCookie('token');
+    // console.log('>>>>>>>> server error: ', err.message);
     res.redirect('/');
 });
 module.exports = router;

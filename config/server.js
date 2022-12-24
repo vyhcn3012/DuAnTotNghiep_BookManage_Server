@@ -19,6 +19,7 @@ server.use(express.static(path.join(__dirname, '../public')));
 
 hbs.registerHelper('hiddenButton', utility.hiddenButton);
 hbs.registerHelper('hiddenAccessAuthorButton', utility.hiddenAccessAuthorButton);
+hbs.registerHelper('hiddenChart', utility.hiddenChart);
 
 const cors = require('cors'),
     // Allow Origins according to your need.
