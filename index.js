@@ -36,23 +36,19 @@ const io = socket(server, {
 
 global.onlineUsers = new Map();
 io.on('connection', (socket) => {
-    console.log('New client connected');
+    console.log('New client connected',socket.id);
     global.chatSocket = socket;
-    socket.on('add-user', (userId) => {
-        socket.join(userId);
-        console.log("idRoom",userId);
-        onlineUsers.set(userId, socket.id);
+    socket.on('add-user', (idRoom) => {
+        socket.join(idRoom);
+        console.log(`User with ID: ${socket.id} joined room: ${idRoom}`);
+        onlineUsers.set(idRoom, socket.id);
     });
    
 
     socket.on('send-msg', (data) => {
         console.log("data",data);
         const sendUserSocket = onlineUsers.get(data.to);
-        socket.to(data.to).emit('msg-recieve', data.msg);
-        console.log(">>>> data.msg" + data.msg);
-        if (sendUserSocket) {
-            
-        }
+        socket.to(data.to).emit('msg-recieve', { msg: data.msg, name: data.name });
     });
 });
 

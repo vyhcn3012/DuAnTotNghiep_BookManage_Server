@@ -34,13 +34,15 @@ class MessageService extends Service {
         }
     }
 
-    async sendMessage(message, room, _idUser) {
+    async sendMessage(message, room, _idUser,image) {
         try {
             const data = await this.model.create({
                 message: { text: message },
                 room: room,
                 user: _idUser,
+                avatar: image,
                 createdAt: new Date(),
+                
             });
 
             return new HttpResponse(data);

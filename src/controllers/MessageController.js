@@ -23,9 +23,10 @@ class MessageController extends Controller {
 
     async sendMessage(req, res, next) {
         try {
-            const { _id } = req.account;
-            const { room, message } = req.body;
-            const response = await this.service.sendMessage(message, room, _id);
+            const { _id,image } = req.account;
+            console.log(req.account);
+            const { room, message, avatar } = req.body;
+            const response = await this.service.sendMessage(message, room, _id,image);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);
