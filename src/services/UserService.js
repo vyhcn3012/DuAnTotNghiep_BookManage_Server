@@ -1035,6 +1035,25 @@ class UserService extends Service {
             throw errors;
         }
     }
+
+    async findByIdAndCountPriceBook(id) {
+        try {
+            const item = await this.model.findOne({ _id: id })
+            .populate({
+                path: 'payBook',
+                populate: {
+                    path: 'idChapter',select: '_id idBook price'
+                }
+            });
+            if (item) {
+                return item;
+            }
+
+            throw new Error('Có lỗi, bạn có thể thử lại sau');
+        } catch (errors) {
+            throw errors;
+        }
+    }
 }
 
 module.exports = { UserService };

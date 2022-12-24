@@ -26,7 +26,7 @@ class RoomController extends Controller {
             }
             const response = await roomService.createRoom({
                 name,
-                image: urlImage ? urlImage.data.url : '',
+                image: urlImage.data ? urlImage.data.url : '',
                 users,
                 createdBy,
                 createdAt: new Date(),

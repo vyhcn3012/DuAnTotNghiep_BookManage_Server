@@ -18,7 +18,6 @@ class MessageService extends Service {
                 .find({ room: room })
                 .populate('user')
                 .sort({ updatedAt: 1 });
-            console.log(messages);
             const projectedMessages = messages.map((msg) => {
                 return {
                     fromSelf: msg.user._id.toString() === _idUser,

@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.send('Welcome to the books')
 });
 
-router.get('/getAllBook',bookController.getBooks);
+router.get('/getAllBook', AuthController.checkLogin,bookController.getBooks);
 router.get('/:id/getAllBookAuthor', bookController.getBookByIdAuthor);
 router.post('/insertCommnet', bookController.insertComment);
 router.post('/update-book/:id', AuthController.checkLogin, bookController.updateBook);

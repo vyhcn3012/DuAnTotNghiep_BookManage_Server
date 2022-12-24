@@ -9,12 +9,13 @@ const { CategoryService } = require('../services/CategoryService');
 const { AuthService } = require('../services/AuthService');
 const { ChapterService } = require('../services/ChapterService');
 const { CommentService } = require('../services/CommentService');
-
+const { UserService } = require('../services/UserService');
+const { Account } = require('../models/Account');
 const chapterService = new ChapterService(new Chapter().getInstance());
 const commentService = new CommentService(new Comment().getInstance());
 const bookService = new BookService(new Book().getInstance());
 const categoryService = new CategoryService(new Category().getInstance());
-
+const userService = new UserService(new Account().getInstance());
 class BookController extends Controller {
     constructor(service) {
         super(service);
@@ -22,7 +23,17 @@ class BookController extends Controller {
     }
     async getBooks(req, res, next) {
         try {
+            const { _id } = req.account;
+            const dataUser = await userService.findByIdAndCountPriceBook(_id);
             const response = await this.service.getAll({ limit: 1000 });
+            for(const book of response.data){
+                for(const chapter of dataUser.payBook){
+                    if(book._id == chapter.idChapter.idBook){
+                        book.isPrice -= chapter.idChapter.price;
+                    }
+                }
+            }
+          
             await res.status(response.statusCode).json(response);
         } catch (e) {
             // next(e);
