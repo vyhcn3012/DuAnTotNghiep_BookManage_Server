@@ -40,11 +40,18 @@ io.on('connection', (socket) => {
     global.chatSocket = socket;
     socket.on('add-user', (idRoom) => {
         socket.join(idRoom);
+        socket.Phong = idRoom;
         console.log(`User with ID: ${socket.id} joined room: ${idRoom}`);
         onlineUsers.set(idRoom, socket.id);
     });
+    socket.on('disconnect', () => {
+
+        console.log('Client disconnected');
+    });
+   
 
     socket.on('send-msg', (data) => {
+      
         const sendUserSocket = onlineUsers.get(data.to);
         socket.to(data.to).emit('msg-recieve', { msg: data.msg, name: data.name, image: data.file ? "data:image/png;base64,"+data.file : data.file, avatar: data.avatar });
     });

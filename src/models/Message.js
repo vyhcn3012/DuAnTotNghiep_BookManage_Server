@@ -8,7 +8,7 @@ class Message {
         const schema = new Schema(
             {
                 message: {
-                    text: { type: String, required: true },
+                    text: { type: String, required: false },
                 },
                 room: {
                     type: Schema.Types.ObjectId,
