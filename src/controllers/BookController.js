@@ -226,7 +226,17 @@ class BookController extends Controller {
             const { _id, role } = req.account;
             const book = await this.service.findOneBookAuthor(id, _id, role);
             const category = await categoryService.findOne(book.categoryId);
-            return res.render('admin/manage-book/detail-book.hbs', {data: book, category: category});
+            const comments = await commentService.getCommentBooks(id);
+            let comments_result = [];
+            if(comments){
+                comments_result = comments.map((item) => {
+                    return {
+                        ...item.toObject(),
+                        time: new Date(item.time).toISOString().substring(0, 10)
+                    };
+                });
+            }
+            return res.render('admin/manage-book/detail-book.hbs', {data: book, category: category, comments: comments_result});
         } catch (e){
             console.log(e);
         }

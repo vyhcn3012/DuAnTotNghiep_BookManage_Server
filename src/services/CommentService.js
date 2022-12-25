@@ -26,6 +26,19 @@ class CommentService extends Service{
         }
     }
 
+    async getCommentBooks(_id) {
+        try{
+            const comments = await this.model.find({ "idBook": _id });
+            if(comments.length == 0){
+                return null;
+            }
+
+            return comments;
+        }catch(errors){
+            throw errors;
+        }
+    }
+
 }
 
 module.exports = { CommentService };

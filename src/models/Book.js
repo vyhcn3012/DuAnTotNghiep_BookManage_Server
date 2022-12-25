@@ -54,6 +54,14 @@ class Book {
                 'required': true,
                 'default': 3,
             },
+            'view': {
+                'type': Number,
+                'required': false,
+            },
+            'evaluate':{
+                'type': Number,
+                'required': false,
+            }
         }, { 'timestamps': true } );
 
         schema.plugin( uniqueValidator );
