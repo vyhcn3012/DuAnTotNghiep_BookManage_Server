@@ -15,7 +15,6 @@ class NotificationService extends Service {
 
     async createNotification(body){
         try {
-            console.log("===> body", body);
             const item = await this.model.create(body);
                 if (item) {
                     return new HttpResponse(item);
@@ -26,10 +25,10 @@ class NotificationService extends Service {
         }
     }
 
-    async sendFCM(token, _id, notification_id) {
+    async sendFCM(token, _id, notification_id, content) {
         try {
             const noti_addPoint = {
-                content: `Bạn được cộng 8 điểm cho việc tham gia sự kiện 'Tên sự kiện'`,
+                content: content,
                 user: _id,
                 isRead: false,
                 isSent: true,
@@ -43,7 +42,7 @@ class NotificationService extends Service {
                 notification: noti_addPoint.notification.toString(),
             }
 
-            PushNotification.sendNotificationToDevices(fcm, [token], 'Day la body', 'Day la title');
+            PushNotification.sendNotificationToDevices(fcm, [token], 'Bookworld', content);
             return new HttpResponse([]);
         } catch (e) {
             console.log(e)

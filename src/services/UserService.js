@@ -521,7 +521,7 @@ class UserService extends Service {
         }
     }
 
-    async findFCMTokenById(_id, notification_id, user_id) {
+    async findFCMTokenById(_id, notification_id, user_id, content) {
         try {
             const id = _id.length;
           
@@ -535,6 +535,7 @@ class UserService extends Service {
                     fcm,
                     user_id,
                     notification_id,
+                    content
                 );
                 // return new HttpResponse(response);
             }

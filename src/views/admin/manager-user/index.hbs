@@ -10,7 +10,7 @@
         .dropdown {
             position: relative;
             display: inline-block;
-            padding: 50px;
+            padding: 20px;
         }
 
         .dropdown-content {
@@ -91,11 +91,18 @@
                             </div>
                         </li>
                     </div>
-                    <li class='nav-item'>
-                        <a href='/cpanel/admins/quan-ly-thong-ke' class='nav-link' style='font-size: 15px;'><i
-                                class='typcn typcn-chart-bar-outline'></i>
-                            Thống kê</a>
-                    </li>
+                    <div class="dropdown">
+                        <li class='nav-item'>
+                            <a class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-bar-outline'></i>
+                                Thống kê</a>
+                            <div class="dropdown-content">
+                                <a href='/cpanel/admins/quan-ly-thong-ke' class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-bar-outline'></i>
+                                Thống kê doanh thu</a>
+                            </div>             
+                        </li>
+                    </div>
                     <li class='nav-item'>
                         <a href='/cpanel/authors/them-sach' class='nav-link' style='font-size: 15px;'><i
                                 class='typcn typcn-chart-area-outline'></i>Đăng sách</a>
