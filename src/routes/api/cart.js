@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/purchaseCart',AuthController.checkLogin, CartController.createCart);
-router.post('/getToTalBooks', CartController.getToTalBooks);
+router.post('/getToTalBooks', AuthController.checkLogin, CartController.getToTalBooks);
 
 
 

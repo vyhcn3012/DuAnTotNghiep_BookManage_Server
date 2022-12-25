@@ -78,7 +78,9 @@ class CPanelController {
                                 favoritebooks: '',
                             };
                             const account = await authService.login(body);
-
+                            if(account.statusCode == 403){
+                                return res.redirect('/');
+                            }
                             res.cookie('token', account.data.token, {
                                 expires: new Date(
                                     Date.now() + config.COOKIE_TOKEN_LIFETIME,
