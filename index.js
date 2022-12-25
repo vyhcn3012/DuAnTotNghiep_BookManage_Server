@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
     global.chatSocket = socket;
     socket.on('add-user', (idRoom) => {
         socket.join(idRoom);
+        socket.Phong = idRoom;
         console.log(`User with ID: ${socket.id} joined room: ${idRoom}`);
         onlineUsers.set(idRoom, socket.id);
     });
