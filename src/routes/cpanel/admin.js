@@ -53,4 +53,11 @@ router.get(
     AuthCotroller.indexCharts_Cpanel,
 );
 
+router.get(
+    '/quan-ly-thong-ke/thong-ke-thoi-gian-doc-sach',
+    AuthCotroller.checkLogin,
+    AuthCotroller.isAdmin,
+    AuthCotroller.indexChartsReading_Cpanel,
+);
+
 module.exports = router;

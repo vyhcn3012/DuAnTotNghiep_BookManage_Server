@@ -34,9 +34,8 @@ class ChapterController extends Controller {
     async insertChapterBook(req, res, next) {
         try {
             const { idBook, title, htmlChapter, permission, price } = req.body;
-            const { _id } = req.account;
+            const { _id, name } = req.account;
             const chapterNumberMost = await chapterService.getChapterNumber(idBook);
-            console.log(chapterNumberMost);
             const data = {
                 idBook: idBook,
                 title: title,
@@ -54,7 +53,7 @@ class ChapterController extends Controller {
                 const dataNotificastion = {
                     book: idBook,
                     chapter: chapter.data._id,
-                    content: 'Tác giả mà bạn theo dõi đã thêm chương mới',
+                    content: 'Tác giả ' + name + ' mà bạn theo dõi đã thêm chương mới',
                     createdBy: _id,
                     createdAt: new Date(),
                 };
@@ -62,6 +61,7 @@ class ChapterController extends Controller {
                     await notificationService.createNotification(
                         dataNotificastion,
                     );
+                console.log(notification);
 
                 if (notification) {
                     const accounts = await userService.insertNotificationToUser(
@@ -73,6 +73,7 @@ class ChapterController extends Controller {
                             accounts.data,
                             notification.data._id,
                             _id,
+                            dataNotificastion.content,
                         );
                     }
                 }

@@ -731,6 +731,13 @@ class AuthCotroller {
             next(e);
         }
     }
+
+    async indexChartsReading_Cpanel(req, res, next) {
+        const users = await userService.findAll();
+        const result = users.data;
+        console.log(result);
+        return res.render('admin/charts/chart_total_times_reading_books.hbs');
+    }
 }
 
 module.exports = new AuthCotroller(authService);
