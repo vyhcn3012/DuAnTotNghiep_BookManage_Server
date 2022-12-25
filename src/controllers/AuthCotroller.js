@@ -272,6 +272,13 @@ class AuthCotroller {
             const token = this.extractToken(req);
             const response = await this.service.checkLogin(token);
             req.account = response;
+            const { status } = response;
+            console.log(response);
+            if (status == config.USER_STATUS.BLOCK){
+                return res.status(403).json({
+                    message: 'Tài khoản của bạn đã bị khóa',
+                });
+            } 
             req.authorized = true;
             req.token = token;
             next();
@@ -736,6 +743,7 @@ class AuthCotroller {
         const users = await userService.findAll();
         const result = users.data;
         console.log(result);
+        
         return res.render('admin/charts/chart_total_times_reading_books.hbs');
     }
 }

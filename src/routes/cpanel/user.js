@@ -5,7 +5,6 @@ router = express.Router();
 router.get(
     '/:id/allUser',
     AuthCotroller.checkLogin,
-   
     AuthCotroller.indexUser_Cpanel,
 );
 
