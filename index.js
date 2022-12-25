@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     socket.on('send-msg', (data) => {
         
         const sendUserSocket = onlineUsers.get(data.to);
-        socket.to(data.to).emit('msg-recieve', { msg: data.msg, name: data.name, image: "data:image/png;base64,"+ data.file, avatar: data.avatar });
+        socket.to(data.to).emit('msg-recieve', { msg: data.msg, name: data.name, image: data.file ? "data:image/png;base64,"+data.file : data.file, avatar: data.avatar });
     });
 });
 
