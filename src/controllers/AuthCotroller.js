@@ -273,7 +273,6 @@ class AuthCotroller {
             const response = await this.service.checkLogin(token);
             req.account = response;
             const { status } = response;
-            console.log(response);
             if (status == config.USER_STATUS.BLOCK){
                 return res.status(403).json({
                     message: 'Tài khoản của bạn đã bị khóa',

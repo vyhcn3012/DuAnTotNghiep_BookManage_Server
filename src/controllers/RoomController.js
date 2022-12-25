@@ -17,7 +17,6 @@ class RoomController extends Controller {
         try {
             const { name, file, users } = req.body;
             const dataUsers =  JSON.parse(users)
-            console.log(dataUsers);
             const createdBy = req.account._id;
             // users.push(createdBy);
             let urlImage;
