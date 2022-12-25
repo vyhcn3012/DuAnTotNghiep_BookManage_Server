@@ -61,7 +61,6 @@ class ChapterController extends Controller {
                     await notificationService.createNotification(
                         dataNotificastion,
                     );
-                console.log(notification);
 
                 if (notification) {
                     const accounts = await userService.insertNotificationToUser(
@@ -101,7 +100,6 @@ class ChapterController extends Controller {
         try {
             const { id } = req.params;
             const response = await chapterService.getChapterDetails(id);
-            console.log(response);
             await res.status(response.statusCode).json(response);
         } catch (e) {
             next(e);

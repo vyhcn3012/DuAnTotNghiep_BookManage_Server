@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *, *:after, *:before {
+        *,
+        *:after,
+        *:before {
             box-sizing: border-box;
         }
 
@@ -41,8 +44,7 @@
             padding: .75rem;
         }
 
-        .card-image {
-        }
+        .card-image {}
 
         .card-heading {
             position: absolute;
@@ -53,6 +55,7 @@
             font-weight: 700;
             color: #735400;
             line-height: 1.222;
+
             small {
                 display: block;
                 font-size: .75em;
@@ -70,6 +73,7 @@
             flex-direction: column-reverse;
             position: relative;
             padding-top: 1.5rem;
+
             &+.input {
                 margin-top: 1.5rem;
             }
@@ -87,14 +91,17 @@
             border: 0;
             z-index: 1;
             background-color: transparent;
-            border-bottom: 2px solid #eee; 
+            border-bottom: 2px solid #eee;
             font: inherit;
             font-size: 15px;
             margin: 10px;
             padding: .40rem 0;
-            &:focus, &:valid {
+
+            &:focus,
+            &:valid {
                 outline: 0;
                 border-bottom-color: #6658d3;
+
                 &+.input-label {
                     color: #6658d3;
                     transform: translateY(-1.5rem);
@@ -116,6 +123,7 @@
             border-radius: 6px;
             color: #FFF;
             border: 0;
+
             &:focus {
                 outline: 0;
             }
@@ -126,6 +134,7 @@
             text-align: center;
             font-size: .875rem;
             color: #8597a3;
+
             a {
                 display: block;
                 color: #6658d3;
@@ -154,6 +163,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class='az-header'>
         <div class='container'>
@@ -176,11 +186,11 @@
                                 <a href='/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10' class='nav-link'
                                     style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
                                     người dùng</a>
-                                <a href='/cpanel/admins/quan-ly-danh-muc' class='nav-link'
-                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                <a href='/cpanel/admins/quan-ly-danh-muc' class='nav-link' style='font-size: 15px;'><i
+                                        class='typcn typcn-chart-area-outline'></i>Quản lý
                                     danh mục</a>
-                                <a href='/cpanel/admins/quan-ly-sach' class='nav-link'
-                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                <a href='/cpanel/admins/quan-ly-sach' class='nav-link' style='font-size: 15px;'><i
+                                        class='typcn typcn-chart-area-outline'></i>Quản lý
                                     sách</a>
                             </div>
                         </li>
@@ -206,32 +216,68 @@
         </div><!-- az-header-right -->
     </div><!-- container -->
     <div class="container">
-    <div class="action">
-		<a class="action-button" href="/cpanel/authors/quan-ly-chuong/{{data._id}}">Quản lý chương sách</a>
-	</div>
-	<!-- code here -->
-	<div class="card">
-		<img src="{{data.image}}" class="card-image">
-		<form class="card-form" method="post" action="/api/books/update-book/{{data._id}}">
-			<input type="text" name="image" class="input-field" value="{{data.image}}" hidden/>
-			<div class="input">
-				<input type="text" name="name" class="input-field" value="{{data.name}}" required/>
-				<label class="input-label">Tên sách</label>
-			</div>
-			<div class="input">
-				<input type="text" name="overview" class="input-field" value="{{data.overview}}" required/>
-				<label class="input-label">Giới thiệu</label>
-			</div>
-			<div class="input">
-				<input type="text" class="input-field" name = "" value="{{category.name}}" required/>
-				<label class="input-label">Thể loại</label>
-			</div>
-			<div class="action">
-				<button class="action-button">Thay đổi</button>
-			</div>
-		</form>
-        
-	</div>
-</div>
+
+        <div class="action">
+            <a class="action-button" href="/cpanel/authors/quan-ly-chuong/{{data._id}}">Quản lý chương sách</a>
+        </div>
+        <!-- code here -->
+        <div class="card">
+            <img src="{{data.image}}" class="card-image">
+            <form class="card-form" method="post" action="/api/books/update-book/{{data._id}}">
+                <input type="text" name="image" class="input-field" value="{{data.image}}" hidden />
+                <div class="input">
+                    <input type="text" name="name" class="input-field" value="{{data.name}}" required />
+                    <label class="input-label">Tên sách</label>
+                </div>
+                <div class="input">
+                    <input type="text" name="overview" class="input-field" value="{{data.overview}}" required />
+                    <label class="input-label">Giới thiệu</label>
+                </div>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{category.name}}" required />
+                    <label class="input-label">Thể loại</label>
+                </div>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{data.view}}" required />
+                    <label class="input-label">Lượt đọc</label>
+                </div>
+                <div class="input">
+                    <input type="text" class="input-field" name="" value="{{data.evaluate}}/5" required />
+                    <label class="input-label">Đáng giá</label>
+                </div>
+            </form>
+
+            <div class="row d-flex justify-content-center" style="font-size: 15px;">
+                <div class="col-md-12 col-lg-12">
+                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                        <div class="card-body p-4">
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="addANote">Các comment</label>
+                            </div>
+                            {{#each comments}}
+                            <div class="card mb-6">
+                                <div class="card-body">
+                                    <p>{{this.content}}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <img src="{{this.image}}"
+                                                alt="avatar" width="25" height="25" />
+                                            <p class="small mb-0 ms-2" style="padding: 3px;"> {{this.userName}}</p>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="small text-muted mb-0">Vote: </p>
+                                            <p class="small text-muted mb-0" style="padding: 4px;">{{this.evaluate}}/5</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

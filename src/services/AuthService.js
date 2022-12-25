@@ -29,7 +29,7 @@ class AuthService {
 
         try {
             let account = await this.userService.findByEmail(email);
-            if(account.status == config.USER_STATUS.BLOCK){
+            if(account && account.status == config.USER_STATUS.BLOCK){
                 return { statusCode: 403, message: 'Tài khoản của bạn đã bị khóa' };
             }
             if (!account) {
