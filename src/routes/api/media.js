@@ -16,6 +16,7 @@ cloudinary.config({
 const cloudinaryUpload = (file) => cloudinary.uploader.upload(file);
 var router = express.Router();
 const storage = multer.memoryStorage();
+const AuthController = require( '../../controllers/AuthCotroller' );
 
 const upload = multer({
   'storage': storage,
@@ -31,7 +32,7 @@ const upload = multer({
 });
 const singleUpload = upload.single("file");
 
-router.post("/uploadImage", [singleUpload], async (req, res) => {
+router.post("/uploadImage", AuthController.checkLogin, [singleUpload], async (req, res) => {
   try {
     
     if (!req.file) {

@@ -29,6 +29,9 @@ class AuthService {
 
         try {
             let account = await this.userService.findByEmail(email);
+            if(account.status == config.USER_STATUS.BLOCK){
+                return { statusCode: 403, message: 'Tài khoản của bạn đã bị khóa' };
+            }
             if (!account) {
                 const data = {
                     fcmtokens: token_fcm ? [token_fcm] : [],
