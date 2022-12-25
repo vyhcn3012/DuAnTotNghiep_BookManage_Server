@@ -43,7 +43,7 @@ class MessageService extends Service {
                 user: _idUser,
                 avatar: image,
                 createdAt: new Date(),
-                image: dataImage?.image,
+                image: dataImage,
                 
             });
 
