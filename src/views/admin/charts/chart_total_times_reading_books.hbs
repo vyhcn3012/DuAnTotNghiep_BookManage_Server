@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            padding: 20px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+        }
+
+        a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .previous {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .next {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+
+        .buttonNextBack{
+            padding: 30px;
+            text-align: center;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class='az-header'>
+        <div class='container'>
+            <div class='az-header-left'>
+                <a href='index.html' class='az-logo'><span></span> BookWorld</a>
+                <a href='' id='azMenuShow' class='az-header-menu-icon d-lg-none'><span></span></a>
+            </div><!-- az-header-left -->
+            <div class='az-header-menu'>
+                <div class='az-header-menu-header'>
+                    <a href='index.html' class='az-logo'><span></span>
+                        BookWorld</a>
+                    <a href='' class='close'>&times;</a>
+                </div><!-- az-header-menu-header -->
+                <ul class='nav'>
+                    <div class="dropdown">
+                        <li class='nav-item'>
+                            <a class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-area-outline'></i>Quản lý</a>
+                            <div class="dropdown-content">
+                                <a href='/cpanel/admins/quan-ly-nguoi-dung/1?page=1&limit=10' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    người dùng</a>
+                                <a href='/cpanel/admins/quan-ly-danh-muc' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    danh mục</a>
+                                <a href='/cpanel/admins/quan-ly-sach' class='nav-link'
+                                    style='font-size: 15px;'><i class='typcn typcn-chart-area-outline'></i>Quản lý
+                                    sách</a>
+                            </div>
+                        </li>
+                    </div>
+                    <div class="dropdown">
+                        <li class='nav-item'>
+                            <a class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-bar-outline'></i>
+                                Thống kê</a>
+                            <div class="dropdown-content">
+                                <a href='/cpanel/admins/quan-ly-thong-ke' class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-bar-outline'></i>
+                                Thống kê doanh thu</a>
+                                <a href='/cpanel/admins/quan-ly-thong-ke/thong-ke-thoi-gian-doc-sach' class='nav-link' style='font-size: 15px;'><i
+                                    class='typcn typcn-chart-bar-outline'></i>
+                                Thống kê thời gian đọc</a>
+                            </div>       
+                        </li>
+                    </div>
+                    <li class='nav-item'>
+                        <a href='/cpanel/authors/them-sach' class='nav-link' style='font-size: 15px;'><i
+                                class='typcn typcn-chart-area-outline'></i>Đăng sách</a>
+                    </li>
+                </ul>
+            </div><!-- az-header-menu -->
+            <div class='dropdown az-profile-menu'>
+
+                <a href='' class='az-img-user'>
+                    <img
+                        src='https://static.vecteezy.com/system/resources/previews/002/318/271/original/user-profile-icon-free-vector.jpg' />
+                </a>
+            </div>
+        </div><!-- az-header-right -->
+    </div><!-- container -->
+    </div><!-- container -->
+        <div>
+            <label style="font-size: 16px; padding: 10px;">Thời gian:</label>
+            <select style="font-size: 16px;" onchange='onChangeFilter(this)'>
+                <option style="background: #dfe7ff;color:#4e46e5;">{{optionSelected}}</option>
+                <option style="background: #dfe7ff;color:#4e46e5;">{{defautlOption}}</option>
+            </select>
+            <label style="font-size: 16px; padding: 10px; margin-left: 15px;">Năm:</label>
+            <select style="font-size: 16px;">
+                <option selected="selected">2022</option>
+            </select>
+            <label {{hiddenChart timeOf}} style="font-size: 16px; padding: 10px; margin-left: 15px;">Tháng:</label>
+            <select {{hiddenChart timeOf}} style="font-size: 16px;" onchange='onChangeDay(this)'>
+                <option selected="selected">{{monthQuery}}</option>
+                {{#each monthsArr}}
+                    <option style="background: #dfe7ff;color:#4e46e5;">{{this}}</option>
+                {{/each}}
+            </select>
+        </div>
+    <canvas id="myChart"></canvas>
+</body>
+<script>
+    const ctx = document.getElementById('myChart');
+    const chartData = {{{_chartData}}};
+    const labels = {{{ _labelsData }}};
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# thời gian đọc của tất cả người dùng',
+                data: chartData,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    function onChangeFilter(select) {
+        const value = select.value;
+        if (value === 'Theo năm') {
+            window.location.href = '/cpanel/admins/quan-ly-thong-ke/thong-ke-thoi-gian-doc-sach';
+        } else {
+            window.location.href = '/cpanel/admins/quan-ly-thong-ke/thong-ke-thoi-gian-doc-sach' + '?timeOf=month';
+        }
+    }
+
+    function onChangeDay(select) {
+        const value = select.value
+        const month = value.slice(6);
+        window.location.href = '/cpanel/admins/quan-ly-thong-ke/thong-ke-thoi-gian-doc-sach' + '?timeOf=month&monthQuery=' + month;
+    }
+</script>
+</html>

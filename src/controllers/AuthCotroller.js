@@ -277,7 +277,7 @@ class AuthCotroller {
                 return res.status(403).json({
                     message: 'Tài khoản của bạn đã bị khóa',
                 });
-            } 
+            }
             req.authorized = true;
             req.token = token;
             next();
@@ -698,7 +698,7 @@ class AuthCotroller {
                             const month = checkMonth[monthReadingBook.month];
                             for(const book of monthReadingBook.detailsmonth){
                                 if(book.time){
-                                    month12Arr[month - 1] += parseInt(book.time) / 60;
+                                    month12Arr[month - 1] += parseInt(book.time) / 60 / 60;
                                 }
                             }
                         }
@@ -740,10 +740,69 @@ class AuthCotroller {
 
     async indexChartsReading_Cpanel(req, res, next) {
         const users = await userService.findAll();
-        const result = users.data;
-        console.log(result);
-        
-        return res.render('admin/charts/chart_total_times_reading_books.hbs');
+        const { timeOf = 'year', time = '2022', monthQuery = '12' } = req.query;
+        const result = users.data.users;
+
+        const month12Arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const daysArr = [];
+        const monthsArr = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
+
+        const checkMonth = { 'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12};
+        const defautlMonths = [ "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" ];
+        const defautlDays = [];
+        const defautlOptions = ["Theo năm", "Theo tháng"];
+
+        for(let i = 1; i <= 31; i++){
+            defautlDays.push(i);
+            daysArr.push(0);
+        }
+
+        if(timeOf == config.CHART_STATUS.FOR_YEAR){
+            for(const user of result){
+                const yearReadingBooks = user.timeReadBook;
+                for(const yearReadingBook of yearReadingBooks){
+                    const monthReadingBooks = yearReadingBook.detailsyear;
+                    for(const monthReadingBook of monthReadingBooks){
+                        const month = checkMonth[monthReadingBook.month];
+                        for(const book of monthReadingBook.detailsmonth){
+                            if(book.time){
+                                month12Arr[month - 1] += parseInt(book.time) / 60 / 60;
+                            }
+                        }
+                    }
+                }
+            }
+        }else if(timeOf == config.CHART_STATUS.FOR_MONTH){
+            for(const user of result){
+                const yearReadingBooks = user.timeReadBook;
+                for(const yearReadingBook of yearReadingBooks){
+                    const monthReadingBooks = yearReadingBook.detailsyear;
+                    if(yearReadingBook.createYear == time){
+                        for(const monthReadingBook of monthReadingBooks){
+                            const month = checkMonth[monthReadingBook.month];
+                            if(month == monthQuery){
+                                for(const book of monthReadingBook.detailsmonth){
+                                    if(book.time){
+                                        daysArr[book.day - 1] = parseInt(book.time) / 60;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        delete monthsArr[monthQuery - 1];
+        return res.render('admin/charts/chart_total_times_reading_books.hbs', {
+            _chartData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(month12Arr) : JSON.stringify(daysArr),
+            _labelsData: timeOf == config.CHART_STATUS.FOR_YEAR ? JSON.stringify(defautlMonths) : JSON.stringify(defautlDays),
+            timeOf: timeOf,
+            defautlOption: timeOf == config.CHART_STATUS.FOR_YEAR ? defautlOptions[1] : defautlOptions[0],
+            optionSelected: timeOf == config.CHART_STATUS.FOR_YEAR ? defautlOptions[0] : defautlOptions[1],
+            monthQuery: "Tháng " + monthQuery,
+            monthsArr: monthsArr,
+        });
     }
 }
 
