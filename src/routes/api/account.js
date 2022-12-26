@@ -38,7 +38,7 @@ router.post('/refuseAccess', AuthController.checkLogin, AuthController.refuseAcc
 router.post('/postIdReadingBooks',AuthController.checkLogin, AuthController.postIdReadingBooks);
 router.post('/postFavoriteBooks',AuthController.checkLogin, AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.checkLogin, AuthController.postFollowBooks);
-router.post('/resetPassword', AuthController.checkLogin, AuthController.resetPassword);
+router.post('/resetPassword',  AuthController.resetPassword);
 router.post('/registerNumberPhone', AuthController.insertNumberphone);
 router.post('/loginNumberPhone', AuthController.loginNumberphone);
 router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.changeReadTimeBook);
