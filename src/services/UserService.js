@@ -524,9 +524,10 @@ class UserService extends Service {
     async findFCMTokenById(_id, notification_id, user_id, content) {
         try {
             const id = _id.length;
-          
+            console.log(_id);
             for (let i = 0; i < _id.length; i++) {
                 let account = await this.model.findById(_id[i]);
+                console.log(account.name + ' ' + account.email);
                 if (!account) {
                     throw new Error('Tài khoản không tìm thấy');
                 }

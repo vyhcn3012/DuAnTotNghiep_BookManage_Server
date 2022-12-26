@@ -102,7 +102,7 @@ class PushNotifier{
               },
               tokens: [tokenDevices[tokenDevices.length - 1]] // token của thiết bị muốn push notification
           }
-          console.log(data)
+          // console.log(data)
           this.admin.messaging().sendMulticast(message)
           .then((response) => {
               console.log(response)
