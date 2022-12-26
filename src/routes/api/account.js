@@ -39,8 +39,8 @@ router.post('/postIdReadingBooks',AuthController.checkLogin, AuthController.post
 router.post('/postFavoriteBooks',AuthController.checkLogin, AuthController.postFavoriteBooks);
 router.post('/postFollowBooks', AuthController.checkLogin, AuthController.postFollowBooks);
 router.post('/resetPassword', AuthController.checkLogin, AuthController.resetPassword);
-router.post('/registerNumberPhone', AuthController.checkLogin, AuthController.insertNumberphone);
-router.post('/loginNumberPhone', AuthController.checkLogin, AuthController.loginNumberphone);
+router.post('/registerNumberPhone', AuthController.insertNumberphone);
+router.post('/loginNumberPhone', AuthController.loginNumberphone);
 router.post('/changeReadTimeBook',AuthController.checkLogin, AuthController.changeReadTimeBook);
 router.get('/xin-quyen-tac-gia/:id/:status', AuthController.checkLogin, AuthController.AccessAuthor);
 router.get('/cap-quyen-tac-gia/:id/:status', AuthController.checkLogin, AuthController.adminAccessAuthor);
