@@ -150,7 +150,17 @@ class ChapterService extends Service{
 
     async insertChapterBook(body){
         try {
+            let price = 0;
             const item = await this.model.create(body);
+            const chapters = await this.getChapterByBook(body.idBook);
+            for(const chapter of chapters.data){
+                price += chapter.price;
+             }
+             const data = {
+               isPrice: price
+             }
+             console.log(body)
+            await bookService.updatePriceBook(body.idBook,data);
                 if (item) {
                     return new HttpResponse(item);
               }
@@ -190,7 +200,18 @@ class ChapterService extends Service{
 
     async deleteChapter(ChapterId) {
         try {
+            let price = 0;
+            const detailChapter = await this.model.findById({_id:ChapterId});
             const item = await this.model.findByIdAndDelete(ChapterId);
+            const chapters = await this.getChapterByBook(detailChapter.idBook);
+            for(const chapter of chapters.data){
+             
+                price += chapter.price;
+             }
+             const data = {
+               isPrice: price
+             }
+            await bookService.updatePriceBook(detailChapter.idBook,data);
             if (!item) {
                 const error = new Error("Không tìm thấy chương này");
                 error.statusCode = 404;
