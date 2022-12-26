@@ -25,7 +25,7 @@ class NotificationService extends Service {
         }
     }
 
-    async sendFCM(token, _id, notification_id, content) {
+    async sendFCM(token, _id, notification_id, content, bookName) {
         try {
             const noti_addPoint = {
                 content: content,
@@ -42,7 +42,7 @@ class NotificationService extends Service {
                 notification: noti_addPoint.notification.toString(),
             }
 
-            PushNotification.sendNotificationToDevices(fcm, [token], 'Bookworld', content);
+            PushNotification.sendNotificationToDevices(fcm, [token], bookName, content);
             return new HttpResponse([]);
         } catch (e) {
             console.log(e)

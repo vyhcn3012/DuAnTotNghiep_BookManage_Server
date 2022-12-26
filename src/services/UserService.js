@@ -521,12 +521,13 @@ class UserService extends Service {
         }
     }
 
-    async findFCMTokenById(_id, notification_id, user_id, content) {
+    async findFCMTokenById(_id, notification_id, user_id, content, bookName) {
         try {
             const id = _id.length;
-          
+            console.log(_id);
             for (let i = 0; i < _id.length; i++) {
                 let account = await this.model.findById(_id[i]);
+                console.log(account.name + ' ' + account.email);
                 if (!account) {
                     throw new Error('Tài khoản không tìm thấy');
                 }
@@ -535,7 +536,8 @@ class UserService extends Service {
                     fcm,
                     user_id,
                     notification_id,
-                    content
+                    content,
+                    bookName
                 );
                 // return new HttpResponse(response);
             }

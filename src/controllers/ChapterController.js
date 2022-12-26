@@ -48,7 +48,7 @@ class ChapterController extends Controller {
                 chapterNumber: chapterNumberMost ? chapterNumberMost + 1 : 1,
             };
             const chapter = await chapterService.insertChapterBook(data);
-
+            const book = await bookService.get(idBook);
             if (chapter) {
                 const dataNotificastion = {
                     book: idBook,
@@ -73,6 +73,7 @@ class ChapterController extends Controller {
                             notification.data._id,
                             _id,
                             dataNotificastion.content,
+                            book.name
                         );
                     }
                 }

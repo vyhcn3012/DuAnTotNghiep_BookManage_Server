@@ -65,7 +65,7 @@ module.exports.getConfig = () => {
         config.HOST = `https://www.bookworlddashboard.shop`;
     } else {
         // local
-        config.HOST = `https://www.bookworlddashboard.shop`;
+        config.HOST = `http://localhost:80`;
     }
     config.GOOGLE_REDIRECT_URL = `${config.HOST}/cpanel/home/auth_callback`;
 
