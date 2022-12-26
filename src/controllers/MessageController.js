@@ -28,7 +28,7 @@ class MessageController extends Controller {
             const { _id, image } = req.account;
             const { room, message, file } = req.body;
             let dataImage;
-            if (file) {
+            if (file !== 'undefined') {
                 const urlImage = await userService.createImage(
                     'data:image/jpeg;base64,' + file,
                 );

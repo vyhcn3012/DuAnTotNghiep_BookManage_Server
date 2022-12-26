@@ -543,7 +543,7 @@ class AuthCotroller {
             const idUser = req.account._id;
             const { name, file } = req.body;
             let data;
-            if (file) {
+            if (file !== 'undefined') {
                 const urlImage = await userService.createImage(
                     'data:image/jpeg;base64,' + file,
                 );
