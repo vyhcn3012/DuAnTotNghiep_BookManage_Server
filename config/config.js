@@ -5,9 +5,9 @@ module.exports.getConfig = () => {
         MODE: 'Development',
         PORT: process.env.PORT || 80,
         MONGO_URL:
-            'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
+            'localhost:27017/bookworld?retryWrites=true&w=majority',
         MONGO_RESTORE_URL:
-            'mongodb+srv://admin:30122002@cluster0.qlxgh.mongodb.net/?retryWrites=true&w=majority',
+            'localhost:27017/bookworld?retryWrites=true&w=majority',
         JWT_SECRET: 'R4ND0M5TR1NG',
         JWT_TOKEN_LIFETIME: 30 * 24 * 60 * 60, // 60 MINUTES IN SECOND
         COOKIE_TOKEN_LIFETIME: 30 * 24 * 60 * 60 * 1000, // 60 MINUTES IN NANO SECOND
